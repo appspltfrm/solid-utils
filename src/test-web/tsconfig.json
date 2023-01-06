@@ -1,0 +1,11 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "stable": ["src/lib"]
+        },
+        "plugins": [
+            {"transform": "ts-transformer-keys/transformer"}
+        ]
+    }
+}
