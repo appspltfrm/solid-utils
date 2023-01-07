@@ -8,5 +8,5 @@ export const WebCmpTest = buildWebComponent<WebCmpTestProps>("web-test")
     .baseElement(HTMLAnchorElement)
     .prop("state")
     .template(props => {
-        return <div>web cmp hello</div>
+        return <div>{props.state}zajebiście web cmp hello</div>
     }).build()

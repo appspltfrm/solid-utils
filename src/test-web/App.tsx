@@ -6,7 +6,7 @@ import {WebCmpTest} from "./components/WebCmpTest";
 const App: Component = () => {
     return <Fragment>
         <FunctionalCmpTest/>
-        <WebCmpTest/>
+        <WebCmpTest state="yes"/>
         <div>heelo</div>
     </Fragment>
 };
