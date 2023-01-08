@@ -4,7 +4,7 @@ import {customElement, getCurrentElement, noShadowDOM} from "solid-element";
 import {Component, ParentProps, splitProps} from "solid-js";
 import {Fragment, JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
-import {fixPropNames} from "./fixPropNames";
+import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
 import {WebComponentDefinition} from "./WebComponentDefinition";
 import {WebComponentElement} from "./WebComponentElement";
 
@@ -26,6 +26,8 @@ export function webComponent<Definition extends AssignableType<WebComponentDefin
     type TagName = Definition["prototype"]["tagName"];
     type Addons = {element: Element};
 
+    const propsDefinitions: PropsDefinitionInput<Props> = {} as any;
+
     type SolidComponent = Component<JSX.HTMLAttributes<BaseElement> & Props & Partial<Events>> & {
         tagName: TagName,
         props(...allProps: ((keyof Props) | {[propName in keyof Props]: PropDefinition<Props>})[]): SolidComponent,
@@ -33,14 +35,12 @@ export function webComponent<Definition extends AssignableType<WebComponentDefin
     }
 
     const solidComponentImpl: Component<Props & Events> = (rawProps) => {
-        const [, props, other] = splitProps(rawProps, ["children"], [])
-        return <Dynamic component={instance.tagName as any} {...fixPropNames(props)} {...other}/>
+        const [, props, other] = splitProps(rawProps, ["children"], Object.keys(propsDefinitions))
+        return <Dynamic component={instance.tagName as any} {...camelPropsToDashedAttrs(props)} {...other}/>
     }
 
     const solidComponent: SolidComponent = solidComponentImpl as any;
     solidComponent.tagName = instance.tagName;
-
-    const propsDefinitions: PropsDefinitionInput<Props> = {} as any;
 
     solidComponent.props = (...allProps: (string | {[propName in keyof Props]: PropDefinition<Props>})[]) => {
 

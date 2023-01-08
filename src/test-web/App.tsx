@@ -7,8 +7,8 @@ const App: Component = () => {
     return <Fragment>
         <FunctionalCmpTest onChange={(e) => console.log(e)}/>
         <div style={{"font-weight": "bold"}}></div>
-        <WebCmpTest class="sdsd" state="yes" onClick={(e) => console.log(e)}/>
-        <web-test state="yes"/>
+        <WebCmpTest class="sdsd" camelCaseProp="🐪" state="yes"/>
+        <web-test state="yes" camel-case-prop="🐪"/>
         <div>heelo</div>
     </Fragment>
 };
