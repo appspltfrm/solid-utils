@@ -18,8 +18,10 @@ export const WebCmpTest = webComponent(class extends WebComponentDefinition {
     declare props: WebCmpTestProps;
     declare events: WebCmpTestEvents;
 }).props("state", "camelCaseProp").template((props, {element}) => {
-    return <div class="extra">{props.state}zajebiście {props.camelCaseProp} web cmp hello</div>;
+    return <div>State: {props.state}, <span class="extra">Camel</span>: {props.camelCaseProp}</div>;
 })
+
+export default WebCmpTest;
 
 declare global {
     interface HTMLElementTagNameMap {

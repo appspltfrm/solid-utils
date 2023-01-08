@@ -6,5 +6,5 @@ export interface FunctionalCmpProps {
 }
 
 export const FunctionalCmpTest: Component<FunctionalCmpProps> = function(props: FunctionalCmpProps): JSX.Element {
-    return <div>Hello from function cmp3</div>
+    return <div>Functional component</div>
 }
