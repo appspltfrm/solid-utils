@@ -1,9 +1,12 @@
 import {AssignableType} from "@co.mmons/js-utils/core";
+import {PropsDefinitionInput} from "component-register";
 import {customElement, getCurrentElement, noShadowDOM} from "solid-element";
-import {Component, splitProps} from "solid-js";
+import {Component, ParentProps, splitProps} from "solid-js";
 import {Fragment, JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
-import {PropsDefinitionInput} from "component-register";
+import {fixPropNames} from "./fixPropNames";
+import {WebComponentDefinition} from "./WebComponentDefinition";
+import {WebComponentElement} from "./WebComponentElement";
 
 interface PropDefinition<T> {
     value?: T;
@@ -13,42 +16,20 @@ interface PropDefinition<T> {
     parse?: boolean;
 }
 
-function fixPropNames<T extends {[key: string]: any}>(props: T): T {
-    const niu: any = {};
-
-    for (const [k, v] of Object.entries(props)) {
-        niu[k.toLowerCase().replace(/(-)([a-z])/g, test => test.toUpperCase().replace("-", ""))] = v;
-    }
-
-    return niu;
-}
-
-export type WebComponentEvents<K extends keyof any = any, T extends Event = Event> = {[P in K]: (ev?: T) => void};
-export type WebComponentElement<BaseType extends HTMLElement, Props = {}, Events = {}> = BaseType & Props;
-
-export abstract class WebComponentDefinition {
-    abstract readonly tagName: string;
-    readonly shadow?: boolean;
-    readonly styles?: string | string[];
-    readonly baseElement?: typeof HTMLElement;
-    readonly props?: {};
-    readonly events?: {};
-}
-
-export function buildWebComponent<Definition extends AssignableType<WebComponentDefinition>>(cl: Definition) {
+export function webComponent<Definition extends AssignableType<WebComponentDefinition>>(cl: Definition) {
 
     const instance = new cl;
     type Props = Definition["prototype"]["props"];
     type Events = Definition["prototype"]["events"];
-    type Element = WebComponentElement<Definition["prototype"]["baseElement"]["prototype"], Props, Events>;
+    type BaseElement = Definition["prototype"]["baseElement"]["prototype"];
+    type Element = WebComponentElement<BaseElement, Props, Events>;
     type TagName = Definition["prototype"]["tagName"];
+    type Addons = {element: Element};
 
-    const propsDefinitions: PropsDefinitionInput<Props> = {} as any;
-
-    type SolidComponent = Component<Props & Events> & {
+    type SolidComponent = Component<JSX.HTMLAttributes<BaseElement> & Props & Partial<Events>> & {
         tagName: TagName,
-        props(...allProps: (string | {[propName in keyof Props]: PropDefinition<Props>})[]): SolidComponent,
-        template(template: ((props: Props, addons: {element: Element}) => JSX.Element)): SolidComponent
+        props(...allProps: ((keyof Props) | {[propName in keyof Props]: PropDefinition<Props>})[]): SolidComponent,
+        template(template: ((props: Props, addons: Addons) => JSX.Element)): SolidComponent
     }
 
     const solidComponentImpl: Component<Props & Events> = (rawProps) => {
@@ -58,6 +39,9 @@ export function buildWebComponent<Definition extends AssignableType<WebComponent
 
     const solidComponent: SolidComponent = solidComponentImpl as any;
     solidComponent.tagName = instance.tagName;
+
+    const propsDefinitions: PropsDefinitionInput<Props> = {} as any;
+
     solidComponent.props = (...allProps: (string | {[propName in keyof Props]: PropDefinition<Props>})[]) => {
 
         for (const prop of allProps) {
@@ -69,7 +53,7 @@ export function buildWebComponent<Definition extends AssignableType<WebComponent
         return solidComponent;
     }
 
-    solidComponent.template = (template: ((props: Props, addons: {element: Element}) => JSX.Element)) => {
+    solidComponent.template = (template: ((props: Props, addons: Addons) => JSX.Element)) => {
 
         const shadow = instance.shadow;
         const styles = (Array.isArray(instance.styles) && instance.styles) || (typeof instance.styles === "string" && [instance.styles]) || undefined;
@@ -80,9 +64,22 @@ export function buildWebComponent<Definition extends AssignableType<WebComponent
                 noShadowDOM();
             }
 
+            const addons = {
+                element: getCurrentElement() as any,
+                Host: (props: ParentProps<JSX.HTMLAttributes<Element>>) => {
+                    const element = getCurrentElement();
+                    const [, other] = splitProps(props, ["children"])
+                    for (const [propName, value] of Object.entries(other)) {
+                        element.setAttribute(propName, value);
+                    }
+
+                    return props.children;
+                }
+            }
+
             return <Fragment>
                 {shadow && styles?.map(s => <style>{s}</style>)}
-                {template(props, {element: getCurrentElement() as any})}
+                {template(props, addons)}
             </Fragment>
         });
 

@@ -6,7 +6,9 @@ import {WebCmpTest} from "./components/WebCmpTest";
 const App: Component = () => {
     return <Fragment>
         <FunctionalCmpTest onChange={(e) => console.log(e)}/>
-        <WebCmpTest state="yes" onStateChange={(e) => console.log(e)}/>
+        <div style={{"font-weight": "bold"}}></div>
+        <WebCmpTest class="sdsd" state="yes" onClick={(e) => console.log(e)}/>
+        <web-test state="yes"/>
         <div>heelo</div>
     </Fragment>
 };
