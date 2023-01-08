@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "paths": {
-            "stable": ["src/lib"]
+            "@appspltfrm/solid-utils": ["src/lib"]
         },
         "plugins": [
             {"transform": "ts-transformer-keys/transformer"}

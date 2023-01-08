@@ -18,6 +18,7 @@
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
+    "@co.mmons/js-utils": "github:co-mmons/js-utils",
     "babel-preset-solid": "^1.6.7",
     "sass": "^1.57.1",
     "solid-element": "^1.6.3",

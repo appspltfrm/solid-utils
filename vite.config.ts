@@ -8,12 +8,12 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            "stable": path.resolve(__dirname, "./src/lib"),
+            "@appspltfrm/solid-utils": path.resolve(__dirname, "./src/lib"),
         }
     },
 
     plugins: [
-        solidPlugin({hot: false}),
+        solidPlugin({hot: false, typescript: {allowDeclareFields: true}}),
     ],
 
     server: {
