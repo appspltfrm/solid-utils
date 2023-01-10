@@ -1,23 +1,32 @@
-import {webComponent, WebComponentDefinition, WebComponentElement} from "@appspltfrm/solid-utils/web-components";
+import {defineProp, defineComponent, ComponentDefinition, ComponentElement} from "@appspltfrm/solid-utils/web-components";
 import styles from "./WebCmpTest.scss?inline";
 
-export interface WebCmpTestProps {
-    state: string;
-    camelCaseProp?: string;
-}
-
 export interface WebCmpTestEvents {
+    /**
+     * test
+     * @param ev
+     * @returns 
+     */
     onStateChange: (ev: CustomEvent<string>) => void;
 }
 
-export const WebCmpTest = webComponent(class extends WebComponentDefinition {
+export const WebCmpTest = defineComponent(class extends ComponentDefinition {
     readonly tagName = "web-test";
     readonly baseElement = HTMLAnchorElement;
     readonly shadow = true;
     readonly styles = styles;
-    declare props: WebCmpTestProps;
+
+    readonly props = {
+        /**
+         * jakiś komentarz
+         */
+        state: defineProp<string, true>(),
+        camelCaseProp: defineProp<string>()
+    }
+
     declare events: WebCmpTestEvents;
-}).props("state", "camelCaseProp").template((props, {element}) => {
+}).template((props, {element}) => {
+    props.state;
     return <div>State: {props.state}, <span class="extra">Camel</span>: {props.camelCaseProp}</div>;
 })
 
@@ -25,7 +34,7 @@ export default WebCmpTest;
 
 declare global {
     interface HTMLElementTagNameMap {
-        "web-test": WebComponentElement<HTMLAnchorElement, WebCmpTestProps, WebCmpTestEvents>
+        "web-test": ComponentElement<HTMLAnchorElement, WebCmpTestProps, WebCmpTestEvents>
     }
 }
 

@@ -23,6 +23,7 @@
     "sass": "^1.57.1",
     "solid-element": "^1.6.3",
     "solid-js": "^1.6.8",
-    "tslib": "^2.4.1"
+    "tslib": "^2.4.1",
+    "type-fest": "^3.5.1"
   }
 }

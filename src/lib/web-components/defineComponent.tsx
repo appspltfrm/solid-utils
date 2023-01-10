@@ -4,9 +4,11 @@ import {customElement, getCurrentElement, noShadowDOM} from "solid-element";
 import {Component, ParentProps, splitProps} from "solid-js";
 import {Fragment, JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
+import {Simplify} from "type-fest";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
-import {WebComponentDefinition} from "./WebComponentDefinition";
-import {WebComponentElement} from "./WebComponentElement";
+import {ComponentDefinition} from "./ComponentDefinition";
+import {ComponentElement} from "./ComponentElement";
+import {ComponentProps} from "./ComponentProps";
 
 interface PropDefinition<T> {
     value?: T;
@@ -16,21 +18,26 @@ interface PropDefinition<T> {
     parse?: boolean;
 }
 
-export function webComponent<Definition extends AssignableType<WebComponentDefinition>>(cl: Definition) {
+export function defineComponent<Definition extends AssignableType<ComponentDefinition>>(cl: Definition) {
 
     const instance = new cl;
-    type Props = Definition["prototype"]["props"];
+
+    const propsDefinitions: PropsDefinitionInput<Props> = {} as any;
+    if (instance.props) {
+        for (const [propName, propConfig] of Object.entries(instance.props)) {
+            propsDefinitions[propName as keyof Props] = Object.assign({reflect: false, attribute: "", notify: false, parse: false, value: undefined})
+        }
+    }
+
+    type Props = ComponentProps<Definition["prototype"]["props"]>;
     type Events = Definition["prototype"]["events"];
     type BaseElement = Definition["prototype"]["baseElement"]["prototype"];
-    type Element = WebComponentElement<BaseElement, Props, Events>;
+    type Element = ComponentElement<BaseElement, Props, Events>;
     type TagName = Definition["prototype"]["tagName"];
     type Addons = {element: Element};
 
-    const propsDefinitions: PropsDefinitionInput<Props> = {} as any;
-
-    type SolidComponent = Component<JSX.HTMLAttributes<BaseElement> & Props & Partial<Events>> & {
+    type SolidComponent = Component<Simplify<JSX.HTMLAttributes<BaseElement> & Props & Partial<Events>>> & {
         tagName: TagName,
-        props(...allProps: ((keyof Props) | {[propName in keyof Props]: PropDefinition<Props>})[]): SolidComponent,
         template(template: ((props: Props, addons: Addons) => JSX.Element)): SolidComponent
     }
 
@@ -41,17 +48,6 @@ export function webComponent<Definition extends AssignableType<WebComponentDefin
 
     const solidComponent: SolidComponent = solidComponentImpl as any;
     solidComponent.tagName = instance.tagName;
-
-    solidComponent.props = (...allProps: (string | {[propName in keyof Props]: PropDefinition<Props>})[]) => {
-
-        for (const prop of allProps) {
-            for (const [propName, propDef] of Object.entries(typeof prop === "string" ? {[prop]: {}} : prop)) {
-                propsDefinitions[propName as keyof Props] = Object.assign({reflect: false, attribute: "", notify: false, parse: false, value: undefined}, propDef)
-            }
-        }
-
-        return solidComponent;
-    }
 
     solidComponent.template = (template: ((props: Props, addons: Addons) => JSX.Element)) => {
 
