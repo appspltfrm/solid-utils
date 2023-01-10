@@ -39,7 +39,7 @@ declare global {
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            "web-test": JSX.HTMLAttributes<HTMLAnchorElement>
+            "web-test": JSX.HTMLAttributes<typeof WebCmpTest.elementType>
         }
     }
 }
