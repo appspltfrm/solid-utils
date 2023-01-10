@@ -1,4 +1,4 @@
-export class ComponentProp<Type, Required extends boolean = false> {
+export class ComponentPropDefinition<Type, Required extends boolean = false> {
     value?: Type;
     attribute?: string;
     notify?: boolean;

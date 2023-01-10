@@ -8,14 +8,14 @@ import {Simplify} from "type-fest";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
 import {ComponentDefinition} from "./ComponentDefinition";
 import {ComponentElement} from "./ComponentElement";
+import {ComponentEvents} from "./ComponentEvents";
 import {ComponentProps} from "./ComponentProps";
 
-interface PropDefinition<T> {
-    value?: T;
-    attribute?: string;
-    notify?: boolean;
-    reflect?: boolean;
-    parse?: boolean;
+interface DefinedComponent<Props, Events, TagName extends string, ElementClass extends HTMLElement> {
+    (props: Props): JSX.Element;
+    tagName: TagName;
+    elementClass: ElementClass;
+    template: (template: ((props: Props, addons: {element: ElementClass}) => JSX.Element)) => this;
 }
 
 export function defineComponent<Definition extends AssignableType<ComponentDefinition>>(cl: Definition) {
@@ -30,14 +30,15 @@ export function defineComponent<Definition extends AssignableType<ComponentDefin
     }
 
     type Props = ComponentProps<Definition["prototype"]["props"]>;
-    type Events = Definition["prototype"]["events"];
+    type Events = ComponentEvents<Definition["prototype"]["events"]>;
     type BaseElement = Definition["prototype"]["baseElement"]["prototype"];
     type Element = ComponentElement<BaseElement, Props, Events>;
     type TagName = Definition["prototype"]["tagName"];
     type Addons = {element: Element};
 
-    type SolidComponent = Component<Simplify<JSX.HTMLAttributes<BaseElement> & Props & Partial<Events>>> & {
+    type SolidComponent = Component<Simplify<JSX.HTMLAttributes<BaseElement> & Props & Events>> & {
         tagName: TagName,
+        elementType: Element;
         template(template: ((props: Props, addons: Addons) => JSX.Element)): SolidComponent
     }
 
@@ -54,7 +55,7 @@ export function defineComponent<Definition extends AssignableType<ComponentDefin
         const shadow = instance.shadow;
         const styles = (Array.isArray(instance.styles) && instance.styles) || (typeof instance.styles === "string" && [instance.styles]) || undefined;
 
-        customElement(instance.tagName, propsDefinitions, (props: Definition["prototype"]["props"]) => {
+        solidComponent.elementType = customElement(instance.tagName, propsDefinitions, (props: Definition["prototype"]["props"]) => {
 
             if (!shadow) {
                 noShadowDOM();
@@ -77,7 +78,7 @@ export function defineComponent<Definition extends AssignableType<ComponentDefin
                 {shadow && styles?.map(s => <style>{s}</style>)}
                 {template(props, addons)}
             </Fragment>
-        });
+        }) as any;
 
         return solidComponent;
     }
