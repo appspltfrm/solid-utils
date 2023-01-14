@@ -17,12 +17,12 @@ const App: Component = () => {
 
         <fieldset>
             <legend>Solid web component</legend>
-            <WebCmpTest class="sdsd" onStateChange={(ev) => console.log(ev)} camelCaseProp="🐪" state="yes"/>
+            <WebCmpTest class="sdsd" app-aj="test" onStateChange={(ev) => console.log(ev)} camelCaseProp="🐪" state="yes"/>
         </fieldset>
 
         <fieldset>
             <legend>Web component</legend>
-            <web-test camel-case-prop="🐪"/>
+            <web-test state="sdsd" camel-case-prop="yeah"/>
         </fieldset>
 
         <fieldset>

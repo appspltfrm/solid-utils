@@ -13,7 +13,15 @@ export default defineConfig({
     },
 
     plugins: [
-        solidPlugin({hot: false, typescript: {allowDeclareFields: true}}),
+        solidPlugin({
+            babel: {
+                plugins: [
+                    ["@babel/plugin-proposal-decorators", {version: "legacy"}],
+                    ["@babel/plugin-proposal-class-properties", {loose: true}]
+                ]
+            },
+            hot: false,
+            typescript: {allowDeclareFields: true}}),
     ],
 
     server: {

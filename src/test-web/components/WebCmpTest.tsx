@@ -1,45 +1,49 @@
-import {ComponentDefinition, defineComponent, defineEvent, defineProp} from "@appspltfrm/solid-utils/web-components";
-import styles from "./WebCmpTest.scss?inline";
+import {
+    CustomHTMLElement,
+    defineElement,
+    ElementAttributes,
+    ElementProps,
+    reactive
+} from "@appspltfrm/solid-utils/web-components";
+import {defineComponent} from "@appspltfrm/solid-utils/web-components/defineComponent";
 
-export const WebCmpTest = defineComponent(class extends ComponentDefinition {
-    readonly tagName = "web-test";
-    readonly baseElement = HTMLAnchorElement;
-    readonly shadow = true;
-    readonly styles = styles;
+@defineElement("web-test")
+class WebCmpTestElement extends CustomHTMLElement {
 
-    readonly props = {
-        /**
-         * jakiś komentarz
-         */
-        state: defineProp<string, true>(),
-        camelCaseProp: defineProp<string>()
+    /**
+     * jakiś komentarz
+     */
+    @reactive()
+    state?: string;
+
+    @reactive()
+    camelCaseProp?: string;
+
+    template(props: ElementProps<WebCmpTestElement>) {
+        return <span>{props.state} {props.camelCaseProp}</span>;
     }
+}
 
-    readonly events = {
+interface WebCmpTestEvents {
+    stateChange: CustomEvent<string>;
+}
 
-        /**
-         * Informuje o zmianach stanu dokonanych przez interakcję w ui.
-         */
-        onStateChange: defineEvent<CustomEvent<string>>()
-    }
-
-}).template((props, {element}) => {
-    props.state;
-    return <div>State: {props.state}, <span class="extra">Camel</span>: {props.camelCaseProp}</div>;
-})
+export const WebCmpTest = defineComponent(WebCmpTestElement)
+    .events<WebCmpTestEvents>()
+    .required("state");
 
 export default WebCmpTest;
 
 declare global {
     interface HTMLElementTagNameMap {
-        "web-test": typeof WebCmpTest.elementType
+        "web-test": WebCmpTestElement
     }
 }
 
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            "web-test": JSX.HTMLAttributes<typeof WebCmpTest.elementType>
+            "web-test": ElementAttributes<WebCmpTestElement>
         }
     }
 }
