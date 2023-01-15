@@ -1,8 +1,8 @@
-export {Fragment} from "solid-js/h/jsx-runtime"
-export {reactive} from "./reactive";
+export type {ElementJSXIntrinsic} from "./ElementJSXIntrinsic";
 export type {ElementProps} from "./ElementProps";
 export type {ElementTemplate} from "./ElementTemplate";
-export {defineElement} from "./defineElement";
 export {CustomHTMLElement} from "./CustomHTMLElement";
+export {Fragment} from "solid-js/h/jsx-runtime"
 export {defineComponent} from "./defineComponent";
-export type {ElementAttributes} from "./ElementAttributes";
+export {defineElement} from "./defineElement";
+export {reactive} from "./reactive";

@@ -4,12 +4,12 @@ import {JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
 import {SetRequired} from "type-fest";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
-import {ComponentEvents} from "./ComponentEvents";
+import {ElementEventsProps} from "./ElementEventsProps";
 import {CustomHTMLElement} from "./CustomHTMLElement";
 import {ElementProps} from "./ElementProps";
 
 type SolidComponent<ElementType extends CustomHTMLElement, ComponentProps = any> = Component<JSX.HTMLAttributes<ElementType> & ComponentProps> & {
-    events<Events extends {[EventName in keyof Events]: Event}>(): SolidComponent<ElementType, ComponentProps & ComponentEvents<Events>>;
+    events<Events extends {[EventName in keyof Events]: Event}>(): SolidComponent<ElementType, ComponentProps & ElementEventsProps<ElementType, Events>>;
     required<PropName extends keyof Props, Props = ElementProps<ElementType>>(first: PropName, ...others: PropName[]): SolidComponent<ElementType, ComponentProps & SetRequired<Props, PropName>>;
 }
 

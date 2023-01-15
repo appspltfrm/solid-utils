@@ -1,12 +1,13 @@
 import {JSX} from "solid-js/h/jsx-runtime";
-import {ElementProps} from "./ElementProps";
+import {ElementTemplate} from "./ElementTemplate";
 
 export abstract class CustomHTMLElement extends HTMLElement {
 
-    /**
-     * blah
-     * @param props
-     */
-    abstract template(props: any): JSX.Element;
+    abstract template(args: ElementTemplate<this>): JSX.Element;
+
+    get renderRoot(): ShadowRoot | this {
+        return this.shadowRoot ?? this.attachShadow({mode: "open"});
+    }
+
 }
 

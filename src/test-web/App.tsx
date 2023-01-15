@@ -1,9 +1,9 @@
-import {lazy} from "solid-js";
 import type {Component} from "solid-js";
+import {lazy} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
+import html from "solid-js/html";
 import {FunctionalCmpTest} from "./components/FunctionalCmpTest";
 import {WebCmpTest} from "./components/WebCmpTest";
-import html from "solid-js/html";
 
 const LazyWebCmpTest = lazy(() => import("./components/WebCmpTest"));
 
@@ -22,7 +22,7 @@ const App: Component = () => {
 
         <fieldset>
             <legend>Web component</legend>
-            <web-test state="sdsd" camel-case-prop="yeah"/>
+            <web-test camel-case-prop="yeah"/>
         </fieldset>
 
         <fieldset>
