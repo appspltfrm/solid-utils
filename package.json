@@ -24,7 +24,7 @@
     "component-register": "^0.8.3",
     "hyper-dom-expressions": "^0.35.13",
     "solid-element": "^1.6.3",
-    "type-fest": "^3.5.1"
+    "type-fest": "^2.19.0"
   },
   "peerDependencies": {
     "@co.mmons/js-utils": "github:co-mmons/js-utils",
