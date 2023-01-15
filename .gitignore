@@ -1,8 +1,3 @@
-dist/
-!www/favicon.ico
-www/
-src/intl/bundles
-
 *~
 *.sw[mnpcod]
 *.log
@@ -13,10 +8,8 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 
-.stencil/
 .idea/*
 !.idea/.name
-/android/.idea
 .vscode/
 .sass-cache/
 .versions/
@@ -25,20 +18,3 @@ $RECYCLE.BIN/
 
 .DS_Store
 Thumbs.db
-UserInterfaceState.xcuserstate
-.env
-capacitor.config.json
-/.app/
-/.tmp/
-/src/libs/
-src/assets/generated/
-/.firebase/
-/.firebaserc
-/firebase.json
-/tsconfig.build.json
-/src/intl/messages/
-/src/config.js
-/src/config.css
-/src/config.web.css
-/src/config.mobile.css
-/src/components.d.ts

@@ -1,0 +1,1 @@
+{"version":3,"file":"customElement.jsx","sourceRoot":"","sources":["../../../../src/lib/elements/decorators/customElement.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAC,eAAe,EAAC,MAAM,oBAAoB,CAAC;AAEnD,MAAM,UAAU,aAAa,CAAC,OAAe;IACzC,OAAO,UAAS,kBAAuB;QACnC,eAAe,CAAC,OAAO,EAAE,kBAAkB,CAAC,CAAC;IACjD,CAAC,CAAA;AACL,CAAC"}
