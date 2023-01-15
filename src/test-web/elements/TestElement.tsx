@@ -1,15 +1,14 @@
 import {
-    CustomHTMLElement,
-    defineComponent,
-    defineElement,
+    CustomElement,
+    elementComponent,
     ElementJSXIntrinsic,
     ElementTemplate,
     reactive
-} from "@appspltfrm/solid-utils/web-components";
+} from "@appspltfrm/solid-utils/elements";
 import {Fragment} from "solid-js/h/jsx-runtime";
+import styles from "./TestElement.scss?inline";
 
-@defineElement("web-test")
-class WebCmpTestElement extends CustomHTMLElement {
+class TestElement extends CustomElement {
 
     /**
      * jakiś komentarz
@@ -20,17 +19,14 @@ class WebCmpTestElement extends CustomHTMLElement {
     @reactive()
     camelCaseProp?: string;
 
-    get renderRoot() {
-        return this;
-    }
-
-    template({props}: ElementTemplate<WebCmpTestElement>) {
+    template({props}: ElementTemplate<TestElement>) {
         return <Fragment>
-            <span>{props.state} {props.camelCaseProp}</span>
+            <style>{styles}</style>
+            <span class="extra">{props.state} {props.camelCaseProp}</span>
         </Fragment>;
     }
 
-    addEventListener<K extends keyof WebCmpTestEvents>(type: K, listener: (this: WebCmpTestElement, ev: WebCmpTestEvents[K]) => any, options?: boolean | AddEventListenerOptions): void;
+    addEventListener<K extends keyof TestElementEventMap>(type: K, listener: (this: TestElement, ev: TestElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
         return super.addEventListener(type, listener, options);
     }
@@ -41,26 +37,26 @@ class WebCmpTestElement extends CustomHTMLElement {
     }
 }
 
-interface WebCmpTestEvents extends HTMLElementEventMap {
+interface TestElementEventMap extends HTMLElementEventMap {
     stateChange: CustomEvent<string>;
 }
 
-export const WebCmpTest = defineComponent(WebCmpTestElement)
-    .events<WebCmpTestEvents>()
-    .required("state");
+export const Test = elementComponent("test-element", TestElement)
+    .events<TestElementEventMap>()
+    .required("camelCaseProp", "state")
 
-export default WebCmpTest;
+export default Test;
 
 declare global {
     interface HTMLElementTagNameMap {
-        "web-test": WebCmpTestElement
+        "test-element": TestElement
     }
 }
 
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            "web-test": ElementJSXIntrinsic<WebCmpTestElement, WebCmpTestEvents>
+            "test-element": ElementJSXIntrinsic<TestElement, TestElementEventMap>
         }
     }
 }
