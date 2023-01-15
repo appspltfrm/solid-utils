@@ -43,7 +43,7 @@ interface TestElementEventMap extends HTMLElementEventMap {
 
 export const Test = elementComponent("test-element", TestElement)
     .events<TestElementEventMap>()
-    .required("camelCaseProp", "state")
+    .required("state")
 
 export default Test;
 

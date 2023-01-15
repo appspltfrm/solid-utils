@@ -26,10 +26,10 @@ export function elementComponent<TagName extends string, ElementType extends Cus
         return <Dynamic component={tagName as any} {...camelPropsToDashedAttrs(props)} {...other}/>
     }
 
-    const component: ElementComponent<TagName, ElementType, ElementProps<ElementType>> = template as any;
-    component.tagName = tagName;
-    component.events = () => component;
-    component.required = () => component;
+    const component = template as any as ElementComponent<TagName, ElementType, ElementProps<ElementType>>;
+    component["tagName"] = tagName;
+    component["events"] = () => component;
+    component["required"] = () => component;
 
     return component as any;
 }

@@ -8,6 +8,7 @@
     "noEmit": false,
     "declaration": true,
     "rootDir": "src/lib",
-    "baseUrl": "src/"
+    "baseUrl": "src/",
+    "noImplicitAny": false
   }
 }
