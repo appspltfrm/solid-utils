@@ -1,0 +1,1 @@
+{"version":3,"file":"CustomElement.js","sourceRoot":"","sources":["../../src/lib/elements/CustomElement.ts"],"names":[],"mappings":"AAGA,MAAM,OAAgB,aAAc,SAAQ,WAAW;IAInD,IAAI,UAAU;QACV,OAAO,IAAI,CAAC,UAAU,IAAI,IAAI,CAAC,YAAY,CAAC,EAAC,IAAI,EAAE,MAAM,EAAC,CAAC,CAAC;IAChE,CAAC;CAEJ"}

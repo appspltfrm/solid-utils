@@ -6,6 +6,8 @@
     "sourceMap": true,
     "importHelpers": true,
     "noEmit": false,
-    "declaration": true
+    "declaration": true,
+    "rootDir": "src/lib",
+    "baseUrl": "src/"
   }
 }
