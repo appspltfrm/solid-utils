@@ -21,14 +21,14 @@
   },
   "dependencies": {
     "@co.mmons/node-utils": "github:co-mmons/node-utils",
+    "component-register": "^0.8.3",
+    "hyper-dom-expressions": "^0.35.13",
+    "solid-element": "^1.6.3",
     "type-fest": "^3.5.1"
   },
   "peerDependencies": {
     "@co.mmons/js-utils": "github:co-mmons/js-utils",
-    "component-register": "^0.8.3",
-    "hyper-dom-expressions": "^0.35.13",
-    "solid-element": "^1.6.3",
     "solid-js": "^1.6.8",
-    "tslib": "^2.4.1"
+    "tslib": "^2.0.0"
   }
 }
