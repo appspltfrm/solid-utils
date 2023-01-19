@@ -1,3 +1,4 @@
+import {HtmlString} from "@co.mmons/js-utils/core";
 import {Fragment} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
 import {
@@ -8,28 +9,32 @@ import {
     reactive,
     renderRoot
 } from "../../elements";
+import {innerProp} from "../../utils/innerProp";
 import styles from "./Button.scss?inline";
 
 @renderRoot("shadow", {styles})
 export class ButtonElement extends CustomElement {
 
     @reactive()
-    href!: string;
+    href?: string;
+
+    @reactive()
+    text?: string | HtmlString;
 
     template({props}: ElementTemplate<ButtonElement>) {
 
         const tag = props.href ? "a" : "button";
+        const {text} = props;
 
-        return <Fragment>
-            <Dynamic component={tag}>
-                <slot/>
-            </Dynamic>
-        </Fragment>
+        return <Dynamic component={tag}>
+            <slot>
+                {text && <label {...innerProp(text)}/>}
+            </slot>
+        </Dynamic>
     }
 }
 
 export const Button = elementComponent("appx-button", ButtonElement);
-
 
 declare global {
     interface HTMLElementTagNameMap {
