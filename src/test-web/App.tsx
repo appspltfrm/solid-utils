@@ -1,3 +1,4 @@
+import {Button} from "@appspltfrm/solid-utils/ui";
 import type {Component} from "solid-js";
 import {lazy} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
@@ -9,6 +10,12 @@ const LazyTestElement = lazy(() => import("./elements/TestElement"));
 
 const App: Component = () => {
     return <Fragment>
+        <fieldset>
+            <legend>Button</legend>
+            <Button>
+                <span style="font-weight: bold">Jakiś tekst!</span>
+            </Button>
+        </fieldset>
 
         <fieldset>
             <legend>Functional component</legend>
