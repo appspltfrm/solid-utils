@@ -1,5 +1,4 @@
 import {HtmlString} from "@co.mmons/js-utils/core";
-import {Fragment} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
 import {
     CustomElement,

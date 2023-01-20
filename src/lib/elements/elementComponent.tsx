@@ -1,4 +1,4 @@
-import {AssignableType, Type} from "@co.mmons/js-utils/core";
+import type {AssignableType, Type} from "@co.mmons/js-utils/core";
 import {children, Component, ParentProps, splitProps} from "solid-js";
 import {JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
@@ -9,7 +9,7 @@ import {ElementEventsProps} from "./ElementEventsProps";
 import {ElementProps} from "./ElementProps";
 import {registerElement} from "./registerElement";
 
-type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<JSX.HTMLAttributes<ElementType> & ComponentProps> & {
+export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<JSX.HTMLAttributes<ElementType> & ComponentProps> & {
     tagName: TagName;
     events<Events extends {[EventName in keyof Events]: Event}>(): ElementComponent<TagName, ElementType, ComponentProps & ElementEventsProps<ElementType, Events>>;
     required<PropName extends keyof ElementProps<ElementType>>(first: PropName, ...others: PropName[]): ElementComponent<TagName, ElementType, ComponentProps & SetRequired<ElementProps<ElementType>, PropName>>;

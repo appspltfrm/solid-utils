@@ -22,7 +22,7 @@ const App: Component = () => {
 
         <fieldset>
             <legend>Solid web component</legend>
-            <Test state="test" class="sdsd" app-aj="test" camelCaseProp="🐪"/>
+            <Test state="test" class="sdsd" app-aj="test"/>
         </fieldset>
 
         <fieldset>

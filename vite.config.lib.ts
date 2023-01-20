@@ -23,7 +23,9 @@ export default defineConfig({
         sourcemap: true,
         lib: {
             entry: {
-                elements: path.resolve(__dirname, "src/lib/elements/index.ts")
+                elements: path.resolve(__dirname, "src/lib/elements/index.ts"),
+                ui: path.resolve(__dirname, "src/lib/ui/index.ts"),
+                utils: path.resolve(__dirname, "src/lib/utils/index.ts"),
             },
             formats: ["es"],
             fileName: (format, name) => `${name}/index.js`,
@@ -31,7 +33,8 @@ export default defineConfig({
         rollupOptions: {
             external: [
                 "solid-js",
-                "solid-js/web"
+                "solid-js/web",
+                /@co.mmons\/js-utils(\/{0,1}).*/
             ],
         },
     },
