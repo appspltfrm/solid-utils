@@ -12,7 +12,7 @@ const App: Component = () => {
     return <Fragment>
         <fieldset>
             <legend>Button</legend>
-            <Button text="Test"><span>jakiś</span></Button>
+            <Button ><span>jakiś</span></Button>
         </fieldset>
 
         <fieldset>
