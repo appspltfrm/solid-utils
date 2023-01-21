@@ -1,16 +1,25 @@
-import {Route, Routes} from "@solidjs/router";
+import {A, Route, Routes, useLocation} from "@solidjs/router";
 import type {Component} from "solid-js";
 import {lazy} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
 
 const App: Component = () => {
+
+    const location = useLocation()
+
     return <Fragment>
 
-        <div style="margin: 32px 0">
-            <a href="/literal-templates">Literal templates</a>
-        </div>
+        {location.pathname === "/" && <ul>
+            <li>
+                <A href="/elements">Elements</A>
+            </li>
+            <li>
+                <A href="/literal-templates">Literal templates</A>
+            </li>
+        </ul>}
 
         <Routes>
+            <Route path="/elements" component={lazy(() => import("./elements"))}/>
             <Route path="/literal-templates" component={lazy(() => import("./literal-templates"))}/>
         </Routes>
     </Fragment>

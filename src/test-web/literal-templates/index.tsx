@@ -1,4 +1,4 @@
-import {Button} from "@appspltfrm/solid-utils/ui/Button";
+import {Button, ButtonElement} from "@appspltfrm/solid-utils/ui/Button";
 import {lazy} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
 import html from "solid-js/html";

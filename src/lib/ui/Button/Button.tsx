@@ -1,4 +1,5 @@
 import {HtmlString} from "@co.mmons/js-utils/core";
+import {onCleanup, onMount} from "solid-js";
 import {Dynamic} from "solid-js/web";
 import {
     CustomElement,
