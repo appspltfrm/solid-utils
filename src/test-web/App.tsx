@@ -1,50 +1,18 @@
-import {Button} from "@appspltfrm/solid-utils/ui";
+import {Route, Routes} from "@solidjs/router";
 import type {Component} from "solid-js";
 import {lazy} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
-import html from "solid-js/html";
-import {FunctionalCmpTest} from "./FunctionalCmpTest";
-import {Test} from "./elements/TestElement";
-
-const LazyTestElement = lazy(() => import("./elements/TestElement"));
 
 const App: Component = () => {
     return <Fragment>
-        <fieldset>
-            <legend>Button</legend>
-            <Button ><span>jakiś</span></Button>
-        </fieldset>
 
-        <fieldset>
-            <legend>Functional component</legend>
-            <FunctionalCmpTest onChange={(e) => console.log(e)}/>
-        </fieldset>
+        <div style="margin: 32px 0">
+            <a href="/literal-templates">Literal templates</a>
+        </div>
 
-        <fieldset>
-            <legend>Solid web component</legend>
-            <Test state="test" class="sdsd" app-aj="test"/>
-        </fieldset>
-
-        <fieldset>
-            <legend>Web component</legend>
-            <test-element camel-case-prop="yeah"/>
-        </fieldset>
-
-        <fieldset>
-            <legend>Lazy solid web component</legend>
-            <LazyTestElement camelCaseProp="nop" state="lazy" style="color: red"/>
-        </fieldset>
-
-        <fieldset>
-            <legend>Template literal solid web component</legend>
-            {html`<${Test} state="template" style=${{color: "green"}}/>`}
-        </fieldset>
-
-        <fieldset>
-            <legend>Template literal lazy solid web component</legend>
-            {html`<${LazyTestElement} state="lazy-template"/>`}
-        </fieldset>
-
+        <Routes>
+            <Route path="/literal-templates" component={lazy(() => import("./literal-templates"))}/>
+        </Routes>
     </Fragment>
 };
 
