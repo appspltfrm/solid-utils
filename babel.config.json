@@ -1,0 +1,7 @@
+{
+    "presets": ["babel-preset-solid", "@babel/preset-typescript"],
+    "plugins": [
+        ["@babel/plugin-proposal-decorators", {"version": "legacy"}],
+        ["@babel/plugin-proposal-class-properties", {"loose": true}]
+    ]
+}
