@@ -23,7 +23,10 @@ export default defineConfig({
         sourcemap: true,
         emptyOutDir: true,
         lib: {
-            entry: ["elements/index.ts", "utils/index.ts"],
+            entry: [
+                "elements/index.ts",
+                "utils/index.ts"
+            ],
             formats: ["es"]
         },
         rollupOptions: {

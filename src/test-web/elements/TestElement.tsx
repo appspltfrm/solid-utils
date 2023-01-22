@@ -4,7 +4,7 @@ import {
     ElementJSXIntrinsic,
     ElementTemplate,
     reactive
-} from "@appspltfrm/solid-utils/elements";
+} from "@appspltfrm/solidx/elements";
 import {Fragment} from "solid-js/h/jsx-runtime";
 import styles from "./TestElement.scss?inline";
 
@@ -24,6 +24,15 @@ class TestElement extends CustomElement {
             <style>{styles}</style>
             <span class="extra">{props.state} {props.camelCaseProp}</span>
         </Fragment>;
+    }
+
+    connectedCallback() {
+        console.log(this.state)
+        console.log("connected")
+    }
+
+    disconnectedCallback() {
+        console.log("disconnected")
     }
 
     addEventListener<K extends keyof TestElementEventMap>(type: K, listener: (this: TestElement, ev: TestElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;

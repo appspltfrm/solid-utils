@@ -8,7 +8,7 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            "@appspltfrm/solid-utils": path.resolve(__dirname, "./src/lib"),
+            "@appspltfrm/solidx": path.resolve(__dirname, "./src/lib"),
         }
     },
 

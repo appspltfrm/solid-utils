@@ -1,39 +1,40 @@
-import { createComponent as _, memo as c, insert as a, template as u } from "solid-js/web";
-import { compose as h, register as g, noShadowDOM as w } from "component-register";
-import { withSolid as y, getCurrentElement as S } from "solid-element";
-import { splitProps as E } from "solid-js";
-import { Fragment as v } from "solid-js/h/jsx-runtime";
-const x = /* @__PURE__ */ u("<style></style>", 2);
-function j(r, s) {
-  if (customElements.get(r))
+import { createComponent as h, memo as m, insert as u, template as g } from "solid-js/web";
+import { compose as y, register as b, noShadowDOM as w } from "component-register";
+import { withSolid as k, getCurrentElement as C } from "solid-element";
+import { splitProps as S } from "solid-js";
+import { Fragment as E } from "solid-js/h/jsx-runtime";
+const v = /* @__PURE__ */ g("<style></style>", 2);
+function B(s, e) {
+  if (customElements.get(s))
     return;
-  const t = s, i = {
+  const n = e, l = {
     __children: void 0
   };
-  for (const o of t.__reactive ?? [])
-    i[o] = Object.assign({
+  for (const r of n.__reactive ?? [])
+    l[r] = Object.assign({
       value: void 0
     });
-  h(g(r, i, {
-    BaseElement: s
-  }), y)((o) => {
-    const m = !t.__noShadow, e = m && t.__shadowStyles;
-    m || w();
-    const [n, l] = E(o, ["__children"]), d = S();
-    return _(v, {
+  const i = e.prototype.connectedCallback, a = e.prototype.disconnectedCallback;
+  y(b(s, l, {
+    BaseElement: e
+  }), k)((r) => {
+    const d = !n.__noShadow, t = d && n.__shadowStyles;
+    d || w();
+    const [c, f] = S(r, ["__children"]), o = C();
+    return i && i.call(o), a && o.addReleaseCallback(() => a.call(o)), h(E, {
       get children() {
-        return [c(() => e && (typeof e == "string" ? [e] : e).map((f) => (() => {
-          const p = x.cloneNode(!0);
-          return a(p, f), p;
-        })())), c(() => d.template({
-          props: l,
-          children: (n == null ? void 0 : n.__children) ?? []
+        return [m(() => t && (typeof t == "string" ? [t] : t).map((_) => (() => {
+          const p = v.cloneNode(!0);
+          return u(p, _), p;
+        })())), m(() => o.template({
+          props: f,
+          children: (c == null ? void 0 : c.__children) ?? []
         }))];
       }
     });
   });
 }
 export {
-  j as registerElement
+  B as registerElement
 };
 //# sourceMappingURL=registerElement.js.map
