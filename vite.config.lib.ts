@@ -20,7 +20,6 @@ export default defineConfig({
     build: {
         outDir: "dist",
         sourcemap: true,
-        emptyOutDir: true,
         lib: {
             entry: ["elements/index.ts", "utils/index.ts"],
             formats: ["es"]
