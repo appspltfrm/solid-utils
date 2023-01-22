@@ -1,3 +1,4 @@
+import * as path from "path";
 import {defineConfig} from "vite";
 import solidPlugin from "vite-plugin-solid";
 
@@ -18,8 +19,9 @@ export default defineConfig({
     ],
 
     build: {
-        outDir: "dist",
+        outDir: path.resolve(__dirname, "./dist"),
         sourcemap: true,
+        emptyOutDir: true,
         lib: {
             entry: ["elements/index.ts", "utils/index.ts"],
             formats: ["es"]
