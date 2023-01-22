@@ -33,16 +33,6 @@ export default defineConfig({
                 entryFileNames: "[name].js",
                 chunkFileNames: "[name].js"
             },
-            // output: {
-            //     entryFileNames: (entry) => {
-            //         console.log(entry)
-            //         return "[name].js";
-            //     },
-            //     chunkFileNames: (chunk) => {
-            //         console.log(chunk);
-            //         return "[name].js";
-            //     }
-            // },
             external: [
                 /component-register/,
                 /solid-element/,
