@@ -8,6 +8,7 @@
     "build:check": "tsc -p tsconfig.lib.json --noEmit",
     "build:types": "tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly",
     "build:js": "babel src/lib --out-dir dist --extensions \".ts,.tsx\"",
+    "build:styles": "node-utils-file-system-glob-copy src/lib dist **/*.scss",
     "install": "node-utils-npm-install-dist"
   },
   "devDependencies": {
