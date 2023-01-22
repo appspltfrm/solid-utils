@@ -1,12 +1,8 @@
-import { HtmlString } from "@co.mmons/js-utils/core";
-export function innerProp(inner) {
-  if (inner instanceof HtmlString) {
-    return {
-      innerHTML: inner.toString()
-    };
-  } else {
-    return {
-      innerText: inner
-    };
-  }
+import { HtmlString as t } from "@co.mmons/js-utils/core";
+function e(r) {
+  return r instanceof t ? { innerHTML: r.toString() } : { innerText: r };
 }
+export {
+  e as innerProp
+};
+//# sourceMappingURL=innerProp.js.map

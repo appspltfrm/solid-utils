@@ -1,57 +1,64 @@
-import { template as _$template } from "solid-js/web";
-import { spread as _$spread } from "solid-js/web";
-import { mergeProps as _$mergeProps } from "solid-js/web";
-import { createComponent as _$createComponent } from "solid-js/web";
-import { insert as _$insert } from "solid-js/web";
-import { getOwner as _$getOwner } from "solid-js/web";
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
-const _tmpl$ = /*#__PURE__*/_$template(`<slot></slot>`, 2),
-  _tmpl$2 = /*#__PURE__*/_$template(`<label></label>`, 2);
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-import { Dynamic } from "solid-js/web";
-import { CustomElement, elementComponent, reactive, renderRoot } from "../../elements";
-import { innerProp } from "../../utils/innerProp";
-import styles from "./Button.scss?inline";
-export let ButtonElement = (_dec = renderRoot("shadow", {
-  styles
-}), _dec2 = reactive(), _dec3 = reactive(), _dec(_class = (_class2 = class ButtonElement extends CustomElement {
-  constructor(...args) {
-    super(...args);
-    _initializerDefineProperty(this, "href", _descriptor, this);
-    _initializerDefineProperty(this, "text", _descriptor2, this);
+import { createComponent as h, Dynamic as g, getOwner as w, insert as y, spread as x, mergeProps as P, template as v } from "solid-js/web";
+import { CustomElement as $ } from "../../elements/CustomElement.js";
+import "solid-js/h/jsx-runtime";
+import { elementComponent as D } from "../../elements/elementComponent.js";
+import "component-register";
+import "solid-element";
+import "solid-js";
+import { reactive as u } from "../../elements/decorators/reactive.js";
+import { renderRoot as E } from "../../elements/decorators/renderRoot.js";
+import { innerProp as O } from "../../utils/innerProp.js";
+import j from "./Button.scss.js";
+var m, c, f, s, a, p, b;
+const B = /* @__PURE__ */ v("<slot></slot>", 2), C = /* @__PURE__ */ v("<label></label>", 2);
+function d(l, r, t, i) {
+  t && Object.defineProperty(l, r, { enumerable: t.enumerable, configurable: t.configurable, writable: t.writable, value: t.initializer ? t.initializer.call(i) : void 0 });
+}
+function _(l, r, t, i, n) {
+  var e = {};
+  return Object.keys(i).forEach(function(o) {
+    e[o] = i[o];
+  }), e.enumerable = !!e.enumerable, e.configurable = !!e.configurable, ("value" in e || e.initializer) && (e.writable = !0), e = t.slice().reverse().reduce(function(o, z) {
+    return z(l, r, o) || o;
+  }, e), n && e.initializer !== void 0 && (e.value = e.initializer ? e.initializer.call(n) : void 0, e.initializer = void 0), e.initializer === void 0 && (Object.defineProperty(l, r, e), e = null), e;
+}
+let N = (m = E("shadow", {
+  styles: j
+}), c = u(), f = u(), m(s = (a = class extends $ {
+  constructor(...r) {
+    super(...r), d(this, "href", p, this), d(this, "text", b, this);
   }
   template({
-    props
+    props: r
   }) {
-    const tag = props.href ? "a" : "button";
-    const {
-      text
-    } = props;
-    return _$createComponent(Dynamic, {
-      component: tag,
+    const t = r.href ? "a" : "button", {
+      text: i
+    } = r;
+    return h(g, {
+      component: t,
       get children() {
-        const _el$ = _tmpl$.cloneNode(true);
-        _el$._$owner = _$getOwner();
-        _$insert(_el$, text && (() => {
-          const _el$2 = _tmpl$2.cloneNode(true);
-          _$spread(_el$2, _$mergeProps(() => innerProp(text)), false, false);
-          return _el$2;
-        })());
-        return _el$;
+        const n = B.cloneNode(!0);
+        return n._$owner = w(), y(n, i && (() => {
+          const e = C.cloneNode(!0);
+          return x(e, P(() => O(i)), !1, !1), e;
+        })()), n;
       }
     });
   }
-}, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "href", [_dec2], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
+}, p = _(a.prototype, "href", [c], {
+  configurable: !0,
+  enumerable: !0,
+  writable: !0,
   initializer: null
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "text", [_dec3], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
+}), b = _(a.prototype, "text", [f], {
+  configurable: !0,
+  enumerable: !0,
+  writable: !0,
   initializer: null
-})), _class2)) || _class);
-export const Button = elementComponent("appx-button", ButtonElement);
+}), a)) || s);
+const Q = D("appx-button", N);
+export {
+  Q as Button,
+  N as ButtonElement
+};
+//# sourceMappingURL=Button.js.map
