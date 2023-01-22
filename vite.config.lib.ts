@@ -1,4 +1,3 @@
-import path from "path";
 import {defineConfig} from "vite";
 import solidPlugin from "vite-plugin-solid";
 
@@ -19,11 +18,11 @@ export default defineConfig({
     ],
 
     build: {
-        outDir: path.resolve(__dirname, "dist"),
+        outDir: "dist",
         sourcemap: true,
         emptyOutDir: true,
         lib: {
-            entry: ["elements/index.ts", "ui/Button/index.ts", "utils/index.ts"],
+            entry: ["elements/index.ts", "utils/index.ts"],
             formats: ["es"]
         },
         rollupOptions: {

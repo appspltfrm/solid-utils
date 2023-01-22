@@ -1,21 +1,21 @@
-import {Button, ButtonElement} from "@appspltfrm/solid-utils/ui/Button";
 import {lazy} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
 import html from "solid-js/html";
+import TestElement from "../elements/TestElement";
 
-const LazyButton = lazy(async () => import("@appspltfrm/solid-utils/ui/Button"));
+const LazyTestElement = lazy(async () => import("../elements/TestElement"));
 
 export default function() {
     return <Fragment>
 
         <fieldset>
             <legend>Template literal solid web component</legend>
-            {html`<${Button} text="Test" style=${{color: "green"}}/>`}
+            {html`<${TestElement} state="Test" style=${{color: "green"}}/>`}
         </fieldset>
 
         <fieldset>
             <legend>Template literal lazy solid web component</legend>
-            {html`<${LazyButton} text="Lazy button"/>`}
+            {html`<${LazyTestElement} state="Lazy button"/>`}
         </fieldset>
 
     </Fragment>
