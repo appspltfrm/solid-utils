@@ -6,3 +6,10 @@ export { elementComponent } from "./elementComponent";
 export { customElement } from "./decorators/customElement";
 export { reactive } from "./decorators/reactive";
 export { renderRoot } from "./decorators/renderRoot";
+declare module "solid-js" {
+    namespace JSX {
+        interface ExplicitAttributes {
+            [key: string]: string;
+        }
+    }
+}

@@ -21,7 +21,7 @@ export interface TestElementProps {
     stateProvider?: () => string;
 }
 
-class TestElement extends CustomElement implements TestElementProps {
+export class TestElement extends CustomElement implements TestElementProps {
 
     @reactive()
     state!: string;

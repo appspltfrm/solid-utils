@@ -4,11 +4,12 @@ import {JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
 import {CustomElement} from "./CustomElement";
+import {ElementAttrAttributes} from "./ElementAttrAttributes";
 import {ElementEventsProps} from "./ElementEventsProps";
 import {ElementProps} from "./ElementProps";
 import {registerElement} from "./registerElement";
 
-export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<JSX.HTMLAttributes<ElementType> & ComponentProps> & {
+export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<ComponentProps & JSX.HTMLAttributes<ElementType> & ElementAttrAttributes> & {
     tagName: TagName;
     configure<Props = ComponentProps, Events extends {[P in keyof Events]: Event} = any>(): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events>>;
 }

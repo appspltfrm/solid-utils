@@ -2,9 +2,10 @@ import type { AssignableType } from "@co.mmons/js-utils/core";
 import { Component } from "solid-js";
 import { JSX } from "solid-js/h/jsx-runtime";
 import { CustomElement } from "./CustomElement";
+import { ElementAttrAttributes } from "./ElementAttrAttributes";
 import { ElementEventsProps } from "./ElementEventsProps";
 import { ElementProps } from "./ElementProps";
-export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<JSX.HTMLAttributes<ElementType> & ComponentProps> & {
+export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<ComponentProps & JSX.HTMLAttributes<ElementType> & ElementAttrAttributes> & {
     tagName: TagName;
     configure<Props = ComponentProps, Events extends {
         [P in keyof Events]: Event;
