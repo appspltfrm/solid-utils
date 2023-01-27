@@ -2,7 +2,6 @@ import type {AssignableType, Type} from "@co.mmons/js-utils/core";
 import {children, Component, ParentProps, splitProps} from "solid-js";
 import {JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
-import {SetRequired} from "type-fest";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
 import {CustomElement} from "./CustomElement";
 import {ElementEventsProps} from "./ElementEventsProps";
@@ -11,11 +10,10 @@ import {registerElement} from "./registerElement";
 
 export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<JSX.HTMLAttributes<ElementType> & ComponentProps> & {
     tagName: TagName;
-    events<Events extends {[EventName in keyof Events]: Event}>(): ElementComponent<TagName, ElementType, ComponentProps & ElementEventsProps<ElementType, Events>>;
-    required<PropName extends keyof ElementProps<ElementType>>(first: PropName, ...others: PropName[]): ElementComponent<TagName, ElementType, ComponentProps & SetRequired<ElementProps<ElementType>, PropName>>;
+    configure<Props = ComponentProps, Events extends {[P in keyof Events]: Event} = any>(): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events>>;
 }
 
-export function elementComponent<TagName extends string, ElementType extends CustomElement>(tagName: TagName, elementType: AssignableType<ElementType>): ElementComponent<TagName, ElementType, Omit<ElementProps<ElementType>, keyof HTMLElement | keyof CustomElement>> {
+export function elementComponent<TagName extends string, ElementType extends CustomElement>(tagName: TagName, elementType: AssignableType<ElementType>): ElementComponent<TagName, ElementType, ElementProps<ElementType>> {
 
     registerElement(tagName, elementType);
 
@@ -32,8 +30,9 @@ export function elementComponent<TagName extends string, ElementType extends Cus
 
     const component = template as any as ElementComponent<TagName, ElementType, ElementProps<ElementType>>;
     component["tagName"] = tagName;
-    component["events"] = () => component;
-    component["required"] = () => component;
+    component["configure"] = () => {
+        return component as any;
+    }
 
     return component as any;
 }

@@ -1,25 +1,25 @@
-import { createComponent as p, Dynamic as s, mergeProps as l } from "solid-js/web";
+import { createComponent as p, Dynamic as l, mergeProps as s } from "solid-js/web";
 import { children as d, splitProps as h } from "solid-js";
-import { camelPropsToDashedAttrs as a } from "./camelPropsToDashedAttrs.js";
-import { registerElement as u } from "./registerElement.js";
-function x(r, t) {
-  u(r, t);
+import { camelPropsToDashedAttrs as u } from "./camelPropsToDashedAttrs.js";
+import { registerElement as a } from "./registerElement.js";
+function y(r, t) {
+  a(r, t);
   const n = t, e = (o) => {
-    const m = d(() => o.children), [, c, i] = h(o, ["children"], n.__reactive ?? []);
-    return p(s, l({
+    const c = d(() => o.children), [, m, i] = h(o, ["children"], n.__reactive ?? []);
+    return p(l, s({
       component: r
-    }, () => a(c), i, {
+    }, () => u(m), i, {
       get __children() {
-        return m.toArray();
+        return c.toArray();
       },
       get children() {
-        return !n.__noShadow && m;
+        return !n.__noShadow && c;
       }
     }));
   };
-  return e.tagName = r, e.events = () => e, e.required = () => e, e;
+  return e.tagName = r, e.configure = () => e, e;
 }
 export {
-  x as elementComponent
+  y as elementComponent
 };
 //# sourceMappingURL=elementComponent.js.map

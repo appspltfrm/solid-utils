@@ -2,7 +2,6 @@ import {AssignableType} from "@co.mmons/js-utils/core";
 import {compose, ICustomElement, noShadowDOM, register} from "component-register";
 import {getCurrentElement, withSolid} from "solid-element";
 import {splitProps} from "solid-js";
-import {Fragment, JSX} from "solid-js/h/jsx-runtime";
 import {CustomElement} from "./CustomElement";
 
 export function registerElement<ElementType extends CustomElement>(tagName: string, elementConstructor: AssignableType<ElementType>) {
@@ -48,9 +47,9 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
             element.addReleaseCallback(() => disconnectedCallback.call(element));
         }
 
-        return <Fragment>
+        return <>
             {shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
-            {element.template({props, children: children?.["__children"] ?? []})}
-        </Fragment>
+            {element["template"]({props, children: children?.["__children"] ?? []})}
+        </>
     });
 }

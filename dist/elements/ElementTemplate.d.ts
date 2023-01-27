@@ -1,7 +1,7 @@
-import { JSX } from "solid-js/h/jsx-runtime";
-import { CustomElement } from "./CustomElement";
-import { ElementProps } from "./ElementProps";
-export type ElementTemplate<Element extends CustomElement> = {
-    props: ElementProps<Element>;
-    children?: JSX.Element;
+import { JSXElement } from "solid-js";
+export type ElementTemplate<ReactiveProps extends {
+    [key: string]: any;
+} = any> = {
+    props: ReactiveProps;
+    children?: JSXElement;
 };

@@ -6,12 +6,12 @@ export default function() {
 
         <fieldset>
             <legend>Test custom element</legend>
-            <test-element state="missing validation"/>
+            <test-element state="test" camel-case-prop="sdsd"/>
         </fieldset>
 
         <fieldset>
             <legend>Test element component</legend>
-            <Test state="yahooo"/>
+            <Test state="te" attr:dupa-zbita="test"/>
         </fieldset>
 
     </Fragment>
