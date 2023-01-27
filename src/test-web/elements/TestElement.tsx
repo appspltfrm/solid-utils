@@ -34,7 +34,7 @@ class TestElement extends CustomElement implements TestElementProps {
 
     private test?: string;
 
-    template({props}: ElementTemplate<TestElementProps>) {
+    template({props}: ElementTemplate<TestElement>) {
         return <>
             <style>{styles}</style>
             <span class="extra">{props.state} {props.camelCaseProp}</span>

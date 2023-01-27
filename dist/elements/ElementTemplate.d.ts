@@ -1,7 +1,9 @@
 import { JSXElement } from "solid-js";
-export type ElementTemplate<ReactiveProps extends {
+import { CustomElement } from "./CustomElement";
+import { ElementProps } from "./ElementProps";
+export type ElementTemplate<PropsOrElement extends (CustomElement | {
     [key: string]: any;
-} = any> = {
-    props: ReactiveProps;
+})> = {
+    props: (PropsOrElement extends CustomElement ? ElementProps<PropsOrElement> : PropsOrElement);
     children?: JSXElement;
 };
