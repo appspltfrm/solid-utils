@@ -3,6 +3,6 @@ import { ElementProps } from "./ElementProps";
 import { ElementTemplate } from "./ElementTemplate";
 export declare abstract class CustomElement extends HTMLElement {
     protected abstract template(args: ElementTemplate<ElementProps<this>>): JSXElement;
-    connectedCallback?(): void;
-    disconnectedCallback?(): void;
+    protected connectedCallback?(): void;
+    protected disconnectedCallback?(): void;
 }

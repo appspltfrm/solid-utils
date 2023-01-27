@@ -4,6 +4,6 @@ import {ElementTemplate} from "./ElementTemplate";
 
 export abstract class CustomElement extends HTMLElement {
     protected abstract template(args: ElementTemplate<ElementProps<this>>): JSXElement;
-    connectedCallback?(): void;
-    disconnectedCallback?(): void;
+    protected connectedCallback?(): void;
+    protected disconnectedCallback?(): void;
 }
