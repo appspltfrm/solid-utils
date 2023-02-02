@@ -3,7 +3,7 @@ import {
     elementComponent,
     ElementJSXIntrinsic,
     ElementTemplate,
-    reactive
+    reactive, renderRoot
 } from "@appspltfrm/solidx/elements";
 import styles from "./TestElement.scss?inline";
 
@@ -21,6 +21,7 @@ export interface TestElementProps {
     stateProvider?: () => string;
 }
 
+@renderRoot("element")
 export class TestElement extends CustomElement implements TestElementProps {
 
     @reactive()
@@ -34,7 +35,7 @@ export class TestElement extends CustomElement implements TestElementProps {
 
     private test?: string;
 
-    template({props}: ElementTemplate<TestElement>) {
+    template({props, children}: ElementTemplate<TestElement>) {
         return <>
             <style>{styles}</style>
             <span class="extra">{props.state} {props.camelCaseProp}</span>

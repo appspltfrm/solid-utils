@@ -1,7 +1,7 @@
 import type {AssignableType, Type} from "@co.mmons/js-utils/core";
-import {children, Component, ParentProps, splitProps} from "solid-js";
+import {children, Component, ParentProps, sharedConfig, splitProps} from "solid-js";
 import {JSX} from "solid-js/h/jsx-runtime";
-import {Dynamic} from "solid-js/web";
+import {Dynamic, getNextElement, spread} from "solid-js/web";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
 import {CustomElement} from "./CustomElement";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
@@ -21,12 +21,19 @@ export function elementComponent<TagName extends string, ElementType extends Cus
     const extendedType: Type<ElementType> & {__reactive: string[], __noShadow: boolean} = elementType as any;
 
     const template: Component<any> = (rawProps: ParentProps<any>) => {
-        const elementChildren = children(() => rawProps.children);
-        const [, props, other] = splitProps(rawProps, ["children"], extendedType.__reactive ?? []);
+        const rawChildren = children(() => rawProps.children);
+        const [, props, others] = splitProps(rawProps, ["children"], extendedType.__reactive ?? []);
 
-        return <Dynamic component={tagName as any} {...camelPropsToDashedAttrs(props)} {...other} __children={elementChildren.toArray()}>
-            {!extendedType.__noShadow && elementChildren}
-        </Dynamic>
+        const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+
+        spread(el, {
+            ...camelPropsToDashedAttrs(props),
+            ...others,
+            children: (!extendedType.__noShadow && rawChildren) ?? [],
+            "slotted-children": (extendedType.__noShadow && rawChildren.toArray()) ?? []
+        }, false, !!extendedType.__noShadow);
+
+        return el;
     }
 
     const component = template as any as ElementComponent<TagName, ElementType, ElementProps<ElementType>>;

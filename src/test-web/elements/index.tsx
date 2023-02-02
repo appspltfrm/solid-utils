@@ -11,7 +11,9 @@ export default function() {
 
         <fieldset>
             <legend>Test element component</legend>
-            <Test state="true" onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test"/>
+            <Test state="true" onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
+                <span>jakiś test</span>
+            </Test>
             <button on:click={(ev) => (ev.target as HTMLElement).previousElementSibling?.dispatchEvent(new CustomEvent("statechange"))}></button>
         </fieldset>
 

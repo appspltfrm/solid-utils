@@ -18,7 +18,7 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
             notify: boolean;
             reflect: boolean;
             parse: boolean;
-        }} = {__children: undefined as any};
+        }} = {slottedChildren: undefined as any};
 
     for (const prop of extendedConstructor.__reactive ?? []) {
         propsDefinitions[prop] = Object.assign({value: undefined});
@@ -36,7 +36,7 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
             noShadowDOM();
         }
 
-        const [children, props] = splitProps(rawProps, ["__children"]);
+        const [children, props] = splitProps(rawProps, ["slottedChildren"]);
         const element = getCurrentElement() as any as CustomElement & ICustomElement;
 
         if (connectedCallback) {
@@ -49,7 +49,7 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
 
         return <>
             {shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
-            {element["template"]({props, children: children?.["__children"] ?? []})}
+            {element["template"]({props, children: children?.["slottedChildren"] ?? []})}
         </>
     });
 }

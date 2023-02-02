@@ -1,25 +1,21 @@
-import { createComponent as p, Dynamic as l, mergeProps as s } from "solid-js/web";
-import { children as d, splitProps as h } from "solid-js";
-import { camelPropsToDashedAttrs as u } from "./camelPropsToDashedAttrs.js";
-import { registerElement as a } from "./registerElement.js";
-function y(r, t) {
-  a(r, t);
-  const n = t, e = (o) => {
-    const c = d(() => o.children), [, m, i] = h(o, ["children"], n.__reactive ?? []);
-    return p(l, s({
-      component: r
-    }, () => u(m), i, {
-      get __children() {
-        return c.toArray();
-      },
-      get children() {
-        return !n.__noShadow && c;
-      }
-    }));
+import { children as l, splitProps as m, sharedConfig as p } from "solid-js";
+import { getNextElement as h, spread as a } from "solid-js/web";
+import { camelPropsToDashedAttrs as f } from "./camelPropsToDashedAttrs.js";
+import { registerElement as _ } from "./registerElement.js";
+function E(o, r) {
+  _(o, r);
+  const e = r, t = (n) => {
+    const c = l(() => n.children), [, d, i] = m(n, ["children"], e.__reactive ?? []), s = p.context ? h() : document.createElement(o);
+    return a(s, {
+      ...f(d),
+      ...i,
+      children: (!e.__noShadow && c) ?? [],
+      "slotted-children": (e.__noShadow && c.toArray()) ?? []
+    }, !1, !!e.__noShadow), s;
   };
-  return e.tagName = r, e.configure = () => e, e;
+  return t.tagName = o, t.configure = () => t, t;
 }
 export {
-  y as elementComponent
+  E as elementComponent
 };
 //# sourceMappingURL=elementComponent.js.map
