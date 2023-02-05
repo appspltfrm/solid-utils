@@ -1,5 +1,5 @@
 import {
-    CustomElement,
+    SolidElement,
     elementComponent,
     ElementJSXIntrinsic,
     ElementTemplate,
@@ -22,7 +22,7 @@ export interface TestElementProps {
 }
 
 @renderRoot("element")
-export class TestElement extends CustomElement implements TestElementProps {
+export class TestElement extends SolidElement implements TestElementProps {
 
     @reactive()
     state!: string;

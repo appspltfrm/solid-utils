@@ -3,18 +3,18 @@ import {children, Component, ParentProps, sharedConfig, splitProps} from "solid-
 import {JSX} from "solid-js/h/jsx-runtime";
 import {Dynamic, getNextElement, spread} from "solid-js/web";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
-import {CustomElement} from "./CustomElement";
+import {SolidElement} from "./SolidElement";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
 import {ElementEventsProps} from "./ElementEventsProps";
 import {ElementProps} from "./ElementProps";
 import {registerElement} from "./registerElement";
 
-export type ElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = any> = Component<ComponentProps & JSX.HTMLAttributes<ElementType> & ElementAttrAttributes> & {
+export type ElementComponent<TagName extends string, ElementType extends SolidElement, ComponentProps = any> = Component<ComponentProps & JSX.HTMLAttributes<ElementType> & ElementAttrAttributes> & {
     tagName: TagName;
     configure<Props = ComponentProps, Events extends {[P in keyof Events]: Event} = any>(): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events>>;
 }
 
-export function elementComponent<TagName extends string, ElementType extends CustomElement>(tagName: TagName, elementType: AssignableType<ElementType>): ElementComponent<TagName, ElementType, ElementProps<ElementType>> {
+export function elementComponent<TagName extends string, ElementType extends SolidElement>(tagName: TagName, elementType: AssignableType<ElementType>): ElementComponent<TagName, ElementType, ElementProps<ElementType>> {
 
     registerElement(tagName, elementType);
 

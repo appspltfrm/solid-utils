@@ -1,3 +1,3 @@
-import {CustomElement} from "./CustomElement";
+import {SolidElement} from "./SolidElement";
 
-export type ElementProps<Element extends CustomElement> = Omit<{[P in keyof Element]: Element[P]}, keyof CustomElement | "template">
+export type ElementProps<Element extends SolidElement> = Omit<{[P in keyof Element]: Element[P]}, keyof SolidElement | "template" | "connectedCallback" | "disconnectedCallback">
