@@ -26,7 +26,14 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
 
     const connectedCallback = elementConstructor.prototype.connectedCallback;
     const disconnectedCallback = elementConstructor.prototype.disconnectedCallback;
-    const renderRoot = Object.getOwnPropertyDescriptor(elementConstructor.prototype, "renderRoot");
+
+    let renderRoot: PropertyDescriptor | undefined;
+
+    let parentClass = elementConstructor;
+    while (parentClass !== HTMLElement) {
+        renderRoot = Object.getOwnPropertyDescriptor(parentClass, "renderRoot");
+        parentClass = Object.getPrototypeOf(parentClass);
+    }
 
     const finalConstructor = compose(register(tagName, propsDefinitions, {BaseElement: elementConstructor}), withSolid)((rawProps) => {
 
@@ -51,7 +58,7 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
     if (renderRoot?.get) {
         Object.defineProperty(finalConstructor.prototype, "renderRoot", {
             get() {
-                const root = renderRoot.get?.call(this);
+                const root = renderRoot?.get?.call(this);
                 if (root) {
                     return root;
                 } else {
