@@ -21,7 +21,7 @@ export interface TestElementProps {
     stateProvider?: () => string;
 }
 
-@renderRoot("element")
+@renderRoot("shadow")
 export class TestElement extends SolidElement implements TestElementProps {
 
     @reactive()

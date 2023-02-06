@@ -1,13 +1,13 @@
 import type {AssignableType, Type} from "@co.mmons/js-utils/core";
 import {children, Component, ParentProps, sharedConfig, splitProps} from "solid-js";
 import {JSX} from "solid-js/h/jsx-runtime";
-import {Dynamic, getNextElement, spread} from "solid-js/web";
+import {getNextElement, spread} from "solid-js/web";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
-import {SolidElement} from "./SolidElement";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
 import {ElementEventsProps} from "./ElementEventsProps";
 import {ElementProps} from "./ElementProps";
 import {registerElement} from "./registerElement";
+import {SolidElement} from "./SolidElement";
 
 export type ElementComponent<TagName extends string, ElementType extends SolidElement, ComponentProps = any> = Component<ComponentProps & JSX.HTMLAttributes<ElementType> & ElementAttrAttributes> & {
     tagName: TagName;
@@ -19,6 +19,7 @@ export function elementComponent<TagName extends string, ElementType extends Sol
     registerElement(tagName, elementType);
 
     const extendedType: Type<ElementType> & {reactive: {[propName: string]: boolean}} = elementType as any;
+    // console.log(tagName, customElements.get(tagName))
 
     const template: Component<any> = (rawProps: ParentProps<any>) => {
         const rawChildren = children(() => rawProps.children);

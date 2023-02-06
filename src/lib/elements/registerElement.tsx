@@ -1,5 +1,5 @@
 import {AssignableType} from "@co.mmons/js-utils/core";
-import {compose, ICustomElement, noShadowDOM, register} from "component-register";
+import {compose, ICustomElement, register} from "component-register";
 import {getCurrentElement, withSolid} from "solid-element";
 import {splitProps} from "solid-js";
 import {SolidElement} from "./SolidElement";
@@ -26,16 +26,13 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
 
     const connectedCallback = elementConstructor.prototype.connectedCallback;
     const disconnectedCallback = elementConstructor.prototype.disconnectedCallback;
+    const renderRoot = Object.getOwnPropertyDescriptor(elementConstructor.prototype, "renderRoot");
 
     const finalConstructor = compose(register(tagName, propsDefinitions, {BaseElement: elementConstructor}), withSolid)((rawProps) => {
 
         const shadowStyles = extendedConstructor.__shadowStyles;
         const [children, props] = splitProps(rawProps, ["slottedChildren"]);
         const element = getCurrentElement() as any as SolidElement & ICustomElement;
-
-        if (!element.renderRoot) {
-            Object.defineProperty(element, "renderRoot", {value: element.shadowRoot || element.attachShadow({mode: "open"})});
-        }
 
         if (connectedCallback) {
             connectedCallback.call(element);
@@ -50,4 +47,20 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
             {element["template"]({props, children: children?.["slottedChildren"] ?? []})}
         </>
     });
+
+    if (renderRoot?.get) {
+        Object.defineProperty(finalConstructor.prototype, "renderRoot", {
+            get() {
+                const root = renderRoot.get?.call(this);
+                if (root) {
+                    return root;
+                } else {
+                    const shadow = (this as HTMLElement).shadowRoot;
+                    if (!shadow) {
+                        return (this as HTMLElement).attachShadow({mode: "open"});
+                    }
+                }
+            }
+        })
+    }
 }
