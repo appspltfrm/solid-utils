@@ -31,7 +31,10 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
 
     let parentClass = elementConstructor;
     while (parentClass !== HTMLElement) {
-        renderRoot = Object.getOwnPropertyDescriptor(parentClass, "renderRoot");
+        renderRoot = Object.getOwnPropertyDescriptor(parentClass.prototype, "renderRoot");
+        if (renderRoot) {
+            break;
+        }
         parentClass = Object.getPrototypeOf(parentClass);
     }
 

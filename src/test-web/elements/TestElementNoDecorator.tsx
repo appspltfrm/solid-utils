@@ -13,12 +13,12 @@ export const TestNoDecorator = elementComponent("test-element-no-decorator", cla
 
     test!: string;
 
-    protected template({props, children}: ElementTemplate<Test>) {
-        return <>{props.test}</>
-    }
-
     protected get renderRoot() {
         return this;
+    }
+
+    protected template({props, children}: ElementTemplate<Test>) {
+        return <>{props.test}</>
     }
 });
 

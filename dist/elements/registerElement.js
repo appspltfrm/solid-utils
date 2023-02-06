@@ -1,31 +1,31 @@
 import { memo as c, insert as g, template as w } from "solid-js/web";
-import { compose as C, register as O } from "component-register";
-import { withSolid as k, getCurrentElement as j } from "solid-element";
+import { compose as C, register as k } from "component-register";
+import { withSolid as O, getCurrentElement as j } from "solid-element";
 import { splitProps as E } from "solid-js";
 const _ = /* @__PURE__ */ w("<style></style>", 2);
 function v(i, n) {
   if (customElements.get(i))
     return;
-  const a = n, d = {
+  const a = n, p = {
     slottedChildren: void 0
   };
   for (const o of Object.keys(a.reactive ?? {}))
-    d[o] = Object.assign({
+    p[o] = Object.assign({
       value: void 0
     });
-  const p = n.prototype.connectedCallback, f = n.prototype.disconnectedCallback;
+  const d = n.prototype.connectedCallback, f = n.prototype.disconnectedCallback;
   let t, r = n;
-  for (; r !== HTMLElement; )
-    t = Object.getOwnPropertyDescriptor(r, "renderRoot"), r = Object.getPrototypeOf(r);
-  const h = C(O(i, d, {
+  for (; r !== HTMLElement && (t = Object.getOwnPropertyDescriptor(r.prototype, "renderRoot"), !t); )
+    r = Object.getPrototypeOf(r);
+  const h = C(k(i, p, {
     BaseElement: n
-  }), k)((o) => {
+  }), O)((o) => {
     const e = a.__shadowStyles, [l, y] = E(o, ["slottedChildren"]), s = j();
-    return p && p.call(s), f && s.addReleaseCallback(() => f.call(s)), [c((() => {
-      const u = c(() => !!(s.renderRoot === s.shadowRoot && e));
-      return () => u() && (typeof e == "string" ? [e] : e).map((b) => (() => {
+    return d && d.call(s), f && s.addReleaseCallback(() => f.call(s)), [c((() => {
+      const b = c(() => !!(s.renderRoot === s.shadowRoot && e));
+      return () => b() && (typeof e == "string" ? [e] : e).map((u) => (() => {
         const m = _.cloneNode(!0);
-        return g(m, b), m;
+        return g(m, u), m;
       })());
     })()), c(() => s.template({
       props: y,
