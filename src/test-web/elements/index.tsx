@@ -1,5 +1,6 @@
 import {Fragment} from "solid-js/h/jsx-runtime";
-import Test, {TestElement} from "./TestElement";
+import Test from "./TestElement";
+import TestNoDecorator from "./TestElementNoDecorator";
 
 export default function() {
     return <Fragment>
@@ -15,6 +16,11 @@ export default function() {
                 <span>jakiś test</span>
             </Test>
             <button on:click={(ev) => (ev.target as HTMLElement).previousElementSibling?.dispatchEvent(new CustomEvent("statechange"))}></button>
+        </fieldset>
+
+        <fieldset>
+            <legend>Test element no decorator</legend>
+            <TestNoDecorator test="false"/>
         </fieldset>
 
     </Fragment>

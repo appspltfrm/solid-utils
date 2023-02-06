@@ -1,9 +1,13 @@
-function a(d, e) {
-  return function(_) {
-    _.__noShadow = d === "element", d === "shadow" && (_.__shadowStyles = e == null ? void 0 : e.styles);
+function d(t, e) {
+  return function(r) {
+    t !== "shadow" ? Object.defineProperty(r.prototype, "renderRoot", {
+      get() {
+        return this;
+      }
+    }) : r.__shadowStyles = e == null ? void 0 : e.styles;
   };
 }
 export {
-  a as renderRoot
+  d as renderRoot
 };
 //# sourceMappingURL=renderRoot.js.map

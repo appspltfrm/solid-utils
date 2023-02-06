@@ -1,21 +1,21 @@
-import { children as l, splitProps as m, sharedConfig as p } from "solid-js";
-import { getNextElement as h, spread as a } from "solid-js/web";
-import { camelPropsToDashedAttrs as f } from "./camelPropsToDashedAttrs.js";
-import { registerElement as _ } from "./registerElement.js";
-function E(o, r) {
-  _(o, r);
-  const e = r, t = (n) => {
-    const c = l(() => n.children), [, d, i] = m(n, ["children"], e.__reactive ?? []), s = p.context ? h() : document.createElement(o);
-    return a(s, {
-      ...f(d),
-      ...i,
-      children: (!e.__noShadow && c) ?? [],
-      "slotted-children": (e.__noShadow && c.toArray()) ?? []
-    }, !1, !!e.__noShadow), s;
+import { children as d, splitProps as p, sharedConfig as h } from "solid-js";
+import { getNextElement as a, spread as f } from "solid-js/web";
+import { camelPropsToDashedAttrs as u } from "./camelPropsToDashedAttrs.js";
+import { registerElement as x } from "./registerElement.js";
+function b(r, n) {
+  x(r, n);
+  const i = n, e = (c) => {
+    const s = d(() => c.children), [, l, m] = p(c, ["children"], Object.keys(i.reactive ?? {})), t = h.context ? a() : document.createElement(r), o = t.renderRoot === t;
+    return f(t, {
+      ...u(l),
+      ...m,
+      children: (!o && s) ?? [],
+      "slotted-children": (o && s.toArray()) ?? []
+    }, !1, o), t;
   };
-  return t.tagName = o, t.configure = () => t, t;
+  return e.tagName = r, e.configure = () => e, e;
 }
 export {
-  E as elementComponent
+  b as elementComponent
 };
 //# sourceMappingURL=elementComponent.js.map

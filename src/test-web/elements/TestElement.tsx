@@ -35,7 +35,7 @@ export class TestElement extends SolidElement implements TestElementProps {
 
     private test?: string;
 
-    template({props, children}: ElementTemplate<TestElement>) {
+    protected template({props, children}: ElementTemplate<TestElement>) {
         return <>
             <style>{styles}</style>
             <span class="extra">{props.state} {props.camelCaseProp}</span>

@@ -1,7 +1,7 @@
 function n() {
-  return (c, e, o) => {
-    const r = c.constructor, t = r.__reactive ?? [];
-    t.push(e), r.__reactive = t;
+  return (e, c, o) => {
+    const r = e.constructor, t = r.reactive ?? {};
+    t[c] = !0, r.reactive = t;
   };
 }
 export {

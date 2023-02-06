@@ -10,7 +10,7 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
         return;
     }
 
-    const extendedConstructor: {__reactive: string[], __noShadow: boolean, __shadowStyles: string | string[]} = elementConstructor as any;
+    const extendedConstructor: {reactive: {[propName: string]: boolean}, __shadowStyles: string | string[]} = elementConstructor as any;
 
     const propsDefinitions: {[propName: string]: {
             value: undefined;
@@ -20,8 +20,8 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
             parse: boolean;
         }} = {slottedChildren: undefined as any};
 
-    for (const prop of extendedConstructor.__reactive ?? []) {
-        propsDefinitions[prop] = Object.assign({value: undefined});
+    for (const propName of Object.keys(extendedConstructor.reactive ?? {})) {
+        propsDefinitions[propName] = Object.assign({value: undefined});
     }
 
     const connectedCallback = elementConstructor.prototype.connectedCallback;
@@ -29,15 +29,13 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
 
     const finalConstructor = compose(register(tagName, propsDefinitions, {BaseElement: elementConstructor}), withSolid)((rawProps) => {
 
-        const shadow = !extendedConstructor.__noShadow;
-        const shadowStyles = shadow && extendedConstructor.__shadowStyles;
-
-        if (!shadow) {
-            noShadowDOM();
-        }
-
+        const shadowStyles = extendedConstructor.__shadowStyles;
         const [children, props] = splitProps(rawProps, ["slottedChildren"]);
         const element = getCurrentElement() as any as SolidElement & ICustomElement;
+
+        if (!element.renderRoot) {
+            Object.defineProperty(element, "renderRoot", {value: element.shadowRoot || element.attachShadow({mode: "open"})});
+        }
 
         if (connectedCallback) {
             connectedCallback.call(element);
@@ -48,7 +46,7 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
         }
 
         return <>
-            {shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
+            {element.renderRoot === element.shadowRoot && shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
             {element["template"]({props, children: children?.["slottedChildren"] ?? []})}
         </>
     });

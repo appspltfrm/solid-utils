@@ -6,11 +6,16 @@ export function renderRoot(root: "shadow", options?: ShadowOptions): (elementCon
 export function renderRoot(root: "element"): (elementConstructor: any) => void;
 export function renderRoot(root: "element" | "shadow", options?: ShadowOptions) {
     return function(elementConstructor: any) {
-        elementConstructor.__noShadow = root === "element";
 
-        if (root === "shadow") {
+        if (root !== "shadow") {
+            Object.defineProperty(elementConstructor.prototype, "renderRoot", {
+                get() {
+                    return this
+                }
+            });
+
+        } else {
             elementConstructor.__shadowStyles = options?.styles;
         }
-
     }
 }

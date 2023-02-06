@@ -18,20 +18,21 @@ export function elementComponent<TagName extends string, ElementType extends Sol
 
     registerElement(tagName, elementType);
 
-    const extendedType: Type<ElementType> & {__reactive: string[], __noShadow: boolean} = elementType as any;
+    const extendedType: Type<ElementType> & {reactive: {[propName: string]: boolean}} = elementType as any;
 
     const template: Component<any> = (rawProps: ParentProps<any>) => {
         const rawChildren = children(() => rawProps.children);
-        const [, props, others] = splitProps(rawProps, ["children"], extendedType.__reactive ?? []);
+        const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
         const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+        const noShadow = (el as any)["renderRoot"] === el;
 
         spread(el, {
             ...camelPropsToDashedAttrs(props),
             ...others,
-            children: (!extendedType.__noShadow && rawChildren) ?? [],
-            "slotted-children": (extendedType.__noShadow && rawChildren.toArray()) ?? []
-        }, false, !!extendedType.__noShadow);
+            children: (!noShadow && rawChildren) ?? [],
+            "slotted-children": (noShadow && rawChildren.toArray()) ?? []
+        }, false, noShadow);
 
         return el;
     }

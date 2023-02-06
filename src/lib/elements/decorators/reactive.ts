@@ -6,9 +6,9 @@ export function reactive() {
 
     return (proto: any, propName: string, propertyDescriptor?: PropertyDescriptor) => {
         const constructor = proto.constructor;
-        const reactive: string[] = constructor.__reactive ?? [];
-        reactive.push(propName);
+        const reactive: {[propName: string]: boolean} = constructor.reactive ?? {};
+        reactive[propName] = true;
 
-        constructor.__reactive = reactive;
+        constructor.reactive = reactive;
     }
 }
