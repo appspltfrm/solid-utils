@@ -10,5 +10,6 @@ export type ElementComponent<TagName extends string, ElementType extends SolidEl
     configure<Props = ComponentProps, Events extends {
         [P in keyof Events]: Event;
     } = any>(): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events>>;
+    register(): void;
 };
 export declare function elementComponent<TagName extends string, ElementType extends SolidElement>(tagName: TagName, elementType: AssignableType<ElementType>): ElementComponent<TagName, ElementType, ElementProps<ElementType>>;

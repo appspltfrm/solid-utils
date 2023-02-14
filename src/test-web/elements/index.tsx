@@ -1,6 +1,7 @@
 import {Fragment} from "solid-js/h/jsx-runtime";
 import Test from "./TestElement";
 import TestNoDecorator from "./TestElementNoDecorator";
+import {TestShadow} from "./TestShadowElement";
 
 export default function() {
     return <Fragment>
@@ -21,6 +22,11 @@ export default function() {
         <fieldset>
             <legend>Test element no decorator</legend>
             <TestNoDecorator test="false"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Test shadow</legend>
+            <TestShadow>ulalla</TestShadow>
         </fieldset>
 
     </Fragment>
