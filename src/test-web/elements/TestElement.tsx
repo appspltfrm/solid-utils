@@ -1,9 +1,10 @@
 import {
-    SolidElement,
     elementComponent,
     ElementJSXIntrinsic,
     ElementTemplate,
-    reactive, renderRoot
+    reactive,
+    renderRoot,
+    SolidElement
 } from "@appspltfrm/solidx/elements";
 import styles from "./TestElement.scss?inline";
 
@@ -36,6 +37,7 @@ export class TestElement extends SolidElement implements TestElementProps {
     private test?: string;
 
     protected template({props, children}: ElementTemplate<TestElement>) {
+
         return <>
             <style>{styles}</style>
             <span class="extra">{props.state} {props.camelCaseProp}</span>

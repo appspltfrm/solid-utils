@@ -1,7 +1,12 @@
+import {ICustomElement} from "component-register";
 import {JSXElement} from "solid-js";
 import {ElementTemplate} from "./ElementTemplate";
 
 export abstract class SolidElement extends HTMLElement {
+
+    addDisconnectedCallback(callback: () => void) {
+        (this as any as ICustomElement).addReleaseCallback(callback);
+    }
 
     /**
      * Returns definition of reactive props.

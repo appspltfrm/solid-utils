@@ -1,7 +1,10 @@
-var s = Object.defineProperty;
-var r = (e, t, o) => t in e ? s(e, t, { enumerable: !0, configurable: !0, writable: !0, value: o }) : e[t] = o;
-var a = (e, t, o) => (r(e, typeof t != "symbol" ? t + "" : t, o), o);
-class d extends HTMLElement {
+var o = Object.defineProperty;
+var s = (t, e, a) => e in t ? o(t, e, { enumerable: !0, configurable: !0, writable: !0, value: a }) : t[e] = a;
+var d = (t, e, a) => (s(t, typeof e != "symbol" ? e + "" : e, a), a);
+class c extends HTMLElement {
+  addDisconnectedCallback(e) {
+    this.addReleaseCallback(e);
+  }
   get renderRoot() {
     return this.shadowRoot || this.attachShadow({ mode: "open" });
   }
@@ -9,8 +12,8 @@ class d extends HTMLElement {
 /**
  * Returns definition of reactive props.
  */
-a(d, "reactive");
+d(c, "reactive");
 export {
-  d as SolidElement
+  c as SolidElement
 };
 //# sourceMappingURL=SolidElement.js.map
