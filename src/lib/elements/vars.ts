@@ -159,7 +159,7 @@ export function deleteElementStore(element: SolidElement, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function useElementStore<S extends Record<any, any>>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>> {
+export function useElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -180,7 +180,7 @@ export function useElementStore<S extends Record<any, any>>(element: SolidElemen
     }
 }
 
-export function setElementStore<S extends Record<any, any>>(element: SolidElement, name: VarName, newValue: S){
+export function setElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, newValue: S){
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -195,7 +195,7 @@ export function setElementStore<S extends Record<any, any>>(element: SolidElemen
     }
 }
 
-export function getElementStore<S extends Record<any, any>>(element: SolidElement, name: VarName): Store<S> {
+export function getElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): Store<S> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -210,7 +210,7 @@ export function getElementStore<S extends Record<any, any>>(element: SolidElemen
     }
 }
 
-export function createElementStore<T extends string, V>(element: SolidElement, name: VarName, value?: Record<T, V>) {
+export function createElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value?: S) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -222,12 +222,12 @@ export function createElementStore<T extends string, V>(element: SolidElement, n
     return store;
 }
 
-export function loadElementStore<T extends string, V>(element: SolidElement, name: VarName, value: Observable<Record<T, V>>) {
+export function loadElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value: Observable<S>) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
 
-    const store = createStore<Record<T, V>>({} as any);
+    const store = createStore<S>({} as any);
 
     const unsub = value.subscribe(data => store[1](data));
     setElementVar(element, name, store, {onDelete: ("unsubscribe" in unsub ? unsub.unsubscribe : unsub)});

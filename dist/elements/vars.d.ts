@@ -19,9 +19,19 @@ export declare function setElementSignal<T = any>(element: SolidElement, name: V
 export declare function deleteElementSignal(element: SolidElement, name: VarName): void;
 export declare function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: Observable<T>): Accessor<T | undefined>;
 export declare function deleteElementStore(element: SolidElement, name: VarName): void;
-export declare function useElementStore<S extends Record<any, any>>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>>;
-export declare function setElementStore<S extends Record<any, any>>(element: SolidElement, name: VarName, newValue: S): void;
-export declare function getElementStore<S extends Record<any, any>>(element: SolidElement, name: VarName): Store<S>;
-export declare function createElementStore<T extends string, V>(element: SolidElement, name: VarName, value?: Record<T, V>): [get: object, set: import("solid-js/store").SetStoreFunction<object>];
-export declare function loadElementStore<T extends string, V>(element: SolidElement, name: VarName, value: Observable<Record<T, V>>): Record<T, V>;
+export declare function useElementStore<S extends {
+    [key: string]: any;
+}>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>>;
+export declare function setElementStore<S extends {
+    [key: string]: any;
+}>(element: SolidElement, name: VarName, newValue: S): void;
+export declare function getElementStore<S extends {
+    [key: string]: any;
+}>(element: SolidElement, name: VarName): Store<S>;
+export declare function createElementStore<S extends {
+    [key: string]: any;
+}>(element: SolidElement, name: VarName, value?: S): [get: object, set: import("solid-js/store").SetStoreFunction<object>];
+export declare function loadElementStore<S extends {
+    [key: string]: any;
+}>(element: SolidElement, name: VarName, value: Observable<S>): S;
 export {};
