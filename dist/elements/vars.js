@@ -1,76 +1,146 @@
-import { createSignal as l } from "solid-js";
-import { createStore as f } from "solid-js/store";
-const i = /* @__PURE__ */ new WeakMap();
-function c(t, n) {
-  if (t && n in t)
+var A = Object.defineProperty;
+var D = (e, n, t) => n in e ? A(e, n, { enumerable: !0, configurable: !0, writable: !0, value: t }) : e[n] = t;
+var g = (e, n, t) => (D(e, typeof n != "symbol" ? n + "" : n, t), t);
+import { createSignal as E } from "solid-js";
+import { createStore as S } from "solid-js/store";
+const o = /* @__PURE__ */ new WeakMap();
+class a {
+  constructor() {
+    g(this, "value");
+    g(this, "onDelete");
+  }
+}
+function u(e, n) {
+  if (e && n in e)
     throw new Error(`Element var ${String(n)} already exists`);
 }
-function S(t, n) {
-  var e;
-  return (e = i.get(t)) == null ? void 0 : e[n];
-}
-function a(t, n, e) {
-  let r = i.get(t);
-  return r || (r = {}, i.set(t, r), t.addDisconnectedCallback(() => i.delete(t))), r[n] = e, r[n];
-}
-function g(t, n) {
-  const e = i.get(t);
-  e && delete e[n];
-}
-function b(t, n, e) {
-  const r = i.get(t);
-  c(r, n);
-  const s = l(e);
-  return a(t, n, s), s;
-}
-function y(t, n) {
+function k(e, n) {
   var r;
-  const e = (r = i.get(t)) == null ? void 0 : r[n];
-  if (e && Array.isArray(e))
-    return e[0];
-  if (e && typeof e == "function")
-    return e;
+  const t = (r = o.get(e)) == null ? void 0 : r[n];
+  return t instanceof a ? t.value : t;
 }
-function p(t, n, e) {
+function f(e, n, t, r) {
+  let s = o.get(e);
+  s || (s = {}, o.set(e, s), e.addDisconnectedCallback(() => {
+    var v;
+    const l = o.get(e);
+    if (l)
+      for (const c of Object.values(l))
+        c instanceof a && ((v = c.onDelete) == null || v.call(c));
+    o.delete(e);
+  }));
+  let i = t;
+  r != null && r.onDelete && (i = new a(), i.value = t, i.onDelete = r.onDelete), s[n] = i;
+}
+function b(e, n) {
+  var r;
+  const t = o.get(e);
+  if (t) {
+    const s = t[n];
+    s instanceof a && ((r = s.onDelete) == null || r.call(s)), delete t[n];
+  }
+}
+function d(e, n, t) {
+  const r = o.get(e);
+  u(r, n);
+  const s = E(t);
+  return f(e, n, s), s;
+}
+function h(e, n) {
   var s;
-  let r = (s = i.get(t)) == null ? void 0 : s[n];
-  r ? Array.isArray(r) && r[1](e) : b(t, n, e);
+  let t = (s = o.get(e)) == null ? void 0 : s[n];
+  t instanceof a && (t = t.value);
+  const r = t;
+  return r && Array.isArray(r) ? r : [() => {
+  }, (i) => {
+    const [, l] = d(e, n);
+    return l(i);
+  }];
 }
-function v(t, n) {
-  g(t, n);
+function j(e, n) {
+  var s;
+  let t = (s = o.get(e)) == null ? void 0 : s[n];
+  t instanceof a && (t = t.value);
+  const r = t;
+  return r && Array.isArray(r) ? r[0] : () => {
+  };
 }
-function k(t, n, e) {
-  const r = i.get(t);
-  c(r, n);
-  const s = l(), o = e.subscribe((u) => s[1](() => u));
-  return t.addDisconnectedCallback(() => "unsubscribe" in o ? o.unsubscribe() : o()), a(t, n, s), s[0];
+function C(e, n, t) {
+  var i;
+  let r = (i = o.get(e)) == null ? void 0 : i[n];
+  r instanceof a && (r = r.value);
+  let s = r;
+  s ? Array.isArray(s) && s[1](t) : d(e, n, t);
 }
-function A(t, n) {
-  g(t, n);
+function M(e, n) {
+  b(e, n);
 }
-function V(t, n, e) {
-  const r = i.get(t);
-  c(r, n);
-  const s = f(e);
-  return a(t, n, s), s;
+function N(e, n, t) {
+  const r = o.get(e);
+  u(r, n);
+  const s = E(), i = t.subscribe((l) => s[1](() => l));
+  return f(e, n, s, { onDelete: "unsubscribe" in i ? i.unsubscribe : i }), s[0];
 }
-function w(t, n, e) {
-  const r = i.get(t);
-  c(r, n);
-  const s = f({}), o = e.subscribe((u) => s[1](u));
-  return a(t, n, s), t.addDisconnectedCallback(() => "unsubscribe" in o ? o.unsubscribe() : o()), s[0];
+function O(e, n) {
+  b(e, n);
+}
+function W(e, n) {
+  var s;
+  let t = (s = o.get(e)) == null ? void 0 : s[n];
+  t instanceof a && (t = t.value);
+  const r = t;
+  return r && Array.isArray(r) ? r : [
+    void 0,
+    (i) => {
+      const [, l] = y(e, n);
+      return l(i);
+    }
+  ];
+}
+function $(e, n, t) {
+  var i;
+  let r = (i = o.get(e)) == null ? void 0 : i[n];
+  r instanceof a && (r = r.value);
+  const s = r;
+  if (s && Array.isArray(s))
+    return s[1](t);
+  y(e, n, t);
+}
+function q(e, n) {
+  var s;
+  let t = (s = o.get(e)) == null ? void 0 : s[n];
+  t instanceof a && (t = t.value);
+  const r = t;
+  if (r && Array.isArray(r))
+    return r[0];
+}
+function y(e, n, t) {
+  const r = o.get(e);
+  u(r, n);
+  const s = S(t);
+  return f(e, n, s), s;
+}
+function z(e, n, t) {
+  const r = o.get(e);
+  u(r, n);
+  const s = S({}), i = t.subscribe((l) => s[1](l));
+  return f(e, n, s, { onDelete: "unsubscribe" in i ? i.unsubscribe : i }), s[0];
 }
 export {
-  b as createElementSignal,
-  V as createElementStore,
-  v as deleteElementSignal,
-  A as deleteElementStore,
-  g as deleteElementVar,
-  y as getElementSignal,
-  S as getElementVar,
-  k as loadElementSignal,
-  w as loadElementStore,
-  p as setElementSignal,
-  a as setElementVar
+  d as createElementSignal,
+  y as createElementStore,
+  M as deleteElementSignal,
+  O as deleteElementStore,
+  b as deleteElementVar,
+  j as getElementSignal,
+  q as getElementStore,
+  k as getElementVar,
+  N as loadElementSignal,
+  z as loadElementStore,
+  C as setElementSignal,
+  $ as setElementStore,
+  f as setElementVar,
+  h as useElementSignal,
+  W as useElementStore
 };
 //# sourceMappingURL=vars.js.map

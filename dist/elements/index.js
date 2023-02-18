@@ -1,27 +1,31 @@
-import { SolidElement as r } from "./SolidElement.js";
-import { Fragment as o } from "solid-js/h/jsx-runtime";
-import { elementComponent as n } from "./elementComponent.js";
-import { customElement as E } from "./decorators/customElement.js";
+import { SolidElement as l } from "./SolidElement.js";
+import { Fragment as m } from "solid-js/h/jsx-runtime";
+import { elementComponent as o } from "./elementComponent.js";
+import { customElement as a } from "./decorators/customElement.js";
 import { reactive as g } from "./decorators/reactive.js";
-import { renderRoot as d } from "./decorators/renderRoot.js";
-import { createElementSignal as i, createElementStore as x, deleteElementSignal as c, deleteElementStore as s, deleteElementVar as V, getElementSignal as u, getElementVar as v, loadElementSignal as C, loadElementStore as F, setElementSignal as R, setElementVar as b } from "./vars.js";
+import { renderRoot as p } from "./decorators/renderRoot.js";
+import { createElementSignal as f, createElementStore as x, deleteElementSignal as s, deleteElementStore as c, deleteElementVar as u, getElementSignal as V, getElementStore as v, getElementVar as C, loadElementSignal as F, loadElementStore as R, setElementSignal as b, setElementStore as h, setElementVar as j, useElementSignal as k, useElementStore as q } from "./vars.js";
 export {
-  o as Fragment,
-  r as SolidElement,
-  i as createElementSignal,
+  m as Fragment,
+  l as SolidElement,
+  f as createElementSignal,
   x as createElementStore,
-  E as customElement,
-  c as deleteElementSignal,
-  s as deleteElementStore,
-  V as deleteElementVar,
-  n as elementComponent,
-  u as getElementSignal,
-  v as getElementVar,
-  C as loadElementSignal,
-  F as loadElementStore,
+  a as customElement,
+  s as deleteElementSignal,
+  c as deleteElementStore,
+  u as deleteElementVar,
+  o as elementComponent,
+  V as getElementSignal,
+  v as getElementStore,
+  C as getElementVar,
+  F as loadElementSignal,
+  R as loadElementStore,
   g as reactive,
-  d as renderRoot,
-  R as setElementSignal,
-  b as setElementVar
+  p as renderRoot,
+  b as setElementSignal,
+  h as setElementStore,
+  j as setElementVar,
+  k as useElementSignal,
+  q as useElementStore
 };
 //# sourceMappingURL=index.js.map

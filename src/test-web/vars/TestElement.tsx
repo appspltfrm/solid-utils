@@ -13,17 +13,18 @@ export default elementComponent("test-vars-element", class extends SolidElement 
 
     protected testVars() {
         const test = getElementSignal(this, "test")!;
+        console.log(test)
     }
 
     template({children}: ElementTemplate<this>): JSXElement {
 
-        loadElementSignal(this, "test", combineLatest([of(1), from(new Promise(async (resolve) => {
+        const test = loadElementSignal(this, "test", combineLatest([of(1), from(new Promise(async (resolve) => {
             await sleep(1000);
             resolve(2);
         }))]))
 
         return <>
-            <button onClick={() => this.testVars()}>test {getElementSignal(this, "test")!()}</button>
+            <button onClick={() => this.testVars()}>test {test()?.toString()}</button>
             <slot/>
         </>;
     }
