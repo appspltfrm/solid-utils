@@ -12,7 +12,7 @@ export declare function setElementVar(element: SolidElement, name: VarName, valu
 }): void;
 export declare function deleteElementVar(element: SolidElement, name: VarName): void;
 export declare function createElementSignal<T = any>(element: SolidElement, name: VarName, value?: T): Signal<T | undefined>;
-export declare function getElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T>;
+export declare function getElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T | undefined>;
 export declare function useElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined;
 export declare function setElementSignal<T = any>(element: SolidElement, name: VarName, value: (prev: T | undefined) => T): void;
 export declare function deleteElementSignal(element: SolidElement, name: VarName): void;
