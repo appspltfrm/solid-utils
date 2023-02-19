@@ -62,8 +62,8 @@ function j(e, n) {
   let t = (s = l.get(e)) == null ? void 0 : s[n];
   t instanceof c && (t = t.value);
   const r = t;
-  return r && Array.isArray(r) ? r[0] : () => {
-  };
+  if (r && Array.isArray(r))
+    return r[0]();
 }
 function C(e, n, t) {
   var i;

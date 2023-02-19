@@ -1,30 +1,24 @@
 import {
+    createElementSignal,
     elementComponent,
     ElementTemplate,
-    getElementSignal,
-    loadElementSignal,
-    SolidElement
+    getElementSignal, setElementSignal,
+    SolidElement, useElementSignal
 } from "@appspltfrm/solidx/elements";
-import {sleep} from "@co.mmons/js-utils/core";
-import {combineLatest, from, of} from "rxjs";
 import {JSXElement} from "solid-js";
 
 export default elementComponent("test-vars-element", class extends SolidElement {
 
     protected testVars() {
-        const test = getElementSignal(this, "test")!;
-        console.log(test)
+        setElementSignal<number>(this, "test", (prev) => (prev || 0) + 1)
     }
 
     template({children}: ElementTemplate<this>): JSXElement {
 
-        const test = loadElementSignal(this, "test", combineLatest([of(1), from(new Promise(async (resolve) => {
-            await sleep(1000);
-            resolve(2);
-        }))]))
+        const [test] = createElementSignal(this, "test", undefined);
 
         return <>
-            <button onClick={() => this.testVars()}>test {test()?.toString()}</button>
+            <button onClick={() => this.testVars()}>test {useElementSignal(this, "test")}</button>
             <slot/>
         </>;
     }

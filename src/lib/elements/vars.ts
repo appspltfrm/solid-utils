@@ -107,7 +107,7 @@ export function getElementSignal<T = any>(element: SolidElement, name: VarName):
     }
 }
 
-export function useElementSignal<T = any>(element: SolidElement, name: VarName): Accessor<T> {
+export function useElementSignal<T = any>(element: SolidElement, name: VarName): T {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -116,9 +116,9 @@ export function useElementSignal<T = any>(element: SolidElement, name: VarName):
 
     const signal = value as Signal<T>;
     if (signal && Array.isArray(signal)) {
-        return signal[0];
+        return signal[0]();
     } else {
-        return () => undefined as unknown as T;
+        return undefined as any as T;
     }
 }
 
