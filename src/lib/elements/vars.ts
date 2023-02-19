@@ -89,7 +89,7 @@ export function createElementSignal<T = any>(element: SolidElement, name: VarNam
     return signal;
 }
 
-export function getElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T | undefined> {
+export function useElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T | undefined> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -104,7 +104,7 @@ export function getElementSignal<T = any>(element: SolidElement, name: VarName):
     return signal;
 }
 
-export function useElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined {
+export function getElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -165,7 +165,7 @@ export function deleteElementStore(element: SolidElement, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function getElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>> {
+export function useElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -201,7 +201,7 @@ export function setElementStore<S extends {[key: string]: any}>(element: SolidEl
     }
 }
 
-export function useElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): Store<S> {
+export function getElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): Store<S> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {

@@ -143,15 +143,15 @@ export {
   M as deleteElementSignal,
   O as deleteElementStore,
   d as deleteElementVar,
-  k as getElementSignal,
-  W as getElementStore,
+  j as getElementSignal,
+  q as getElementStore,
   h as getElementVar,
   N as loadElementSignal,
   z as loadElementStore,
   C as setElementSignal,
   $ as setElementStore,
   g as setElementVar,
-  j as useElementSignal,
-  q as useElementStore
+  k as useElementSignal,
+  W as useElementStore
 };
 //# sourceMappingURL=vars.js.map
