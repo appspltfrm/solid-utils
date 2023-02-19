@@ -142,7 +142,7 @@ export function deleteElementSignal(element: SolidElement, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>) {
+export function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>, options?: {onError?: (error: any) => void}) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -152,7 +152,11 @@ export function loadElementSignal<T = any>(element: SolidElement, name: VarName,
     const unsub = observable.subscribe({
         next: (data) => signal[1](() => data),
         error: (error) => {
-            throw error
+            if (options?.onError) {
+                options.onError(error);
+            } else {
+                throw error;
+            }
         }
     })
 
@@ -228,7 +232,7 @@ export function createElementStore<S extends {[key: string]: any}>(element: Soli
     return store;
 }
 
-export function loadElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value: ObservableLike<S>) {
+export function loadElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value: ObservableLike<S>, options?: {onError?: (error: any) => void}) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -238,7 +242,11 @@ export function loadElementStore<S extends {[key: string]: any}>(element: SolidE
     const unsub = value.subscribe({
         next: (data) => store[1](data),
         error: (error) => {
-            throw error;
+            if (options?.onError) {
+                options.onError(error);
+            } else {
+                throw error;
+            }
         }
     })
 

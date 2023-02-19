@@ -16,7 +16,9 @@ export declare function getElementSignal<T = any>(element: SolidElement, name: V
 export declare function useElementSignal<T = any>(element: SolidElement, name: VarName): Accessor<T>;
 export declare function setElementSignal<T = any>(element: SolidElement, name: VarName, value: (prev: T) => T): void;
 export declare function deleteElementSignal(element: SolidElement, name: VarName): void;
-export declare function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>): Accessor<T | undefined>;
+export declare function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>, options?: {
+    onError?: (error: any) => void;
+}): Accessor<T | undefined>;
 export declare function deleteElementStore(element: SolidElement, name: VarName): void;
 export declare function getElementStore<S extends {
     [key: string]: any;
@@ -32,5 +34,7 @@ export declare function createElementStore<S extends {
 }>(element: SolidElement, name: VarName, value?: S): [get: object, set: import("solid-js/store").SetStoreFunction<object>];
 export declare function loadElementStore<S extends {
     [key: string]: any;
-}>(element: SolidElement, name: VarName, value: ObservableLike<S>): S;
+}>(element: SolidElement, name: VarName, value: ObservableLike<S>, options?: {
+    onError?: (error: any) => void;
+}): S;
 export {};
