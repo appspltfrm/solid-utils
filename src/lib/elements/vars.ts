@@ -107,35 +107,34 @@ export function getElementSignal<T = any>(element: SolidElement, name: VarName):
     }
 }
 
-export function useElementSignal<T = any>(element: SolidElement, name: VarName): T {
+export function useElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
         value = value.value;
     }
 
-    const signal = value as Signal<T>;
-    if (signal && Array.isArray(signal)) {
-        return signal[0]();
-    } else {
-        return undefined as any as T;
+    let signal = value as Signal<T | undefined>;
+    if (!signal) {
+        signal = createElementSignal(element, name);
     }
+
+    return signal[0]();
 }
 
-export function setElementSignal<T = any>(element: SolidElement, name: VarName, value: (prev: T) => T) {
+export function setElementSignal<T = any>(element: SolidElement, name: VarName, value: (prev: T | undefined) => T) {
 
     let current = allVars.get(element)?.[name];
     if (current instanceof VarValue) {
         current = current.value;
     }
 
-    let signal = current as Signal<T>;
-
+    let signal = current as Signal<T | undefined>;
     if (!signal) {
-        createElementSignal(element, name, value);
-    } else if (Array.isArray(signal)) {
-        signal[1](value);
+        signal = createElementSignal(element, name);
     }
+
+    signal[1](value);
 }
 
 export function deleteElementSignal(element: SolidElement, name: VarName) {
