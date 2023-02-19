@@ -89,22 +89,19 @@ export function createElementSignal<T = any>(element: SolidElement, name: VarNam
     return signal;
 }
 
-export function getElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T> {
+export function getElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T | undefined> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
         value = value.value;
     }
 
-    const signal = value as Signal<T>;
-    if (signal && Array.isArray(signal)) {
-        return signal;
-    } else {
-        return [() => undefined as T, (v) => {
-            const [, setSignal] = createElementSignal(element, name);
-            return setSignal(v);
-        }] as Signal<T>;
+    let signal = value as Signal<T | undefined>;
+    if (!signal) {
+        signal = createElementSignal<T>(element, name);
     }
+
+    return signal;
 }
 
 export function useElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined {
