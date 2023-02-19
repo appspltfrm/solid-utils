@@ -1,10 +1,14 @@
 import {Accessor, createSignal, Signal} from "solid-js";
 import {createStore, Store} from "solid-js/store";
-import {ObservableLike} from "type-fest";
+import {Observer, Unsubscribable} from "type-fest";
 import {SolidElement} from "./SolidElement";
 
 type Vars = {[key: string | symbol]: any};
 type VarName = string | symbol;
+
+export interface ObservableLike<ValueType = unknown> {
+    subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
+}
 
 const allVars = new WeakMap<SolidElement, Vars>()
 

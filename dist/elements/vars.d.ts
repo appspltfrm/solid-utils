@@ -1,8 +1,11 @@
 import { Accessor, Signal } from "solid-js";
 import { createStore, Store } from "solid-js/store";
-import { ObservableLike } from "type-fest";
+import { Observer, Unsubscribable } from "type-fest";
 import { SolidElement } from "./SolidElement";
 type VarName = string | symbol;
+export interface ObservableLike<ValueType = unknown> {
+    subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
+}
 export declare function getElementVar<T>(element: SolidElement, name: VarName): T;
 export declare function setElementVar(element: SolidElement, name: VarName, value: any, options?: {
     onDelete?: (() => any | void);
