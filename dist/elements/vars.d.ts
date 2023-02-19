@@ -1,12 +1,8 @@
 import { Accessor, Signal } from "solid-js";
 import { createStore, Store } from "solid-js/store";
+import { ObservableLike } from "type-fest";
 import { SolidElement } from "./SolidElement";
 type VarName = string | symbol;
-type Observable<T> = {
-    subscribe: (fn: (v: T) => void) => (() => void) | {
-        unsubscribe: () => void;
-    };
-};
 export declare function getElementVar<T>(element: SolidElement, name: VarName): T;
 export declare function setElementVar(element: SolidElement, name: VarName, value: any, options?: {
     onDelete?: (() => any | void);
@@ -17,7 +13,7 @@ export declare function getElementSignal<T = any>(element: SolidElement, name: V
 export declare function useElementSignal<T = any>(element: SolidElement, name: VarName): Accessor<T>;
 export declare function setElementSignal<T = any>(element: SolidElement, name: VarName, value: (prev: T) => T): void;
 export declare function deleteElementSignal(element: SolidElement, name: VarName): void;
-export declare function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: Observable<T>): Accessor<T | undefined>;
+export declare function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>): Accessor<T | undefined>;
 export declare function deleteElementStore(element: SolidElement, name: VarName): void;
 export declare function getElementStore<S extends {
     [key: string]: any;
@@ -33,5 +29,5 @@ export declare function createElementStore<S extends {
 }>(element: SolidElement, name: VarName, value?: S): [get: object, set: import("solid-js/store").SetStoreFunction<object>];
 export declare function loadElementStore<S extends {
     [key: string]: any;
-}>(element: SolidElement, name: VarName, value: Observable<S>): S;
+}>(element: SolidElement, name: VarName, value: ObservableLike<S>): S;
 export {};

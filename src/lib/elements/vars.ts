@@ -1,14 +1,10 @@
 import {Accessor, createSignal, Signal} from "solid-js";
 import {createStore, Store} from "solid-js/store";
+import {ObservableLike} from "type-fest";
 import {SolidElement} from "./SolidElement";
 
 type Vars = {[key: string | symbol]: any};
 type VarName = string | symbol;
-type Observable<T> = {
-    subscribe: (fn: (v: T) => void) => (() => void) | {
-        unsubscribe: () => void;
-    }
-}
 
 const allVars = new WeakMap<SolidElement, Vars>()
 
@@ -142,14 +138,20 @@ export function deleteElementSignal(element: SolidElement, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: Observable<T>) {
+export function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
 
     const signal = createSignal<T>();
 
-    const unsub = observable.subscribe(data => signal[1](() => data));
+    const unsub = observable.subscribe({
+        next: (data) => signal[1](() => data),
+        error: (error) => {
+            throw error
+        }
+    })
+
     setElementVar(element, name, signal, {onDelete: ("unsubscribe" in unsub ? unsub.unsubscribe : unsub)});
 
     return signal[0];
@@ -222,14 +224,20 @@ export function createElementStore<S extends {[key: string]: any}>(element: Soli
     return store;
 }
 
-export function loadElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value: Observable<S>) {
+export function loadElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value: ObservableLike<S>) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
 
     const store = createStore<S>({} as any);
 
-    const unsub = value.subscribe(data => store[1](data));
+    const unsub = value.subscribe({
+        next: (data) => store[1](data),
+        error: (error) => {
+            throw error;
+        }
+    })
+
     setElementVar(element, name, store, {onDelete: ("unsubscribe" in unsub ? unsub.unsubscribe : unsub)});
 
     return store[0];
