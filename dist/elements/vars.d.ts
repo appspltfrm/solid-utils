@@ -6,11 +6,11 @@ type VarName = string | symbol;
 export interface ObservableLike<ValueType = unknown> {
     subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
 }
-export declare function getElementVar<T>(element: SolidElement, name: VarName): T;
+export declare function getElementVar<T>(element: SolidElement, name: VarName): T | undefined;
 export declare function setElementVar(element: SolidElement, name: VarName, value: any, options?: {
     onDelete?: (() => any | void);
 }): void;
-export declare function deleteElementVar(element: SolidElement, name: VarName): void;
+export declare function deleteElementVar<T>(element: SolidElement, name: VarName): T | undefined;
 export declare function createElementSignal<T = any>(element: SolidElement, name: VarName, value?: T): Signal<T | undefined>;
 export declare function useElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T | undefined>;
 export declare function getElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined;

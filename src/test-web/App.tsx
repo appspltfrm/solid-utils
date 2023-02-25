@@ -19,9 +19,13 @@ const App: Component = () => {
             <li>
                 <A href="/vars">Vars</A>
             </li>
+            <li>
+                <A href="/light-dom-element">light dom</A>
+            </li>
         </ul>}
 
         <Routes>
+            <Route path="/light-dom-element" component={lazy(() => import("./light-dom-element"))}/>
             <Route path="/vars" component={lazy(() => import("./vars"))}/>
             <Route path="/elements" component={lazy(() => import("./elements"))}/>
             <Route path="/literal-templates" component={lazy(() => import("./literal-templates"))}/>

@@ -23,7 +23,7 @@ function assertNotExists(vars: Vars | undefined, name: VarName) {
     }
 }
 
-export function getElementVar<T>(element: SolidElement, name: VarName): T {
+export function getElementVar<T>(element: SolidElement, name: VarName): T | undefined {
     const v = allVars.get(element)?.[name];
     if (v instanceof VarValue) {
         return v.value;
@@ -64,16 +64,18 @@ export function setElementVar(element: SolidElement, name: VarName, value: any, 
     vars[name] = varValue;
 }
 
-export function deleteElementVar(element: SolidElement, name: VarName) {
+export function deleteElementVar<T>(element: SolidElement, name: VarName): T | undefined {
     const vars = allVars.get(element);
     if (vars) {
 
-        const v = vars[name];
+        let v = vars[name];
         if (v instanceof VarValue) {
             v.onDelete?.();
+            v = v.value;
         }
 
         delete vars[name];
+        return v;
     }
 }
 
