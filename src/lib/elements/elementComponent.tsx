@@ -1,5 +1,5 @@
 import type {AssignableType, Type} from "@co.mmons/js-utils/core";
-import {children, Component, ParentProps, sharedConfig, splitProps} from "solid-js";
+import {children, Component, createMemo, ParentProps, sharedConfig, splitProps} from "solid-js";
 import {JSX} from "solid-js/h/jsx-runtime";
 import {getNextElement, spread} from "solid-js/web";
 import {camelPropsToDashedAttrs} from "./camelPropsToDashedAttrs";
@@ -20,25 +20,27 @@ export function elementComponent<TagName extends string, ElementType extends Sol
     const extendedType: Type<ElementType> & {reactive: {[propName: string]: boolean}} = elementType as any;
 
     const template: Component<any> = (rawProps: ParentProps<any>) => {
+        return createMemo(() => {
 
-        if (!customElements.get(tagName)) {
-            registerElement(tagName, elementType);
-        }
+            if (!customElements.get(tagName)) {
+                registerElement(tagName, elementType);
+            }
 
-        const rawChildren = children(() => rawProps.children);
-        const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
+            const rawChildren = children(() => rawProps.children);
+            const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
-        const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
-        const noShadow = (el as any)["renderRoot"] === el;
+            const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+            const noShadow = (el as any)["renderRoot"] === el;
 
-        spread(el, {
-            ...camelPropsToDashedAttrs(props),
-            ...others,
-            children: (!noShadow && rawChildren) ?? [],
-            "slotted-children": (noShadow && rawChildren.toArray()) ?? []
-        }, false, noShadow);
+            spread(el, {
+                ...camelPropsToDashedAttrs(props),
+                ...others,
+                children: (!noShadow && rawChildren) ?? [],
+                "slotted-children": (noShadow && rawChildren.toArray()) ?? []
+            }, false, noShadow);
 
-        return el;
+            return el;
+        })
     }
 
     const component = template as any as ElementComponent<TagName, ElementType, ElementProps<ElementType>>;
