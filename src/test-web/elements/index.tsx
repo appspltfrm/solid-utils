@@ -1,5 +1,5 @@
 import {Fragment} from "solid-js/h/jsx-runtime";
-import Test from "./TestElement";
+import Test, {TestElement} from "./TestElement";
 import TestNoDecorator from "./TestElementNoDecorator";
 import {TestShadow} from "./TestShadowElement";
 
@@ -13,10 +13,10 @@ export default function() {
 
         <fieldset>
             <legend>Test element component</legend>
-            <Test state="true" onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
+            <Test state={["a"]} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
                 <span>jakiś test</span>
             </Test>
-            <button onClick={(ev) => (ev.target as HTMLElement).previousElementSibling?.dispatchEvent(new CustomEvent("statechange"))}></button>
+            <button onClick={(ev) => setTimeout(() => (((ev.target as HTMLElement).previousElementSibling as TestElement).state = ["testst"]), 1000)}></button>
         </fieldset>
 
         <fieldset>

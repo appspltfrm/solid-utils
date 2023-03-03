@@ -6,6 +6,7 @@ import {
     renderRoot,
     SolidElement
 } from "@appspltfrm/solidx/elements";
+import {onCleanup} from "solid-js";
 import styles from "./TestElement.scss?inline";
 
 export interface TestElementProps {
@@ -13,7 +14,7 @@ export interface TestElementProps {
     /**
      * state
      */
-    state: string;
+    state: any;
     camelCaseProp?: string;
 
     /**
@@ -26,7 +27,7 @@ export interface TestElementProps {
 export class TestElement extends SolidElement implements TestElementProps {
 
     @reactive()
-    state!: string;
+    state!: any;
 
     @reactive()
     camelCaseProp?: string;
@@ -37,6 +38,8 @@ export class TestElement extends SolidElement implements TestElementProps {
     private test?: string;
 
     protected template({props, children}: ElementTemplate<TestElement>) {
+
+        onCleanup(() => console.log("cleanup"))
 
         return <>
             <style>{styles}</style>
@@ -56,7 +59,7 @@ export class TestElement extends SolidElement implements TestElementProps {
 }
 
 interface TestElementEventMap extends HTMLElementEventMap {
-    stateChange: CustomEvent<string>;
+    stateChange: CustomEvent<any>;
 }
 
 export const Test = elementComponent("test-element", TestElement).configure<TestElementProps, TestElementEventMap>();

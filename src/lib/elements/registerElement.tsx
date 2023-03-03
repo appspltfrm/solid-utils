@@ -54,7 +54,7 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
 
         return <>
             {element.renderRoot === element.shadowRoot && shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
-            {element["template"]({props, children: children?.["slottedChildren"] ?? []})}
+            {element["template"]({props, children: children.slottedChildren ?? []})}
         </>
     });
 
