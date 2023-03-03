@@ -1,13 +1,13 @@
 import {
     createElementSignal,
-    elementComponent,
+    defineElementComponent,
     ElementTemplate,
     getElementSignal, setElementSignal,
     SolidElement, useElementSignal
 } from "@appspltfrm/solidx/elements";
 import {JSXElement, onCleanup} from "solid-js";
 
-export default elementComponent("test-reactivity2", class extends SolidElement {
+export default defineElementComponent("test-reactivity2", class extends SolidElement {
 
     protected static readonly reactive = {errors: true}
 

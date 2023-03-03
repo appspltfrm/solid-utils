@@ -16,7 +16,7 @@ export default function() {
             <Test state={["a"]} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
                 <span>jakiś test</span>
             </Test>
-            <button onClick={(ev) => setTimeout(() => (((ev.target as HTMLElement).previousElementSibling as TestElement).state = ["testst"]), 1000)}></button>
+            <button onClick={(ev) => (((ev.target as HTMLElement).previousElementSibling as TestElement).state = ["testst"])}></button>
         </fieldset>
 
         <fieldset>

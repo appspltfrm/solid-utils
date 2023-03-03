@@ -1,13 +1,13 @@
 import {
     createElementSignal,
-    elementComponent,
+    defineElementComponent,
     ElementTemplate,
     getElementSignal, setElementSignal,
     SolidElement, useElementSignal
 } from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
-export default elementComponent("test-vars-element", class extends SolidElement {
+export default defineElementComponent("test-vars-element", class extends SolidElement {
 
     protected testVars() {
         setElementSignal<number>(this, "test", (prev) => (prev || 0) + 1)

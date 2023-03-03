@@ -1,13 +1,13 @@
 import {
     SolidElement,
-    elementComponent,
+    defineElementComponent,
     ElementJSXIntrinsic,
     ElementTemplate,
     reactive, renderRoot
 } from "@appspltfrm/solidx/elements";
 import styles from "./TestElement.scss?inline";
 
-export const TestNoDecorator = elementComponent("test-element-no-decorator", class Test extends SolidElement {
+export const TestNoDecorator = defineElementComponent("test-element-no-decorator", class Test extends SolidElement {
 
     protected static readonly reactive = {test: true}
 

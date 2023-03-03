@@ -1,4 +1,4 @@
-import {elementComponent, ElementJSXIntrinsic, ElementTemplate, SolidElement} from "@appspltfrm/solidx/elements";
+import {defineElementComponent, ElementJSXIntrinsic, ElementTemplate, SolidElement} from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
 export class TestLightElement extends SolidElement {
@@ -12,7 +12,7 @@ export class TestLightElement extends SolidElement {
     }
 }
 
-export const Test = elementComponent("test-light-element", TestLightElement);
+export const Test = defineElementComponent("test-light-element", TestLightElement);
 
 declare global {
     interface HTMLElementTagNameMap {

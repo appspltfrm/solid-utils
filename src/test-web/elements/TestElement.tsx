@@ -1,5 +1,5 @@
 import {
-    elementComponent,
+    defineElementComponent,
     ElementJSXIntrinsic,
     ElementTemplate,
     reactive,
@@ -62,7 +62,7 @@ interface TestElementEventMap extends HTMLElementEventMap {
     stateChange: CustomEvent<any>;
 }
 
-export const Test = elementComponent("test-element", TestElement).configure<TestElementProps, TestElementEventMap>();
+export const Test = defineElementComponent("test-element", TestElement, {} as TestElementProps, {} as TestElementEventMap);
 
 export default Test;
 
