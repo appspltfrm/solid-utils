@@ -8,15 +8,15 @@ export default function() {
 
         <fieldset>
             <legend>Test custom element</legend>
-            <test-element state="test" attr:argh="true" camel-case-prop="sdsd"/>
+            <test-element readonly={true} state="test" attr:argh="true" camel-case-prop="sdsd"/>
         </fieldset>
 
         <fieldset>
             <legend>Test element component</legend>
-            <Test state={["a"]} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
+            <Test state={["a"]} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
                 <span>jakiś test</span>
             </Test>
-            <button onClick={(ev) => (((ev.target as HTMLElement).previousElementSibling as TestElement).state = ["testst"])}></button>
+            <button onClick={(ev) => (((ev.target as HTMLElement).previousElementSibling as TestElement).readonly = undefined)}>change readonly</button>
         </fieldset>
 
         <fieldset>

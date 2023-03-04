@@ -21,9 +21,11 @@ export interface TestElementProps {
      * jakiś komentarz
      */
     stateProvider?: () => string;
+
+    readonly?: boolean;
 }
 
-@renderRoot("shadow")
+@renderRoot("element")
 export class TestElement extends SolidElement implements TestElementProps {
 
     @reactive()
@@ -31,6 +33,9 @@ export class TestElement extends SolidElement implements TestElementProps {
 
     @reactive()
     camelCaseProp?: string;
+
+    @reactive()
+    readonly?: boolean;
 
     @reactive()
     stateProvider?: () => string;
@@ -43,7 +48,9 @@ export class TestElement extends SolidElement implements TestElementProps {
 
         return <>
             <style>{styles}</style>
+            <div>readonly: {typeof props.readonly}</div>
             <span class="extra">{props.state} {props.camelCaseProp}</span>
+            {children}
         </>
     }
 

@@ -59,23 +59,19 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
         cmp = (rawProps: ParentProps<any>) => {
             register();
 
-            const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+            const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
             const noShadow = (el as any)["renderRoot"] === el;
 
             const rawChildren = children(() => rawProps.children);
             const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
-            for (const key of Object.keys(props)) {
-                const dashed = key.replace(/\.?([A-Z]+)/g, (x, y) => "-" + y.toLowerCase()).replace("_", "-").replace(/^-/, "");
-                if (key !== dashed) {
-                    Object.defineProperty(props, dashed, {get: () => props[key]});
-                }
+            for (const propName of Object.keys(props)) {
+                el[propName] = props[propName];
             }
 
-            spread(el, mergeProps(props, others, {
-                children: (!noShadow && rawChildren) ?? [],
-                "slotted-children": (noShadow && rawChildren.toArray()) ?? []}
-            ), false, noShadow);
+            el.slottedChildren = (noShadow && rawChildren.toArray()) ?? [];
+
+            spread(el, mergeProps(others, {children: (!noShadow && rawChildren) ?? []}), false, noShadow);
 
             return el;
         }

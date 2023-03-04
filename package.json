@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "vite --config vite.config.test.ts",
+    "start": "vite --config vite.config.test.ts --force",
     "build": "vite build --config vite.config.lib.ts && tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly",
     "install": "node-utils-npm-install-dist"
   },

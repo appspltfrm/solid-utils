@@ -21,7 +21,7 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
         }} = {slottedChildren: undefined as any};
 
     for (const propName of Object.keys(extendedConstructor.reactive ?? {})) {
-        propsDefinitions[propName] = Object.assign({value: undefined});
+        propsDefinitions[propName] = Object.assign({value: undefined, parse: true, reflect: true});
     }
 
     const connectedCallback = elementConstructor.prototype.connectedCallback;

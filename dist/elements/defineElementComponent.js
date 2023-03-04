@@ -1,45 +1,40 @@
-import { sharedConfig as u, children as k, splitProps as y, mergeProps as E } from "solid-js";
-import { getNextElement as g, spread as x } from "solid-js/web";
-import { registerElement as P } from "./registerElement.js";
-function L(c, f, e, v) {
-  const l = typeof f != "boolean" && f;
-  function o() {
+import { sharedConfig as a, children as b, splitProps as u, mergeProps as E } from "solid-js";
+import { getNextElement as x, spread as y } from "solid-js/web";
+import { registerElement as j } from "./registerElement.js";
+function H(c, d, e, k) {
+  const l = typeof d != "boolean" && d;
+  function i() {
     if (!customElements.get(c)) {
       if (l)
-        P(c, l);
+        j(c, l);
       else if (e != null && e.define)
-        for (const d of Array.isArray(e.define) ? e.define : [e.define])
-          d();
+        for (const f of Array.isArray(e.define) ? e.define : [e.define])
+          f();
     }
   }
   let n;
   if (l) {
-    const d = l;
+    const f = l;
     n = (s) => {
-      o();
-      const r = u.context ? g() : document.createElement(c), t = r.renderRoot === r, m = k(() => s.children), [, i, b] = y(s, ["children"], Object.keys(d.reactive ?? {}));
-      for (const a of Object.keys(i)) {
-        const h = a.replace(/\.?([A-Z]+)/g, (p, j) => "-" + j.toLowerCase()).replace("_", "-").replace(/^-/, "");
-        a !== h && Object.defineProperty(i, h, {
-          get: () => i[a]
-        });
-      }
-      return x(r, E(i, b, {
-        children: (!t && m) ?? [],
-        "slotted-children": (t && m.toArray()) ?? []
+      i();
+      const r = a.context ? x() : document.createElement(c), t = r.renderRoot === r, m = b(() => s.children), [, h, g] = u(s, ["children"], Object.keys(f.reactive ?? {}));
+      for (const o of Object.keys(h))
+        r[o] = h[o];
+      return r.slottedChildren = (t && m.toArray()) ?? [], y(r, E(g, {
+        children: (!t && m) ?? []
       }), !1, t), r;
     };
   } else
-    n = (d) => {
-      o();
-      const [s, r] = y(d, ["children"]), t = u.context ? g() : document.createElement(c);
-      return e == null || e.propsHandler(r), x(t, E(e == null ? void 0 : e.initialProps, r, {
-        children: (f && s.children) ?? []
-      }), !1, !f), t;
+    n = (f) => {
+      i();
+      const [s, r] = u(f, ["children"]), t = a.context ? x() : document.createElement(c);
+      return e == null || e.propsHandler(r), y(t, E(e == null ? void 0 : e.initialProps, r, {
+        children: (d && s.children) ?? []
+      }), !1, !d), t;
     };
-  return n.tagName = c, n.register = o, n;
+  return n.tagName = c, n.register = i, n;
 }
 export {
-  L as defineElementComponent
+  H as defineElementComponent
 };
 //# sourceMappingURL=defineElementComponent.js.map
