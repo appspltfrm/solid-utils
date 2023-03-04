@@ -1,46 +1,43 @@
-import { sharedConfig as E, children as k, splitProps as g, mergeProps as h } from "solid-js";
-import { getNextElement as x, spread as b } from "solid-js/web";
+import { sharedConfig as u, children as k, splitProps as y, mergeProps as E } from "solid-js";
+import { getNextElement as g, spread as x } from "solid-js/web";
 import { registerElement as P } from "./registerElement.js";
-function L(n, s, e, v) {
-  const i = typeof s != "boolean" && s;
-  function a() {
-    if (!customElements.get(n)) {
-      if (i)
-        P(n, i);
+function L(c, f, e, v) {
+  const l = typeof f != "boolean" && f;
+  function o() {
+    if (!customElements.get(c)) {
+      if (l)
+        P(c, l);
       else if (e != null && e.define)
-        for (const f of Array.isArray(e.define) ? e.define : [e.define])
-          f();
+        for (const d of Array.isArray(e.define) ? e.define : [e.define])
+          d();
     }
   }
-  let d;
-  if (i) {
-    const f = i;
-    d = (c) => {
-      a();
-      const t = E.context ? x() : document.createElement(n), r = t.renderRoot === t, o = k(() => c.children), [, l, u] = g(c, ["children"], Object.keys(f.reactive ?? {}));
-      for (const m of Object.keys(l)) {
-        const y = m.replace(/\.?([A-Z]+)/g, (A, j) => "-" + j.toLowerCase()).replace("_", "-").replace(/^-/, "");
-        m !== y && Object.defineProperty(l, y, {
-          get: () => l[m]
+  let n;
+  if (l) {
+    const d = l;
+    n = (s) => {
+      o();
+      const r = u.context ? g() : document.createElement(c), t = r.renderRoot === r, m = k(() => s.children), [, i, b] = y(s, ["children"], Object.keys(d.reactive ?? {}));
+      for (const a of Object.keys(i)) {
+        const h = a.replace(/\.?([A-Z]+)/g, (p, j) => "-" + j.toLowerCase()).replace("_", "-").replace(/^-/, "");
+        a !== h && Object.defineProperty(i, h, {
+          get: () => i[a]
         });
       }
-      return h(l, u, {
-        children: (!r && o) ?? [],
-        "slotted-children": (r && o.toArray()) ?? []
-      }), b(t, h(l, u, {
-        children: (!r && o) ?? [],
-        "slotted-children": (r && o.toArray()) ?? []
-      }), !1, r), t;
+      return x(r, E(i, b, {
+        children: (!t && m) ?? [],
+        "slotted-children": (t && m.toArray()) ?? []
+      }), !1, t), r;
     };
   } else
-    d = (f) => {
-      a();
-      const [c, t] = g(f, ["children"]), r = E.context ? x() : document.createElement(n);
-      return e == null || e.propsHandler(t), b(r, h(e == null ? void 0 : e.initialProps, t, {
-        children: (s && (c == null ? void 0 : c.children)) ?? []
-      }), !1, !s), r;
+    n = (d) => {
+      o();
+      const [s, r] = y(d, ["children"]), t = u.context ? g() : document.createElement(c);
+      return e == null || e.propsHandler(r), x(t, E(e == null ? void 0 : e.initialProps, r, {
+        children: (f && s.children) ?? []
+      }), !1, !f), t;
     };
-  return d.tagName = n, d.register = a, d;
+  return n.tagName = c, n.register = o, n;
 }
 export {
   L as defineElementComponent

@@ -72,11 +72,6 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 }
             }
 
-            const allProps = mergeProps(props, others, {
-                children: (!noShadow && rawChildren) ?? [],
-                "slotted-children": (noShadow && rawChildren.toArray()) ?? []
-            })
-
             spread(el, mergeProps(props, others, {
                 children: (!noShadow && rawChildren) ?? [],
                 "slotted-children": (noShadow && rawChildren.toArray()) ?? []}
@@ -97,7 +92,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
             options?.propsHandler(others);
 
-            spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && children?.children) ?? []}), false, !elementTypeOrChildrenAllowed);
+            spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && children.children) ?? []}), false, !elementTypeOrChildrenAllowed);
 
             return el;
         })
