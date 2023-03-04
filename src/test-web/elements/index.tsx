@@ -21,12 +21,29 @@ export default function() {
             <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
                 <span>jakiś test</span>
             </Test>
+            <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
+                <span>jakiś test</span>
+            </Test>
+            <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
+                <span>jakiś test</span>
+            </Test>
+            <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
+                <span>jakiś test</span>
+            </Test>
+            <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
+                <span>jakiś test</span>
+            </Test>
             <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>
             <button onClick={(ev) => setState("b")}>change state</button>
         </fieldset>
 
         <fieldset>
             <legend>Test element no decorator</legend>
+            <TestNoDecorator test="false"/>
+            <TestNoDecorator test="false"/>
+            <TestNoDecorator test="false"/>
+            <TestNoDecorator test="false"/>
+            <TestNoDecorator test="false"/>
             <TestNoDecorator test="false"/>
         </fieldset>
 

@@ -66,7 +66,6 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 const rawChildren = children(() => rawProps.children);
                 const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
-
                 createEffect(() => {
                     for (const propName of Object.keys(props)) {
                         const niu = props[propName];
@@ -79,11 +78,10 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                     return props
                 })
 
-                createEffect(() => {
-                    el.slottedChildren = (noShadow && rawChildren.toArray()) ?? [];
-                })
-
-                spread(el, mergeProps(others, {children: (!noShadow && rawChildren) ?? []}), false, noShadow);
+                spread(el, mergeProps(others, {
+                    children: (!noShadow && rawChildren) ?? [],
+                    "slotted-children": (noShadow && rawChildren.toArray()) ?? []
+                }), false, noShadow);
 
                 return el;
             }
@@ -95,20 +93,23 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
             register();
 
-            const rawChildren = children(() => rawProps.children);
-            const [_, others] = splitProps(rawProps, ["children"]);
+            return () => {
 
-            const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+                const rawChildren = children(() => rawProps.children);
+                const [_, others] = splitProps(rawProps, ["children"]);
 
-            if (options?.propsHandler) {
-                createEffect(() => {
-                    options?.propsHandler(others);
-                })
+                const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+
+                if (options?.propsHandler) {
+                    createEffect(() => {
+                        options?.propsHandler(others);
+                    })
+                }
+
+                spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
+
+                return el;
             }
-
-            spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
-
-            return el;
         })
     }
 
