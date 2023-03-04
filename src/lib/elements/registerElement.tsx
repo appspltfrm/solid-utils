@@ -18,10 +18,10 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
             notify: boolean;
             reflect: boolean;
             parse: boolean;
-        }} = {slottedChildren: undefined as any};
+        }} = {slottedChildren: {value: undefined, attribute: "slotted-children", notify: false, reflect: false, parse: false}};
 
     for (const propName of Object.keys(extendedConstructor.reactive ?? {})) {
-        propsDefinitions[propName] = Object.assign({value: undefined, parse: true, reflect: true});
+        propsDefinitions[propName] = Object.assign({value: undefined, parse: false, reflect: false});
     }
 
     const connectedCallback = elementConstructor.prototype.connectedCallback;
