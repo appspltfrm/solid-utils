@@ -92,15 +92,21 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
             register();
 
-            const [children, others] = splitProps(rawProps, ["children"]);
+            return () => {
 
-            const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+                const rawChildren = children(() => rawProps.children);
+                const [_, others] = splitProps(rawProps, ["children"]);
 
-            options?.propsHandler(others);
+                const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
 
-            spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && children.children) ?? []}), false, !elementTypeOrChildrenAllowed);
+                createEffect(() => {
+                    options?.propsHandler(others);
+                })
 
-            return el;
+                spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
+
+                return el;
+            }
         })
     }
 
