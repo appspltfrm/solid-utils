@@ -6,7 +6,7 @@ import {
     renderRoot,
     SolidElement
 } from "@appspltfrm/solidx/elements";
-import {onCleanup} from "solid-js";
+import {createEffect, onCleanup} from "solid-js";
 import styles from "./TestElement.scss?inline";
 
 export interface TestElementProps {
@@ -15,6 +15,7 @@ export interface TestElementProps {
      * state
      */
     state: any;
+    items?: string[];
     camelCaseProp?: string;
 
     /**
@@ -32,6 +33,9 @@ export class TestElement extends SolidElement implements TestElementProps {
     state!: any;
 
     @reactive()
+    items?: string[];
+
+    @reactive()
     camelCaseProp?: string;
 
     @reactive()
@@ -46,11 +50,16 @@ export class TestElement extends SolidElement implements TestElementProps {
 
         onCleanup(() => console.log("cleanup"))
 
+        createEffect(() => console.log("shit:" + props.state))
+
         return <>
             <style>{styles}</style>
+            <div>state: {props.state}</div>
             <div>readonly: {typeof props.readonly}</div>
             <span class="extra">{props.state} {props.camelCaseProp}</span>
             {children}
+
+            <div>{props.items?.join(", ")}</div>
         </>
     }
 

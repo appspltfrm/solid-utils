@@ -1,9 +1,14 @@
+import {createSignal} from "solid-js";
 import {Fragment} from "solid-js/h/jsx-runtime";
 import Test, {TestElement} from "./TestElement";
 import TestNoDecorator from "./TestElementNoDecorator";
 import {TestShadow} from "./TestShadowElement";
 
 export default function() {
+
+    const [state, setState] = createSignal("a")
+    const [items, setItems] = createSignal(["a", "b", "c"]);
+
     return <Fragment>
 
         <fieldset>
@@ -13,10 +18,11 @@ export default function() {
 
         <fieldset>
             <legend>Test element component</legend>
-            <Test state={["a"]} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)} attr:arg="test">
+            <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
                 <span>jakiś test</span>
             </Test>
-            <button onClick={(ev) => (((ev.target as HTMLElement).previousElementSibling as TestElement).readonly = undefined)}>change readonly</button>
+            <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>
+            <button onClick={(ev) => setState("b")}>change state</button>
         </fieldset>
 
         <fieldset>

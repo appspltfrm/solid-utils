@@ -1,6 +1,6 @@
 import {AssignableType, Type} from "@co.mmons/js-utils/core";
 import type {JSX, ParentProps} from "solid-js";
-import {children, Component, createMemo, mergeProps, sharedConfig, splitProps} from "solid-js";
+import {children, Component, createEffect, createMemo, mergeProps, sharedConfig, splitProps} from "solid-js";
 import {getNextElement, spread} from "solid-js/web";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
 import {ElementEventsProps} from "./ElementEventsProps";
@@ -59,21 +59,31 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
         cmp = (rawProps: ParentProps<any>) => {
             register();
 
-            const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
-            const noShadow = (el as any)["renderRoot"] === el;
+            return () => {
+                const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
+                const noShadow = (el as any)["renderRoot"] === el;
 
-            const rawChildren = children(() => rawProps.children);
-            const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
+                const rawChildren = children(() => rawProps.children);
+                const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
-            for (const propName of Object.keys(props)) {
-                el[propName] = props[propName];
+                createEffect(() => {
+                    for (const propName of Object.keys(props)) {
+                        const niu = props[propName];
+                        const prev = el[propName];
+                        if (niu !== prev) {
+                            el[propName] = niu;
+                        }
+                    }
+                })
+
+                createEffect(() => {
+                    el.slottedChildren = (noShadow && rawChildren.toArray()) ?? [];
+                })
+
+                spread(el, mergeProps(others, {children: (!noShadow && rawChildren) ?? []}), false, noShadow);
+
+                return el;
             }
-
-            el.slottedChildren = (noShadow && rawChildren.toArray()) ?? [];
-
-            spread(el, mergeProps(others, {children: (!noShadow && rawChildren) ?? []}), false, noShadow);
-
-            return el;
         }
 
     } else {
