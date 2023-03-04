@@ -14,6 +14,9 @@ const App: Component = () => {
                 <A href="/elements">Elements</A>
             </li>
             <li>
+                <A href="/ext-element-component">External elements</A>
+            </li>
+            <li>
                 <A href="/literal-templates">Literal templates</A>
             </li>
             <li>
@@ -32,6 +35,7 @@ const App: Component = () => {
             <Route path="/vars" component={lazy(() => import("./vars"))}/>
             <Route path="/reactivity" component={lazy(() => import("./reactivity"))}/>
             <Route path="/elements" component={lazy(() => import("./elements"))}/>
+            <Route path="/ext-element-component" component={lazy(() => import("./ext-element-component"))}/>
             <Route path="/literal-templates" component={lazy(() => import("./literal-templates"))}/>
         </Routes>
     </Fragment>

@@ -66,6 +66,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 const rawChildren = children(() => rawProps.children);
                 const [, props, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
+
                 createEffect(() => {
                     for (const propName of Object.keys(props)) {
                         const niu = props[propName];
@@ -74,6 +75,8 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                             el[propName] = niu;
                         }
                     }
+
+                    return props
                 })
 
                 createEffect(() => {
@@ -92,21 +95,20 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
             register();
 
-            return () => {
+            const rawChildren = children(() => rawProps.children);
+            const [_, others] = splitProps(rawProps, ["children"]);
 
-                const rawChildren = children(() => rawProps.children);
-                const [_, others] = splitProps(rawProps, ["children"]);
+            const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
 
-                const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
-
+            if (options?.propsHandler) {
                 createEffect(() => {
                     options?.propsHandler(others);
                 })
-
-                spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
-
-                return el;
             }
+
+            spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
+
+            return el;
         })
     }
 
