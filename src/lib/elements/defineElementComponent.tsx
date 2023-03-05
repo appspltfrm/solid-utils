@@ -151,7 +151,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
 function toDashCase(key: string) {
 
-    if (key.includes(":")) {
+    if (key.includes(":") || key.startsWith("on")) {
         return key;
     }
 
