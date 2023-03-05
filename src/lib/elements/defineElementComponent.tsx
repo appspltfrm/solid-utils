@@ -1,6 +1,15 @@
 import {AssignableType, Type} from "@co.mmons/js-utils/core";
 import type {JSX, ParentProps} from "solid-js";
-import {children, Component, createEffect, createMemo, mergeProps, sharedConfig, splitProps} from "solid-js";
+import {
+    children,
+    Component,
+    createEffect,
+    createMemo,
+    createRenderEffect,
+    mergeProps,
+    sharedConfig,
+    splitProps
+} from "solid-js";
 import {assign, getNextElement, spread} from "solid-js/web";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
 import {ElementEventsProps} from "./ElementEventsProps";
@@ -66,14 +75,16 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 const rawChildren = children(() => rawProps.children);
                 const [, reactiveProps, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
-                const reactiveDescriptors = Object.getOwnPropertyDescriptors(reactiveProps);
-                for (const key of Object.keys(reactiveDescriptors)) {
-                    const dashed = key.replace(/\.?([A-Z]+)/g, (x, y) => "-" + y.toLowerCase()).replace("_", "-").replace(/^-/, "");
-                    if (key !== dashed) {
-                        Object.defineProperty(reactiveProps, dashed, reactiveDescriptors[key]);
-                        delete reactiveProps[key];
+                createRenderEffect(() => {
+                    const reactiveDescriptors = Object.getOwnPropertyDescriptors(reactiveProps);
+                    for (const key of Object.keys(reactiveDescriptors)) {
+                        const dashed = toDashCase(key);
+                        if (key !== dashed) {
+                            Object.defineProperty(reactiveProps, dashed, reactiveDescriptors[key]);
+                            delete reactiveProps[key];
+                        }
                     }
-                }
+                })
 
                 spread(el, mergeProps(reactiveProps, others, {
                     children: (!noShadow && rawChildren) ?? [],
@@ -112,8 +123,17 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
                 const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
 
-                createEffect(() => {
+                createRenderEffect(() => {
                     options?.propsHandler?.(others);
+
+                    const descriptors = Object.getOwnPropertyDescriptors(others);
+                    for (const key of Object.keys(descriptors)) {
+                        const dashed = toDashCase(key);
+                        if (dashed !== key) {
+                            Object.defineProperty(others, dashed, descriptors[key]);
+                            delete others[key];
+                        }
+                    }
                 })
 
                 spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
@@ -127,4 +147,13 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
     cmp["register"] = register;
 
     return cmp;
+}
+
+function toDashCase(key: string) {
+
+    if (key.includes(":")) {
+        return key;
+    }
+
+    return key.replace(/\.?([A-Z]+)/g, (x, y) => "-" + y.toLowerCase()).replace("_", "-").replace(/^-/, "");
 }
