@@ -1,40 +1,44 @@
-import { sharedConfig as u, children as a, splitProps as E, mergeProps as x, createEffect as b } from "solid-js";
-import { getNextElement as g, spread as y } from "solid-js/web";
+import { sharedConfig as y, children as E, splitProps as g, mergeProps as x, createEffect as k } from "solid-js";
+import { getNextElement as b, spread as j } from "solid-js/web";
 import { registerElement as C } from "./registerElement.js";
-function R(c, l, e, P) {
-  const m = typeof l != "boolean" && l;
+function L(n, s, e, D) {
+  const i = typeof s != "boolean" && s;
   function h() {
-    if (!customElements.get(c)) {
-      if (m)
-        C(c, m);
+    if (!customElements.get(n)) {
+      if (i)
+        C(n, i);
       else if (e != null && e.define)
-        for (const r of Array.isArray(e.define) ? e.define : [e.define])
-          r();
+        for (const t of Array.isArray(e.define) ? e.define : [e.define])
+          t();
     }
   }
-  let n;
-  if (m) {
-    const r = m;
-    n = (i) => (h(), () => {
-      const f = u.context ? g() : document.createElement(c), t = f.renderRoot === f, d = a(() => i.children), [, s, v] = E(i, ["children"], Object.keys(r.reactive ?? {}));
-      return y(f, x(s, v, {
-        children: (!t && d) ?? [],
-        slottedChildren: (t && d.toArray()) ?? []
-      }), !1, t), f;
+  let f;
+  if (i) {
+    const t = i;
+    f = (a) => (h(), () => {
+      const d = y.context ? b() : document.createElement(n), c = d.renderRoot === d, l = E(() => a.children), [, r, v] = g(a, ["children"], Object.keys(t.reactive ?? {})), u = Object.getOwnPropertyDescriptors(r);
+      for (const m of Object.keys(u)) {
+        const o = m.replace(/\.?([A-Z]+)/g, (O, P) => "-" + P.toLowerCase()).replace("_", "-").replace(/^-/, "");
+        m !== o && (Object.defineProperty(r, o, u[m]), delete r[m]);
+      }
+      return j(d, x(r, v, {
+        children: (!c && l) ?? [],
+        "slotted-children": (c && l.toArray()) ?? []
+      }), !1, c), d;
     });
   } else
-    n = (r) => (h(), () => {
-      const i = a(() => r.children), [f, t] = E(r, ["children"]), d = u.context ? g() : document.createElement(c);
-      return b(() => {
-        var s;
-        (s = e == null ? void 0 : e.propsHandler) == null || s.call(e, t);
-      }), y(d, x(e == null ? void 0 : e.initialProps, t, {
-        children: (l && i) ?? []
-      }), !1, !l), d;
+    f = (t) => (h(), () => {
+      const a = E(() => t.children), [d, c] = g(t, ["children"]), l = y.context ? b() : document.createElement(n);
+      return k(() => {
+        var r;
+        (r = e == null ? void 0 : e.propsHandler) == null || r.call(e, c);
+      }), j(l, x(e == null ? void 0 : e.initialProps, c, {
+        children: (s && a) ?? []
+      }), !1, !s), l;
     });
-  return n.tagName = c, n.register = h, n;
+  return f.tagName = n, f.register = h, f;
 }
 export {
-  R as defineElementComponent
+  L as defineElementComponent
 };
 //# sourceMappingURL=defineElementComponent.js.map

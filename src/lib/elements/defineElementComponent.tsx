@@ -66,9 +66,18 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 const rawChildren = children(() => rawProps.children);
                 const [, reactiveProps, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
 
+                const reactiveDescriptors = Object.getOwnPropertyDescriptors(reactiveProps);
+                for (const key of Object.keys(reactiveDescriptors)) {
+                    const dashed = key.replace(/\.?([A-Z]+)/g, (x, y) => "-" + y.toLowerCase()).replace("_", "-").replace(/^-/, "");
+                    if (key !== dashed) {
+                        Object.defineProperty(reactiveProps, dashed, reactiveDescriptors[key]);
+                        delete reactiveProps[key];
+                    }
+                }
+
                 spread(el, mergeProps(reactiveProps, others, {
                     children: (!noShadow && rawChildren) ?? [],
-                    slottedChildren: (noShadow && rawChildren.toArray()) ?? []}
+                    "slotted-children": (noShadow && rawChildren.toArray()) ?? []}
                 ), false, noShadow);
 
                 // createEffect(() => {
