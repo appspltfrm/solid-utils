@@ -14,9 +14,11 @@ export const TestNoDecorator = defineElementComponent("test-element-no-decorator
 
     test!: string;
 
+    testAProp?: string;
+
     protected template({props, children}: ElementTemplate<Test>) {
         onCleanup(() => console.log("cleanup"))
-        return <>{props.test}</>
+        return <>{props.test} | {props.testAProp}</>
     }
 });
 
