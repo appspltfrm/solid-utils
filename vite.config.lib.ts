@@ -25,7 +25,8 @@ export default defineConfig({
         lib: {
             entry: [
                 "elements/index.ts",
-                "utils/index.ts"
+                "utils/index.ts",
+                "reactivity/index.ts",
             ],
             formats: ["es"]
         },
