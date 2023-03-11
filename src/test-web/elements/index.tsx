@@ -9,10 +9,20 @@ export default function() {
 
     const [state, setState] = createSignal("a")
     const [items, setItems] = createSignal(["a", "b", "c"]);
+    const [test, setTest] = createSignal(false);
+
+    setTimeout(() => setTest(true), 1000);
 
     return <Fragment>
 
-        <Dynamic component={TestNoDecorator} test="false" testAProp="yeah" test-some-id="yes"/>
+        {test() && <div>just added</div>}
+
+        <Test state={state()} items={items()} readonly={true}>
+            <span>jakiś test</span>
+        </Test>
+
+        <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>
+        <button onClick={(ev) => setState("b")}>change state</button>
 
         <Show when={false}>
             <fieldset>
@@ -25,8 +35,6 @@ export default function() {
                 <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
                     <span>jakiś test</span>
                 </Test>
-                <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>
-                <button onClick={(ev) => setState("b")}>change state</button>
             </fieldset>
 
             <fieldset>

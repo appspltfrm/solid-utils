@@ -69,7 +69,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
         cmp = (rawProps: ParentProps<any>) => {
             register();
 
-            return () => {
+            return createMemo(() => {
                 const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
                 const noShadow = (el as any)["renderRoot"] === el;
 
@@ -108,7 +108,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 // }), false, noShadow);
 
                 return el;
-            }
+            })
         }
 
     } else {
@@ -117,7 +117,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
             register();
 
-            return () => {
+            return createMemo(() => {
 
                 const rawChildren = children(() => rawProps.children);
                 const [_, others] = splitProps(rawProps, ["children"]);
@@ -140,7 +140,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
 
                 return el;
-            }
+            })
         })
     }
 
