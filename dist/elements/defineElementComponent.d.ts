@@ -6,7 +6,7 @@ import { ElementEventsProps } from "./ElementEventsProps";
 import { ElementProps } from "./ElementProps";
 import { SolidElement } from "./SolidElement";
 type DefineElementFn = () => void;
-export type ElementComponent<TagName extends string, ElementType extends SolidElement, ComponentProps = any> = Component<ComponentProps & JSX.HTMLAttributes<ElementType> & ElementAttrAttributes> & {
+export type ElementComponent<TagName extends string, ElementType extends SolidElement, ComponentProps = ElementProps<ElementType>> = Component<ComponentProps & ElementAttrAttributes> & {
     tagName: TagName;
     register(): void;
 };
@@ -25,7 +25,7 @@ export interface NonSolidElementComponentOptions {
 }
 export declare function defineElementComponent<TagName extends string, ElementType extends SolidElement, Props = ElementProps<ElementType>, Events extends {
     [P in keyof Events]: Event;
-} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events>>;
+} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof ElementEventsProps<ElementType, Events>>>;
 export declare function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: true, options?: NonSolidElementComponentOptions): NonSolidElementComponent<TagName, Props & ParentProps, ComponentElement>;
 export declare function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: false, options?: NonSolidElementComponentOptions): NonSolidElementComponent<TagName, Props, ComponentElement>;
 export {};
