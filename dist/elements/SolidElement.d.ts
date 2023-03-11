@@ -1,4 +1,5 @@
 import { JSXElement } from "solid-js";
+import { ElementReactiveProp } from "./ElementReactiveProp";
 import { ElementTemplate } from "./ElementTemplate";
 export declare abstract class SolidElement extends HTMLElement {
     addDisconnectedCallback(callback: () => void): void;
@@ -6,7 +7,7 @@ export declare abstract class SolidElement extends HTMLElement {
      * Returns definition of reactive props.
      */
     protected static readonly reactive: {
-        [propName: string]: boolean;
+        [propName: string]: boolean | ElementReactiveProp;
     };
     protected abstract template(args: ElementTemplate<this>): JSXElement;
     protected get renderRoot(): this | ShadowRoot;

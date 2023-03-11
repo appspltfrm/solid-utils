@@ -1,10 +1,10 @@
-function n() {
-  return (e, c, o) => {
-    const r = e.constructor, t = r.reactive ?? {};
-    t[c] = !0, r.reactive = t;
+function i(e) {
+  return (c, o, n) => {
+    const r = c.constructor, t = r.reactive ?? {};
+    t[o] = e ?? !0, r.reactive = t;
   };
 }
 export {
-  n as reactive
+  i as reactive
 };
 //# sourceMappingURL=reactive.js.map

@@ -14,6 +14,7 @@ import {assign, getNextElement, spread} from "solid-js/web";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
 import {ElementEventsProps} from "./ElementEventsProps";
 import {ElementProps} from "./ElementProps";
+import {ElementReactiveProp} from "./ElementReactiveProp";
 import {registerElement} from "./registerElement";
 import {SolidElement} from "./SolidElement";
 
@@ -63,7 +64,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
     if (solidElementType) {
 
-        const extendedType: Type & {reactive: {[propName: string]: boolean}} = solidElementType as any;
+        const extendedType: Type & {reactive: {[propName: string]: boolean | ElementReactiveProp}} = solidElementType as any;
 
         cmp = (rawProps: ParentProps<any>) => {
             register();
