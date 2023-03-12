@@ -12,7 +12,7 @@ import {
 } from "solid-js";
 import {assign, getNextElement, spread} from "solid-js/web";
 import {ElementAttrAttributes} from "./ElementAttrAttributes";
-import {ElementEventsProps} from "./ElementEventsProps";
+import {ElementJSXEvents} from "./ElementJSXEvents";
 import {ElementProps} from "./ElementProps";
 import {ElementReactiveProp} from "./ElementReactiveProp";
 import {registerElement} from "./registerElement";
@@ -35,7 +35,7 @@ export interface NonSolidElementComponentOptions {
     propsHandler?: (props: {[key: string]: any}) => void;
 }
 
-export function defineElementComponent<TagName extends string, ElementType extends SolidElement, Props = ElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): ElementComponent<TagName, ElementType, Props & ElementEventsProps<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof ElementEventsProps<ElementType, Events>>>;
+export function defineElementComponent<TagName extends string, ElementType extends SolidElement, Props = ElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): ElementComponent<TagName, ElementType, Props & ElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof ElementJSXEvents<ElementType, Events>>>;
 
 export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: true, options?: NonSolidElementComponentOptions): NonSolidElementComponent<TagName, Props & ParentProps, ComponentElement>;
 
