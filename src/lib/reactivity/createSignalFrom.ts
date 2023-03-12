@@ -1,7 +1,7 @@
 import type {Observable, Subscription} from "rxjs";
-import {Accessor, createSignal, getOwner, onCleanup, Setter} from "solid-js";
+import {Accessor, createSignal, getOwner, onCleanup, Setter, Signal} from "solid-js";
 
-type SignalFromObservable<T> = [Accessor<T>, Setter<T>, Subscription];
+export type SignalFromObservable<T> = [...Signal<T>, Subscription];
 
 interface InitialValueOption<T> {
     value: T;
