@@ -1,10 +1,10 @@
 import {
     defineElementComponent,
-    ElementJSXIntrinsic,
-    ElementTemplate,
+    CustomElementJSXIntrinsic,
+    CustomElementTemplate,
     reactive,
     renderRoot,
-    SolidElement
+    CustomElement
 } from "@appspltfrm/solidx/elements";
 import {createEffect, onCleanup} from "solid-js";
 import styles from "./TestElement.scss?inline";
@@ -27,7 +27,7 @@ export interface TestElementProps {
 }
 
 @renderRoot("element")
-export class TestElement extends SolidElement implements TestElementProps {
+export class TestElement extends CustomElement implements TestElementProps {
 
     @reactive()
     state!: any;
@@ -46,7 +46,7 @@ export class TestElement extends SolidElement implements TestElementProps {
 
     private test?: string;
 
-    protected template({props, children}: ElementTemplate<TestElement>) {
+    protected template({props, children}: CustomElementTemplate<TestElement>) {
 
         onCleanup(() => console.log("cleanup"))
 
@@ -91,7 +91,7 @@ declare global {
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            "test-element": ElementJSXIntrinsic<TestElement, TestElementProps, TestElementEventMap>
+            "test-element": CustomElementJSXIntrinsic<TestElement, TestElementProps, TestElementEventMap>
         }
     }
 }

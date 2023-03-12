@@ -14,6 +14,6 @@ class c extends HTMLElement {
  */
 d(c, "reactive");
 export {
-  c as SolidElement
+  c as CustomElement
 };
-//# sourceMappingURL=SolidElement.js.map
+//# sourceMappingURL=CustomElement.js.map

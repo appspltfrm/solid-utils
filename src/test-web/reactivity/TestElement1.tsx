@@ -1,10 +1,10 @@
-import {defineElementComponent, ElementTemplate, SolidElement} from "@appspltfrm/solidx/elements";
+import {defineElementComponent, CustomElementTemplate, CustomElement} from "@appspltfrm/solidx/elements";
 import {createSignal} from "solid-js";
 import Test2 from "./TestElement2";
 
-export default defineElementComponent("test-reactivity1", class extends SolidElement {
+export default defineElementComponent("test-reactivity1", class extends CustomElement {
 
-    template({children}: ElementTemplate<this>) {
+    template({children}: CustomElementTemplate<this>) {
 
         const [error, setError] = createSignal<any>("yes");
 

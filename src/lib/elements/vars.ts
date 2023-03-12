@@ -1,7 +1,7 @@
-import {Accessor, createSignal, Signal} from "solid-js";
+import {createSignal, Signal} from "solid-js";
 import {createStore, Store} from "solid-js/store";
 import {Observer, Unsubscribable} from "type-fest";
-import {SolidElement} from "./SolidElement";
+import {CustomElement} from "./CustomElement";
 
 type Vars = {[key: string | symbol]: any};
 type VarName = string | symbol;
@@ -10,7 +10,7 @@ export interface ObservableLike<ValueType = unknown> {
     subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
 }
 
-const allVars = new WeakMap<SolidElement, Vars>()
+const allVars = new WeakMap<CustomElement, Vars>()
 
 class VarValue {
     value: any;
@@ -23,7 +23,7 @@ function assertNotExists(vars: Vars | undefined, name: VarName) {
     }
 }
 
-export function getElementVar<T>(element: SolidElement, name: VarName): T | undefined {
+export function getElementVar<T>(element: CustomElement, name: VarName): T | undefined {
     const v = allVars.get(element)?.[name];
     if (v instanceof VarValue) {
         return v.value;
@@ -32,7 +32,7 @@ export function getElementVar<T>(element: SolidElement, name: VarName): T | unde
     }
 }
 
-export function setElementVar(element: SolidElement, name: VarName, value: any, options?: {onDelete?: (() => any | void)}) {
+export function setElementVar(element: CustomElement, name: VarName, value: any, options?: {onDelete?: (() => any | void)}) {
 
     let vars = allVars.get(element);
     if (!vars) {
@@ -64,7 +64,7 @@ export function setElementVar(element: SolidElement, name: VarName, value: any, 
     vars[name] = varValue;
 }
 
-export function deleteElementVar<T>(element: SolidElement, name: VarName): T | undefined {
+export function deleteElementVar<T>(element: CustomElement, name: VarName): T | undefined {
     const vars = allVars.get(element);
     if (vars) {
 
@@ -79,7 +79,7 @@ export function deleteElementVar<T>(element: SolidElement, name: VarName): T | u
     }
 }
 
-export function createElementSignal<T = any>(element: SolidElement, name: VarName, value?: T) {
+export function createElementSignal<T = any>(element: CustomElement, name: VarName, value?: T) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -91,7 +91,7 @@ export function createElementSignal<T = any>(element: SolidElement, name: VarNam
     return signal;
 }
 
-export function useElementSignal<T = any>(element: SolidElement, name: VarName): Signal<T | undefined> {
+export function useElementSignal<T = any>(element: CustomElement, name: VarName): Signal<T | undefined> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -106,7 +106,7 @@ export function useElementSignal<T = any>(element: SolidElement, name: VarName):
     return signal;
 }
 
-export function getElementSignal<T = any>(element: SolidElement, name: VarName): T | undefined {
+export function getElementSignal<T = any>(element: CustomElement, name: VarName): T | undefined {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -121,7 +121,7 @@ export function getElementSignal<T = any>(element: SolidElement, name: VarName):
     return signal[0]();
 }
 
-export function setElementSignal<T = any>(element: SolidElement, name: VarName, value: (prev: T | undefined) => T) {
+export function setElementSignal<T = any>(element: CustomElement, name: VarName, value: (prev: T | undefined) => T) {
 
     let current = allVars.get(element)?.[name];
     if (current instanceof VarValue) {
@@ -136,11 +136,11 @@ export function setElementSignal<T = any>(element: SolidElement, name: VarName, 
     signal[1](value);
 }
 
-export function deleteElementSignal(element: SolidElement, name: VarName) {
+export function deleteElementSignal(element: CustomElement, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function loadElementSignal<T = any>(element: SolidElement, name: VarName, observable: ObservableLike<T>, options?: {onError?: (error: any) => void}) {
+export function loadElementSignal<T = any>(element: CustomElement, name: VarName, observable: ObservableLike<T>, options?: {onError?: (error: any) => void}) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -163,11 +163,11 @@ export function loadElementSignal<T = any>(element: SolidElement, name: VarName,
     return signal[0];
 }
 
-export function deleteElementStore(element: SolidElement, name: VarName) {
+export function deleteElementStore(element: CustomElement, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function useElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): ReturnType<typeof createStore<S>> {
+export function useElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName): ReturnType<typeof createStore<S>> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -188,7 +188,7 @@ export function useElementStore<S extends {[key: string]: any}>(element: SolidEl
     }
 }
 
-export function setElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, newValue: S){
+export function setElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName, newValue: S){
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -203,7 +203,7 @@ export function setElementStore<S extends {[key: string]: any}>(element: SolidEl
     }
 }
 
-export function getElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName): Store<S> {
+export function getElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName): Store<S> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -218,7 +218,7 @@ export function getElementStore<S extends {[key: string]: any}>(element: SolidEl
     }
 }
 
-export function createElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value?: S) {
+export function createElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName, value?: S) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -230,7 +230,7 @@ export function createElementStore<S extends {[key: string]: any}>(element: Soli
     return store;
 }
 
-export function loadElementStore<S extends {[key: string]: any}>(element: SolidElement, name: VarName, value: ObservableLike<S>, options?: {onError?: (error: any) => void}) {
+export function loadElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName, value: ObservableLike<S>, options?: {onError?: (error: any) => void}) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);

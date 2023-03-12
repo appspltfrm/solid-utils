@@ -1,2 +1,2 @@
-import { ElementReactiveProp } from "../ElementReactiveProp";
-export declare function reactive(options?: ElementReactiveProp): (proto: any, propName: string, propertyDescriptor?: PropertyDescriptor) => void;
+import { CustomElementReactiveProp } from "../CustomElementReactiveProp";
+export declare function reactive(options?: CustomElementReactiveProp): (proto: any, propName: string, propertyDescriptor?: PropertyDescriptor) => void;

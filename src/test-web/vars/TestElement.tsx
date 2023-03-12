@@ -1,19 +1,19 @@
 import {
     createElementSignal,
     defineElementComponent,
-    ElementTemplate,
+    CustomElementTemplate,
     getElementSignal, setElementSignal,
-    SolidElement, useElementSignal
+    CustomElement, useElementSignal
 } from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
-export default defineElementComponent("test-vars-element", class extends SolidElement {
+export default defineElementComponent("test-vars-element", class extends CustomElement {
 
     protected testVars() {
         setElementSignal<number>(this, "test", (prev) => (prev || 0) + 1)
     }
 
-    template({children}: ElementTemplate<this>): JSXElement {
+    template({children}: CustomElementTemplate<this>): JSXElement {
 
         const [test] = createElementSignal(this, "test", undefined);
 

@@ -1,10 +1,10 @@
-import {ElementReactiveProp} from "../ElementReactiveProp";
+import {CustomElementReactiveProp} from "../CustomElementReactiveProp";
 
-export function reactive(options?: ElementReactiveProp) {
+export function reactive(options?: CustomElementReactiveProp) {
 
     return (proto: any, propName: string, propertyDescriptor?: PropertyDescriptor) => {
         const constructor = proto.constructor;
-        const reactive: {[propName: string]: boolean | ElementReactiveProp} = constructor.reactive ?? {};
+        const reactive: {[propName: string]: boolean | CustomElementReactiveProp} = constructor.reactive ?? {};
         reactive[propName] = options ?? true;
 
         constructor.reactive = reactive;

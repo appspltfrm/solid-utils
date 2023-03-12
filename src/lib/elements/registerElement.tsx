@@ -2,9 +2,9 @@ import {AssignableType} from "@co.mmons/js-utils/core";
 import {compose, ICustomElement, register} from "component-register";
 import {getCurrentElement, withSolid} from "solid-element";
 import {splitProps} from "solid-js";
-import {SolidElement} from "./SolidElement";
+import {CustomElement} from "./CustomElement";
 
-export function registerElement<ElementType extends SolidElement>(tagName: string, elementConstructor: AssignableType<ElementType>) {
+export function registerElement<ElementType extends CustomElement>(tagName: string, elementConstructor: AssignableType<ElementType>) {
 
     if (customElements.get(tagName)) {
         return;
@@ -48,7 +48,7 @@ export function registerElement<ElementType extends SolidElement>(tagName: strin
 
         const shadowStyles = extendedConstructor.__shadowStyles;
         const [children, props] = splitProps(rawProps, ["slottedChildren"]);
-        const element = getCurrentElement() as any as SolidElement & ICustomElement;
+        const element = getCurrentElement() as any as CustomElement & ICustomElement;
 
         if (connectedCallback) {
             connectedCallback.call(element);

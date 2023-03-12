@@ -1,14 +1,13 @@
-export type {ElementJSXIntrinsic} from "./ElementJSXIntrinsic";
-export type {ElementTemplate} from "./ElementTemplate";
-export {SolidElement} from "./SolidElement";
-export {Fragment} from "solid-js/h/jsx-runtime"
-export {defineElementComponent} from "./defineElementComponent";
-export type {ElementComponent, NonSolidElementComponent, NonSolidElementComponentOptions} from "./defineElementComponent";
-export type {ElementReactiveProp} from "./ElementReactiveProp";
+export * from "./vars";
+export type {CustomElementComponent, ElementComponent, ElementComponentOptions} from "./defineElementComponent";
+export type {CustomElementJSXIntrinsic} from "./CustomElementJSXIntrinsic";
+export type {CustomElementReactiveProp} from "./CustomElementReactiveProp";
+export type {CustomElementTemplate} from "./CustomElementTemplate";
+export {CustomElement} from "./CustomElement";
 export {customElement} from "./decorators/customElement";
+export {defineElementComponent} from "./defineElementComponent";
 export {reactive} from "./decorators/reactive";
 export {renderRoot} from "./decorators/renderRoot";
-export * from "./vars";
 
 declare module "solid-js" {
     namespace JSX {

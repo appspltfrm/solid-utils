@@ -11,37 +11,37 @@ import {
     splitProps
 } from "solid-js";
 import {assign, getNextElement, spread} from "solid-js/web";
-import {ElementAttrAttributes} from "./ElementAttrAttributes";
-import {ElementJSXEvents} from "./ElementJSXEvents";
-import {ElementProps} from "./ElementProps";
-import {ElementReactiveProp} from "./ElementReactiveProp";
+import {CustomElementJSXAttributes} from "./CustomElementJSXAttributes";
+import {CustomElementJSXEvents} from "./CustomElementJSXEvents";
+import {CustomElementProps} from "./CustomElementProps";
+import {CustomElementReactiveProp} from "./CustomElementReactiveProp";
 import {registerElement} from "./registerElement";
-import {SolidElement} from "./SolidElement";
+import {CustomElement} from "./CustomElement";
 
 type DefineElementFn = () => void;
 
-export type ElementComponent<TagName extends string, ElementType extends SolidElement, ComponentProps = ElementProps<ElementType>> = Component<ComponentProps & ElementAttrAttributes> & {
+export type CustomElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = CustomElementProps<ElementType>> = Component<ComponentProps & CustomElementJSXAttributes> & {
     tagName: TagName;
     register(): void
 }
 
-export type NonSolidElementComponent<TagName extends string, Props, ComponentElement extends HTMLElement> = Component<Partial<Props> & JSX.HTMLAttributes<ComponentElement>> & {tagName: TagName, register: () => void};
+export type ElementComponent<TagName extends string, Props, ComponentElement extends HTMLElement> = Component<Partial<Props> & JSX.HTMLAttributes<ComponentElement>> & {tagName: TagName, register: () => void};
 
 type PropsHandler<P extends {[key: string]: any}> = (props: P) => P;
 
-export interface NonSolidElementComponentOptions {
+export interface ElementComponentOptions {
     define?: DefineElementFn | DefineElementFn[];
     initialProps?: {[key: string]: any};
     propsHandler?: (props: {[key: string]: any}) => void;
 }
 
-export function defineElementComponent<TagName extends string, ElementType extends SolidElement, Props = ElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): ElementComponent<TagName, ElementType, Props & ElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof ElementJSXEvents<ElementType, Events>>>;
+export function defineElementComponent<TagName extends string, ElementType extends CustomElement, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
 
-export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: true, options?: NonSolidElementComponentOptions): NonSolidElementComponent<TagName, Props & ParentProps, ComponentElement>;
+export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: true, options?: ElementComponentOptions): ElementComponent<TagName, Props & ParentProps, ComponentElement>;
 
-export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: false, options?: NonSolidElementComponentOptions): NonSolidElementComponent<TagName, Props, ComponentElement>;
+export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: false, options?: ElementComponentOptions): ElementComponent<TagName, Props, ComponentElement>;
 
-export function defineElementComponent(tagName: string, elementTypeOrChildrenAllowed: AssignableType | boolean, options?: NonSolidElementComponentOptions | any, events?: any): any {
+export function defineElementComponent(tagName: string, elementTypeOrChildrenAllowed: AssignableType | boolean, options?: ElementComponentOptions | any, events?: any): any {
 
     const solidElementType = typeof elementTypeOrChildrenAllowed !== "boolean" && elementTypeOrChildrenAllowed as AssignableType;
 
@@ -64,7 +64,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
     if (solidElementType) {
 
-        const extendedType: Type & {reactive: {[propName: string]: boolean | ElementReactiveProp}} = solidElementType as any;
+        const extendedType: Type & {reactive: {[propName: string]: boolean | CustomElementReactiveProp}} = solidElementType as any;
 
         cmp = (rawProps: ParentProps<any>) => {
             register();

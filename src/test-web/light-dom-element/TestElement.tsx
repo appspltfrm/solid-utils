@@ -1,13 +1,13 @@
-import {defineElementComponent, ElementJSXIntrinsic, ElementTemplate, SolidElement} from "@appspltfrm/solidx/elements";
+import {defineElementComponent, CustomElementJSXIntrinsic, CustomElementTemplate, CustomElement} from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
-export class TestLightElement extends SolidElement {
+export class TestLightElement extends CustomElement {
 
     protected get renderRoot(): this | ShadowRoot {
         return this;
     }
 
-    template({children}: ElementTemplate<this>): JSXElement {
+    template({children}: CustomElementTemplate<this>): JSXElement {
         return <>{children}</>;
     }
 }
@@ -23,7 +23,7 @@ declare global {
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            "test-light-element": ElementJSXIntrinsic<TestLightElement>
+            "test-light-element": CustomElementJSXIntrinsic<TestLightElement>
         }
     }
 }

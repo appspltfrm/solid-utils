@@ -1,9 +1,9 @@
 import {ICustomElement} from "component-register";
 import {JSXElement} from "solid-js";
-import {ElementReactiveProp} from "./ElementReactiveProp";
-import {ElementTemplate} from "./ElementTemplate";
+import {CustomElementReactiveProp} from "./CustomElementReactiveProp";
+import {CustomElementTemplate} from "./CustomElementTemplate";
 
-export abstract class SolidElement extends HTMLElement {
+export abstract class CustomElement extends HTMLElement {
 
     addDisconnectedCallback(callback: () => void) {
         (this as any as ICustomElement).addReleaseCallback(callback);
@@ -12,9 +12,9 @@ export abstract class SolidElement extends HTMLElement {
     /**
      * Returns definition of reactive props.
      */
-    protected static readonly reactive: {[propName: string]: boolean | ElementReactiveProp};
+    protected static readonly reactive: {[propName: string]: boolean | CustomElementReactiveProp};
 
-    protected abstract template(args: ElementTemplate<this>): JSXElement;
+    protected abstract template(args: CustomElementTemplate<this>): JSXElement;
     protected get renderRoot(): this | ShadowRoot {
         return this.shadowRoot || this.attachShadow({mode: "open"});
     }

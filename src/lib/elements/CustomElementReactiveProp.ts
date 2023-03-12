@@ -1,4 +1,4 @@
-export interface ElementReactiveProp {
+export interface CustomElementReactiveProp {
     attribute?: string;
     reflect?: true;
     value?: any;
