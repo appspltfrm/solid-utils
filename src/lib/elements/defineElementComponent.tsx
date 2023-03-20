@@ -69,27 +69,27 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
         cmp = (rawProps: ParentProps<any>) => {
             register();
 
+            const rawChildren = children(() => rawProps.children);
+            const [, reactiveProps, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
+
+            createRenderEffect(() => {
+                const reactiveDescriptors = Object.getOwnPropertyDescriptors(reactiveProps);
+                for (const key of Object.keys(reactiveDescriptors)) {
+                    const dashed = toDashCase(key);
+                    if (key !== dashed) {
+                        Object.defineProperty(reactiveProps, dashed, reactiveDescriptors[key]);
+                        delete reactiveProps[key];
+                    }
+                }
+            })
+
             return createMemo(() => {
                 const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
                 const noShadow = (el as any)["renderRoot"] === el;
 
-                const rawChildren = children(() => rawProps.children);
-                const [, reactiveProps, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
-
-                createRenderEffect(() => {
-                    const reactiveDescriptors = Object.getOwnPropertyDescriptors(reactiveProps);
-                    for (const key of Object.keys(reactiveDescriptors)) {
-                        const dashed = toDashCase(key);
-                        if (key !== dashed) {
-                            Object.defineProperty(reactiveProps, dashed, reactiveDescriptors[key]);
-                            delete reactiveProps[key];
-                        }
-                    }
-                })
-
                 spread(el, mergeProps(reactiveProps, others, {
-                    children: (!noShadow && rawChildren) ?? [],
-                    "slotted-children": (noShadow && rawChildren.toArray()) ?? []}
+                    children: (!noShadow && rawChildren()) ?? [],
+                    "slotted-children": (noShadow && rawChildren()) ?? []}
                 ), false, false);
 
                 // createEffect(() => {

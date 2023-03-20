@@ -65,13 +65,7 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
                 {element["template"]({props, children: children.slottedChildren ?? []})}
             </>
         } else {
-            const finalChildren: any[] = children.slottedChildren ?? [];
-            const result = element["template"]({props, children: finalChildren});
-            if (result === undefined || (result === finalChildren && finalChildren.length === 0)) {
-                return;
-            } else {
-                return result;
-            }
+            return element["template"]({props, children: children.slottedChildren ?? []});
         }
     });
 
