@@ -48,6 +48,7 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
 
         const shadowStyles = extendedConstructor.__shadowStyles;
         const [children, props] = splitProps(rawProps, ["slottedChildren"]);
+
         const element = getCurrentElement() as any as CustomElement & ICustomElement;
 
         if (connectedCallback) {
@@ -58,10 +59,20 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
             element.addReleaseCallback(() => disconnectedCallback.call(element));
         }
 
-        return <>
-            {element.renderRoot === element.shadowRoot && shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
-            {element["template"]({props, children: children.slottedChildren ?? []})}
-        </>
+        if (element.renderRoot === element.shadowRoot) {
+            return <>
+                {element.renderRoot === element.shadowRoot && shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
+                {element["template"]({props, children: children.slottedChildren ?? []})}
+            </>
+        } else {
+            const finalChildren: any[] = children.slottedChildren ?? [];
+            const result = element["template"]({props, children: finalChildren});
+            if (result === undefined || (result === finalChildren && finalChildren.length === 0)) {
+                return;
+            } else {
+                return result;
+            }
+        }
     });
 
     if (renderRoot?.get) {

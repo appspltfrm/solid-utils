@@ -5,6 +5,8 @@ import Test, {TestElement} from "./TestElement";
 import TestNoDecorator from "./TestElementNoDecorator";
 import {TestShadow} from "./TestShadowElement";
 
+Test.register();
+
 export default function() {
 
     const [state, setState] = createSignal("a")

@@ -90,7 +90,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 spread(el, mergeProps(reactiveProps, others, {
                     children: (!noShadow && rawChildren) ?? [],
                     "slotted-children": (noShadow && rawChildren.toArray()) ?? []}
-                ), false, noShadow);
+                ), false, false);
 
                 // createEffect(() => {
                 //     for (const propName of Object.keys(props)) {
