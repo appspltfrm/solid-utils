@@ -86,11 +86,9 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
             return createMemo(() => {
                 const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
                 const noShadow = (el as any)["renderRoot"] === el;
+                const childrenProp = noShadow ? "slotted-children" : "children";
 
-                spread(el, mergeProps(reactiveProps, others, {
-                    children: (!noShadow && rawChildren()) ?? [],
-                    "slotted-children": (noShadow && rawChildren()) ?? []}
-                ), false, false);
+                spread(el, mergeProps(reactiveProps, others, {[childrenProp]: rawChildren}), false, false);
 
                 // createEffect(() => {
                 //     for (const propName of Object.keys(props)) {

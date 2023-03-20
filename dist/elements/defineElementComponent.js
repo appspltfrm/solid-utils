@@ -1,58 +1,57 @@
-import { children as b, splitProps as y, createRenderEffect as E, createMemo as g, sharedConfig as j, mergeProps as x } from "solid-js";
-import { getNextElement as O, spread as P } from "solid-js/web";
+import { children as b, splitProps as y, createRenderEffect as E, createMemo as g, sharedConfig as j, mergeProps as P } from "solid-js";
+import { getNextElement as x, spread as O } from "solid-js/web";
 import { registerElement as D } from "./registerElement.js";
-function _(r, d, e, C) {
-  const i = typeof d != "boolean" && d;
+function R(r, f, e, p) {
+  const i = typeof f != "boolean" && f;
   function h() {
     if (!customElements.get(r)) {
       if (i)
         D(r, i);
       else if (e != null && e.define)
-        for (const f of Array.isArray(e.define) ? e.define : [e.define])
-          f();
+        for (const d of Array.isArray(e.define) ? e.define : [e.define])
+          d();
     }
   }
   let l;
   if (i) {
-    const f = i;
+    const d = i;
     l = (o) => {
       h();
-      const u = b(() => o.children), [, t, a] = y(o, ["children"], Object.keys(f.reactive ?? {}));
+      const u = b(() => o.children), [, t, a] = y(o, ["children"], Object.keys(d.reactive ?? {}));
       return E(() => {
         const c = Object.getOwnPropertyDescriptors(t);
-        for (const n of Object.keys(c)) {
-          const s = v(n);
-          n !== s && (Object.defineProperty(t, s, c[n]), delete t[n]);
+        for (const s of Object.keys(c)) {
+          const n = v(s);
+          s !== n && (Object.defineProperty(t, n, c[s]), delete t[s]);
         }
       }), g(() => {
-        const c = j.context ? O() : document.createElement(r), n = c.renderRoot === c;
-        return P(c, x(t, a, {
-          children: (!n && u()) ?? [],
-          "slotted-children": (n && u()) ?? []
+        const c = j.context ? x() : document.createElement(r), n = c.renderRoot === c ? "slotted-children" : "children";
+        return O(c, P(t, a, {
+          [n]: u
         }), !1, !1), c;
       });
     };
   } else
-    l = (f) => (h(), g(() => {
-      const o = b(() => f.children), [u, t] = y(f, ["children"]), a = j.context ? O() : document.createElement(r);
+    l = (d) => (h(), g(() => {
+      const o = b(() => d.children), [u, t] = y(d, ["children"]), a = j.context ? x() : document.createElement(r);
       return E(() => {
-        var n;
-        (n = e == null ? void 0 : e.propsHandler) == null || n.call(e, t);
+        var s;
+        (s = e == null ? void 0 : e.propsHandler) == null || s.call(e, t);
         const c = Object.getOwnPropertyDescriptors(t);
-        for (const s of Object.keys(c)) {
-          const m = v(s);
-          m !== s && (Object.defineProperty(t, m, c[s]), delete t[s]);
+        for (const n of Object.keys(c)) {
+          const m = v(n);
+          m !== n && (Object.defineProperty(t, m, c[n]), delete t[n]);
         }
-      }), P(a, x(e == null ? void 0 : e.initialProps, t, {
-        children: (d && o) ?? []
-      }), !1, !d), a;
+      }), O(a, P(e == null ? void 0 : e.initialProps, t, {
+        children: (f && o) ?? []
+      }), !1, !f), a;
     }));
   return l.tagName = r, l.register = h, l;
 }
 function v(r) {
-  return r.includes(":") || r.startsWith("on") ? r : r.replace(/\.?([A-Z]+)/g, (d, e) => "-" + e.toLowerCase()).replace("_", "-").replace(/^-/, "");
+  return r.includes(":") || r.startsWith("on") ? r : r.replace(/\.?([A-Z]+)/g, (f, e) => "-" + e.toLowerCase()).replace("_", "-").replace(/^-/, "");
 }
 export {
-  _ as defineElementComponent
+  R as defineElementComponent
 };
 //# sourceMappingURL=defineElementComponent.js.map

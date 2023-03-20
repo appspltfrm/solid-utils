@@ -61,8 +61,8 @@ export function registerElement<ElementType extends CustomElement>(tagName: stri
 
         if (element.renderRoot === element.shadowRoot) {
             return <>
-                {element.renderRoot === element.shadowRoot && shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
-                {element["template"]({props, children: children.slottedChildren ?? []})}
+                {shadowStyles && (typeof shadowStyles === "string" ? [shadowStyles] : shadowStyles).map(style => <style>{style}</style>)}
+                {element["template"]({props, children: []})}
             </>
         } else {
             return element["template"]({props, children: children.slottedChildren ?? []});

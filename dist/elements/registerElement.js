@@ -1,12 +1,12 @@
-import { memo as i, insert as g, template as w } from "solid-js/web";
-import { compose as C, register as O } from "component-register";
-import { withSolid as j, getCurrentElement as k } from "solid-element";
-import { splitProps as E } from "solid-js";
-const R = /* @__PURE__ */ w("<style></style>", 2);
-function $(c, s) {
-  if (customElements.get(c))
+import { memo as m, insert as b, template as g } from "solid-js/web";
+import { compose as w, register as C } from "component-register";
+import { withSolid as O, getCurrentElement as j } from "solid-element";
+import { splitProps as k } from "solid-js";
+const E = /* @__PURE__ */ g("<style></style>", 2);
+function R(i, s) {
+  if (customElements.get(i))
     return;
-  const a = s, d = {
+  const a = s, c = {
     slottedChildren: {
       value: void 0,
       attribute: "slotted-children",
@@ -16,41 +16,38 @@ function $(c, s) {
     }
   };
   for (const [r, e] of Object.entries(a.reactive ?? {})) {
-    const n = {
+    const l = {
       value: void 0,
       notify: !1,
       parse: !1,
       reflect: !1,
       attribute: void 0
     };
-    typeof e == "object" && Object.assign(n, e), d[r] = n;
+    typeof e == "object" && Object.assign(l, e), c[r] = l;
   }
-  const p = s.prototype.connectedCallback, f = s.prototype.disconnectedCallback;
-  let o, l = s;
-  for (; l !== HTMLElement && (o = Object.getOwnPropertyDescriptor(l.prototype, "renderRoot"), !o); )
-    l = Object.getPrototypeOf(l);
-  const u = C(O(c, d, {
+  const p = s.prototype.connectedCallback, d = s.prototype.disconnectedCallback;
+  let t, n = s;
+  for (; n !== HTMLElement && (t = Object.getOwnPropertyDescriptor(n.prototype, "renderRoot"), !t); )
+    n = Object.getPrototypeOf(n);
+  const u = w(C(i, c, {
     BaseElement: s
-  }), j)((r) => {
-    const e = a.__shadowStyles, [n, h] = E(r, ["slottedChildren"]), t = k();
-    return p && p.call(t), f && t.addReleaseCallback(() => f.call(t)), t.renderRoot === t.shadowRoot ? [i((() => {
-      const y = i(() => !!(t.renderRoot === t.shadowRoot && e));
-      return () => y() && (typeof e == "string" ? [e] : e).map((b) => (() => {
-        const m = R.cloneNode(!0);
-        return g(m, b), m;
-      })());
-    })()), i(() => t.template({
-      props: h,
-      children: n.slottedChildren ?? []
-    }))] : t.template({
-      props: h,
-      children: n.slottedChildren ?? []
+  }), O)((r) => {
+    const e = a.__shadowStyles, [l, f] = k(r, ["slottedChildren"]), o = j();
+    return p && p.call(o), d && o.addReleaseCallback(() => d.call(o)), o.renderRoot === o.shadowRoot ? [m(() => e && (typeof e == "string" ? [e] : e).map((y) => (() => {
+      const h = E.cloneNode(!0);
+      return b(h, y), h;
+    })())), m(() => o.template({
+      props: f,
+      children: []
+    }))] : o.template({
+      props: f,
+      children: l.slottedChildren ?? []
     });
   });
-  o != null && o.get && Object.defineProperty(u.prototype, "renderRoot", {
+  t != null && t.get && Object.defineProperty(u.prototype, "renderRoot", {
     get() {
       var e;
-      const r = (e = o == null ? void 0 : o.get) == null ? void 0 : e.call(this);
+      const r = (e = t == null ? void 0 : t.get) == null ? void 0 : e.call(this);
       if (r)
         return r;
       if (!this.shadowRoot)
@@ -61,6 +58,6 @@ function $(c, s) {
   });
 }
 export {
-  $ as registerElement
+  R as registerElement
 };
 //# sourceMappingURL=registerElement.js.map
