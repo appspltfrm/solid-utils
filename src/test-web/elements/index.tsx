@@ -19,7 +19,7 @@ export default function() {
 
         {test() && <div>just added</div>}
 
-        <Test state={state()} tabindex="-1" items={items()} readonly={true}>
+        <Test state={state()} tabIndex="-1" items={items()} readonly={true}>
             <span>jakiś test</span>
         </Test>
 
