@@ -1,10 +1,10 @@
 import { AssignableType } from "@co.mmons/js-utils/core";
 import type { JSX, ParentProps } from "solid-js";
 import { Component } from "solid-js";
+import { CustomElement } from "./CustomElement";
 import { CustomElementJSXAttributes } from "./CustomElementJSXAttributes";
 import { CustomElementJSXEvents } from "./CustomElementJSXEvents";
 import { CustomElementProps } from "./CustomElementProps";
-import { CustomElement } from "./CustomElement";
 type DefineElementFn = () => void;
 export type CustomElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = CustomElementProps<ElementType>> = Component<ComponentProps & CustomElementJSXAttributes> & {
     tagName: TagName;

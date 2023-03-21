@@ -19,7 +19,7 @@ export default function() {
 
         {test() && <div>just added</div>}
 
-        <Test state={state()} items={items()} readonly={true}>
+        <Test state={state()} tabindex="-1" items={items()} readonly={true}>
             <span>jakiś test</span>
         </Test>
 
@@ -34,7 +34,7 @@ export default function() {
 
             <fieldset>
                 <legend>Test element component</legend>
-                <Test state={state()} items={items()} readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
+                <Test state={state()} items={items()} tabindex="-1" readonly={true} onStateChange={(ev) => console.log(ev)} on:statechange={(ev) => console.log("args", ev)}>
                     <span>jakiś test</span>
                 </Test>
             </fieldset>

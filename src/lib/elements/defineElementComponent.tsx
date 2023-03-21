@@ -1,22 +1,13 @@
 import {AssignableType, Type} from "@co.mmons/js-utils/core";
 import type {JSX, ParentProps} from "solid-js";
-import {
-    children,
-    Component,
-    createEffect,
-    createMemo,
-    createRenderEffect,
-    mergeProps,
-    sharedConfig,
-    splitProps
-} from "solid-js";
-import {assign, getNextElement, spread} from "solid-js/web";
+import {children, Component, createMemo, createRenderEffect, mergeProps, sharedConfig, splitProps} from "solid-js";
+import {getNextElement, spread} from "solid-js/web";
+import {CustomElement} from "./CustomElement";
 import {CustomElementJSXAttributes} from "./CustomElementJSXAttributes";
 import {CustomElementJSXEvents} from "./CustomElementJSXEvents";
 import {CustomElementProps} from "./CustomElementProps";
 import {CustomElementReactiveProp} from "./CustomElementReactiveProp";
 import {registerElement} from "./registerElement";
-import {CustomElement} from "./CustomElement";
 
 type DefineElementFn = () => void;
 
@@ -70,15 +61,15 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
             register();
 
             const rawChildren = children(() => rawProps.children);
-            const [, reactiveProps, others] = splitProps(rawProps, ["children"], Object.keys(extendedType.reactive ?? {}));
+            const [, props] = splitProps(rawProps, ["children"]);
 
             createRenderEffect(() => {
-                const reactiveDescriptors = Object.getOwnPropertyDescriptors(reactiveProps);
-                for (const key of Object.keys(reactiveDescriptors)) {
+                const descriptors = Object.getOwnPropertyDescriptors(props);
+                for (const key of Object.keys(descriptors)) {
                     const dashed = toDashCase(key);
                     if (key !== dashed) {
-                        Object.defineProperty(reactiveProps, dashed, reactiveDescriptors[key]);
-                        delete reactiveProps[key];
+                        Object.defineProperty(props, dashed, descriptors[key]);
+                        delete props[key as any];
                     }
                 }
             })
@@ -88,7 +79,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 const noShadow = (el as any)["renderRoot"] === el;
                 const childrenProp = noShadow ? "slotted-children" : "children";
 
-                spread(el, mergeProps(reactiveProps, others, {[childrenProp]: rawChildren}), false, false);
+                spread(el, mergeProps(props, {[childrenProp]: rawChildren}), false, false);
 
                 // createEffect(() => {
                 //     for (const propName of Object.keys(props)) {

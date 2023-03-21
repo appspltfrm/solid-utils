@@ -1,57 +1,52 @@
-import { children as b, splitProps as y, createRenderEffect as E, createMemo as g, sharedConfig as j, mergeProps as P } from "solid-js";
+import { children as E, splitProps as b, createRenderEffect as g, createMemo as j, sharedConfig as y, mergeProps as P } from "solid-js";
 import { getNextElement as x, spread as O } from "solid-js/web";
-import { registerElement as D } from "./registerElement.js";
-function R(r, f, e, p) {
-  const i = typeof f != "boolean" && f;
-  function h() {
-    if (!customElements.get(r)) {
+import { registerElement as C } from "./registerElement.js";
+function _(t, d, e, D) {
+  const i = typeof d != "boolean" && d;
+  function a() {
+    if (!customElements.get(t)) {
       if (i)
-        D(r, i);
+        C(t, i);
       else if (e != null && e.define)
-        for (const d of Array.isArray(e.define) ? e.define : [e.define])
-          d();
+        for (const n of Array.isArray(e.define) ? e.define : [e.define])
+          n();
     }
   }
-  let l;
-  if (i) {
-    const d = i;
-    l = (o) => {
-      h();
-      const u = b(() => o.children), [, t, a] = y(o, ["children"], Object.keys(d.reactive ?? {}));
-      return E(() => {
-        const c = Object.getOwnPropertyDescriptors(t);
-        for (const s of Object.keys(c)) {
-          const n = v(s);
-          s !== n && (Object.defineProperty(t, n, c[s]), delete t[s]);
-        }
-      }), g(() => {
-        const c = j.context ? x() : document.createElement(r), n = c.renderRoot === c ? "slotted-children" : "children";
-        return O(c, P(t, a, {
-          [n]: u
-        }), !1, !1), c;
-      });
-    };
-  } else
-    l = (d) => (h(), g(() => {
-      const o = b(() => d.children), [u, t] = y(d, ["children"]), a = j.context ? x() : document.createElement(r);
-      return E(() => {
-        var s;
-        (s = e == null ? void 0 : e.propsHandler) == null || s.call(e, t);
-        const c = Object.getOwnPropertyDescriptors(t);
-        for (const n of Object.keys(c)) {
-          const m = v(n);
-          m !== n && (Object.defineProperty(t, m, c[n]), delete t[n]);
-        }
-      }), O(a, P(e == null ? void 0 : e.initialProps, t, {
-        children: (f && o) ?? []
-      }), !1, !f), a;
-    }));
-  return l.tagName = r, l.register = h, l;
+  let f;
+  return i ? f = (n) => {
+    a();
+    const h = E(() => n.children), [, l] = b(n, ["children"]);
+    return g(() => {
+      const r = Object.getOwnPropertyDescriptors(l);
+      for (const c of Object.keys(r)) {
+        const s = p(c);
+        c !== s && (Object.defineProperty(l, s, r[c]), delete l[c]);
+      }
+    }), j(() => {
+      const r = y.context ? x() : document.createElement(t), s = r.renderRoot === r ? "slotted-children" : "children";
+      return O(r, P(l, {
+        [s]: h
+      }), !1, !1), r;
+    });
+  } : f = (n) => (a(), j(() => {
+    const h = E(() => n.children), [l, r] = b(n, ["children"]), c = y.context ? x() : document.createElement(t);
+    return g(() => {
+      var u;
+      (u = e == null ? void 0 : e.propsHandler) == null || u.call(e, r);
+      const s = Object.getOwnPropertyDescriptors(r);
+      for (const o of Object.keys(s)) {
+        const m = p(o);
+        m !== o && (Object.defineProperty(r, m, s[o]), delete r[o]);
+      }
+    }), O(c, P(e == null ? void 0 : e.initialProps, r, {
+      children: (d && h) ?? []
+    }), !1, !d), c;
+  })), f.tagName = t, f.register = a, f;
 }
-function v(r) {
-  return r.includes(":") || r.startsWith("on") ? r : r.replace(/\.?([A-Z]+)/g, (f, e) => "-" + e.toLowerCase()).replace("_", "-").replace(/^-/, "");
+function p(t) {
+  return t.includes(":") || t.startsWith("on") ? t : t.replace(/\.?([A-Z]+)/g, (d, e) => "-" + e.toLowerCase()).replace("_", "-").replace(/^-/, "");
 }
 export {
-  R as defineElementComponent
+  _ as defineElementComponent
 };
 //# sourceMappingURL=defineElementComponent.js.map
