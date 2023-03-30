@@ -1,13 +1,12 @@
 import {A, Route, Routes, useLocation} from "@solidjs/router";
 import type {Component} from "solid-js";
 import {lazy} from "solid-js";
-import {Fragment} from "solid-js/h/jsx-runtime";
 
 const App: Component = () => {
 
     const location = useLocation()
 
-    return <Fragment>
+    return <div>
 
         {location.pathname === "/" && <ul>
             <li>
@@ -38,7 +37,7 @@ const App: Component = () => {
             <Route path="/ext-element-component" component={lazy(() => import("./ext-element-component"))}/>
             <Route path="/literal-templates" component={lazy(() => import("./literal-templates"))}/>
         </Routes>
-    </Fragment>
+    </div>
 };
 
 export default App;

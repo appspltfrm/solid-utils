@@ -1,58 +1,60 @@
-import { children as p, splitProps as x, createRenderEffect as b, createMemo as E, sharedConfig as P, mergeProps as g } from "solid-js";
-import { getNextElement as j, spread as y } from "solid-js/web";
-import { registerElement as $ } from "./registerElement.js";
-function w(r, l, e, C) {
+import { children as b, splitProps as E, createMemo as m, sharedConfig as g, mergeProps as j } from "solid-js";
+import { getNextElement as y, spread as O } from "solid-js/web";
+import { registerElement as v } from "./registerElement.js";
+function H(r, l, e, D) {
   const i = typeof l != "boolean" && l;
-  function u() {
+  function h() {
     if (!customElements.get(r)) {
       if (i)
-        $(r, i);
+        v(r, i);
       else if (e != null && e.define)
-        for (const f of Array.isArray(e.define) ? e.define : [e.define])
-          f();
+        for (const d of Array.isArray(e.define) ? e.define : [e.define])
+          d();
     }
   }
-  let d;
+  let f;
   if (i) {
-    const f = i;
-    d = (o) => {
-      u();
-      const m = p(() => o.children), [, t] = x(o, ["children"]);
-      return b(() => {
-        const c = Object.getOwnPropertyDescriptors(t);
-        for (const n of Object.keys(c)) {
-          const s = f.reactive[n] ? `prop:${n}` : O(n);
-          n !== s && (Object.defineProperty(t, s, c[n]), delete t[n]);
+    const d = i;
+    f = (u) => {
+      h();
+      const P = b(() => u.children), [, p] = E(u, ["children"]), a = m(() => {
+        var s;
+        const t = {}, n = Object.getOwnPropertyDescriptors(p);
+        for (const c of Object.keys(n)) {
+          const o = (s = d.reactive) != null && s[c] ? `prop:${c}` : $(c);
+          Object.defineProperty(t, c !== o ? o : c, n[c]);
         }
-      }), E(() => {
-        const c = P.context ? j() : document.createElement(r), s = c.renderRoot === c ? "prop:slottedChildren" : "children";
-        return y(c, g(t, {
-          [s]: m
-        }), !1, !1), c;
+        return t;
+      });
+      return m(() => {
+        const t = g.context ? y() : document.createElement(r), s = t.renderRoot === t ? "prop:slottedChildren" : "children";
+        return O(t, j(a, {
+          [s]: P
+        }), !1, !1), t;
       });
     };
   } else
-    d = (f) => (u(), E(() => {
-      const o = p(() => f.children), [m, t] = x(f, ["children"]), c = P.context ? j() : document.createElement(r);
-      return b(() => {
-        var s;
-        (s = e == null ? void 0 : e.propsHandler) == null || s.call(e, t);
-        const n = Object.getOwnPropertyDescriptors(t);
-        for (const a of Object.keys(n)) {
-          const h = O(a);
-          h !== a && (Object.defineProperty(t, h, n[a]), delete t[a]);
+    f = (d) => (h(), m(() => {
+      const u = b(() => d.children), [P, p] = E(d, ["children"]), a = g.context ? y() : document.createElement(r), t = m(() => {
+        var c;
+        const n = {}, s = Object.getOwnPropertyDescriptors(p);
+        for (const o of Object.keys(s)) {
+          const x = $(o);
+          Object.defineProperty(n, o !== x ? x : o, s[o]);
         }
-      }), y(c, g(e == null ? void 0 : e.initialProps, t, {
-        children: (l && o) ?? []
-      }), !1, !l), c;
+        return (c = e == null ? void 0 : e.propsHandler) == null || c.call(e, n), n;
+      });
+      return O(a, j(e == null ? void 0 : e.initialProps, t, {
+        children: (l && u) ?? []
+      }), !1, !l), a;
     }));
-  return d.tagName = r, d.register = u, d;
+  return f.tagName = r, f.register = h, f;
 }
-const v = ["class", "className", "classList", "ref", "style"];
-function O(r) {
-  return r.includes(":") || r.startsWith("on") || v.includes(r) ? r : r.includes("-") ? `attr:${r}` : `prop:${r}`;
+const C = ["class", "className", "classList", "ref", "style"];
+function $(r) {
+  return r.includes(":") || r.startsWith("on") || C.includes(r) ? r : r.includes("-") ? `attr:${r}` : `prop:${r}`;
 }
 export {
-  w as defineElementComponent
+  H as defineElementComponent
 };
 //# sourceMappingURL=defineElementComponent.js.map

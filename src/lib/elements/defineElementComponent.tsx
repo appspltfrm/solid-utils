@@ -61,17 +61,16 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
             register();
 
             const rawChildren = children(() => rawProps.children);
-            const [, props] = splitProps(rawProps, ["children"]);
+            const [, uncheckedProps] = splitProps(rawProps, ["children"]);
 
-            createRenderEffect(() => {
-                const descriptors = Object.getOwnPropertyDescriptors(props);
+            const props = createMemo(() => {
+                const clone = {};
+                const descriptors = Object.getOwnPropertyDescriptors(uncheckedProps);
                 for (const key of Object.keys(descriptors)) {
-                    const fixed = extendedType.reactive[key] ? `prop:${key}` : fixPropName(key);
-                    if (key !== fixed) {
-                        Object.defineProperty(props, fixed, descriptors[key]);
-                        delete props[key as any];
-                    }
+                    const fixed = extendedType.reactive?.[key] ? `prop:${key}` : fixPropName(key);
+                    Object.defineProperty(clone, key !== fixed ? fixed : key, descriptors[key]);
                 }
+                return clone;
             })
 
             return createMemo(() => {
@@ -80,21 +79,6 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                 const childrenProp = noShadow ? "prop:slottedChildren" : "children";
 
                 spread(el, mergeProps(props, {[childrenProp]: rawChildren}), false, false);
-
-                // createEffect(() => {
-                //     for (const propName of Object.keys(props)) {
-                //         const niu = props[propName];
-                //         const prev = el[propName];
-                //         if (niu !== prev) {
-                //             el[propName] = niu;
-                //         }
-                //     }
-                // })
-                //
-                // spread(el, mergeProps(others, {
-                //     children: (!noShadow && rawChildren) ?? [],
-                //     "slotted-children": (noShadow && rawChildren.toArray()) ?? []
-                // }), false, noShadow);
 
                 return el;
             })
@@ -109,24 +93,24 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
             return createMemo(() => {
 
                 const rawChildren = children(() => rawProps.children);
-                const [_, others] = splitProps(rawProps, ["children"]);
+                const [_, uncheckedProps] = splitProps(rawProps, ["children"]);
 
                 const el = sharedConfig.context ? getNextElement() : document.createElement(tagName);
 
-                createRenderEffect(() => {
-                    options?.propsHandler?.(others);
-
-                    const descriptors = Object.getOwnPropertyDescriptors(others);
+                const props = createMemo(() => {
+                    const clone = {};
+                    const descriptors = Object.getOwnPropertyDescriptors(uncheckedProps);
                     for (const key of Object.keys(descriptors)) {
                         const fixed = fixPropName(key);
-                        if (fixed !== key) {
-                            Object.defineProperty(others, fixed, descriptors[key]);
-                            delete others[key];
-                        }
+                        Object.defineProperty(clone, key !== fixed ? fixed : key, descriptors[key]);
                     }
+
+                    options?.propsHandler?.(clone);
+
+                    return clone;
                 })
 
-                spread(el, mergeProps(options?.initialProps, others, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
+                spread(el, mergeProps(options?.initialProps, props, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
 
                 return el;
             })

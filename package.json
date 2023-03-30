@@ -15,7 +15,7 @@
     "@rollup/plugin-typescript": "^11.0.0",
     "@solidjs/router": "^0.8.2",
     "@types/node": "^18.11.18",
-    "babel-preset-solid": "^1.6.9",
+    "babel-preset-solid": "^1.7.0",
     "rxjs": "^7.8.0",
     "sass": "^1.57.1",
     "ts-patch": "^2.1.0",

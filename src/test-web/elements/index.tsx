@@ -4,28 +4,27 @@ import Test from "./TestElement";
 import TestNoDecorator from "./TestElementNoDecorator";
 import {TestShadow} from "./TestShadowElement";
 
-Test.register();
-
 export default function() {
 
     const [state, setState] = createSignal("a")
     const [items, setItems] = createSignal(["a", "b", "c"]);
     const [test, setTest] = createSignal(false);
+    const [props, setProps] = createSignal({state: "test"});
 
-    setTimeout(() => setTest(true), 1000);
+    setTimeout(() => setProps({state: "olalal", readonly: true}), 1000);
 
     return <>
 
-        {test() && <div>just added</div>}
-
-        <Test state={state()} class="aaa" classList={{test: true}} tabIndex="-1" items={items()} readonly={true}>
-            <span>jakiś test</span>
-        </Test>
-
-        <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>
-        <button onClick={(ev) => setState("b")}>change state</button>
+        <Test {...props()}/>
 
         <Show when={false}>
+            <Test state={state()} class="aaa" classList={{test: true}} tabIndex="-1" items={items()} readonly={true}>
+                <span>jakiś test</span>
+            </Test>
+
+            <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>
+            <button onClick={(ev) => setState("b")}>change state</button>
+
             <fieldset>
                 <legend>Test custom element</legend>
                 <test-element readonly={true} state="test" attr:argh="true" camel-case-prop="sdsd"/>
