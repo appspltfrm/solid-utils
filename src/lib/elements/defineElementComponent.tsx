@@ -66,9 +66,9 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
             createRenderEffect(() => {
                 const descriptors = Object.getOwnPropertyDescriptors(props);
                 for (const key of Object.keys(descriptors)) {
-                    const dashed = toDashCase(key);
-                    if (key !== dashed) {
-                        Object.defineProperty(props, dashed, descriptors[key]);
+                    const fixed = extendedType.reactive[key] ? `prop:${key}` : fixPropName(key);
+                    if (key !== fixed) {
+                        Object.defineProperty(props, fixed, descriptors[key]);
                         delete props[key as any];
                     }
                 }
@@ -77,7 +77,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
             return createMemo(() => {
                 const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
                 const noShadow = (el as any)["renderRoot"] === el;
-                const childrenProp = noShadow ? "slotted-children" : "children";
+                const childrenProp = noShadow ? "prop:slottedChildren" : "children";
 
                 spread(el, mergeProps(props, {[childrenProp]: rawChildren}), false, false);
 
@@ -118,9 +118,9 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
 
                     const descriptors = Object.getOwnPropertyDescriptors(others);
                     for (const key of Object.keys(descriptors)) {
-                        const dashed = toDashCase(key);
-                        if (dashed !== key) {
-                            Object.defineProperty(others, dashed, descriptors[key]);
+                        const fixed = fixPropName(key);
+                        if (fixed !== key) {
+                            Object.defineProperty(others, fixed, descriptors[key]);
                             delete others[key];
                         }
                     }
@@ -139,10 +139,16 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
     return cmp;
 }
 
-function toDashCase(key: string) {
+const notFixableProps = ["class", "className", "classList", "ref", "style"];
 
-    if (key.includes(":") || key.startsWith("on")) {
+function fixPropName(key: string) {
+
+    if (key.includes(":") || key.startsWith("on") || notFixableProps.includes(key)) {
         return key;
+    } else if (key.includes("-")) {
+        return `attr:${key}`;
+    } else {
+        return `prop:${key}`;
     }
 
     return key.replace(/\.?([A-Z]+)/g, (x, y) => "-" + y.toLowerCase()).replace("_", "-").replace(/^-/, "");

@@ -1,7 +1,6 @@
 import {createSignal, Show} from "solid-js";
-import {Fragment} from "solid-js/h/jsx-runtime";
 import {Dynamic} from "solid-js/web";
-import Test, {TestElement} from "./TestElement";
+import Test from "./TestElement";
 import TestNoDecorator from "./TestElementNoDecorator";
 import {TestShadow} from "./TestShadowElement";
 
@@ -15,11 +14,11 @@ export default function() {
 
     setTimeout(() => setTest(true), 1000);
 
-    return <Fragment>
+    return <>
 
         {test() && <div>just added</div>}
 
-        <Test state={state()} tabIndex="-1" items={items()} readonly={true}>
+        <Test state={state()} class="aaa" classList={{test: true}} tabIndex="-1" items={items()} readonly={true}>
             <span>jakiś test</span>
         </Test>
 
@@ -52,5 +51,5 @@ export default function() {
             </fieldset>
         </Show>
 
-    </Fragment>
+    </>
 }

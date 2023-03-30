@@ -13,7 +13,7 @@
     "@babel/plugin-proposal-decorators": "^7.20.7",
     "@ionic/core": "^6.6.0",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@solidjs/router": "^0.7.0",
+    "@solidjs/router": "^0.8.2",
     "@types/node": "^18.11.18",
     "babel-preset-solid": "^1.6.9",
     "rxjs": "^7.8.0",
@@ -24,13 +24,12 @@
     "vite-plugin-solid": "^2.5.0"
   },
   "dependencies": {
-    "@appspltfrm/solidx": "github:appspltfrm/solidx",
     "@co.mmons/js-utils": "github:co-mmons/js-utils",
     "@co.mmons/node-utils": "github:co-mmons/node-utils",
     "component-register": "^0.8.3",
-    "hyper-dom-expressions": "^0.35.13",
-    "solid-element": "^1.6.3",
-    "solid-js": "^1.6.8",
+    "hyper-dom-expressions": "^0.36.1",
+    "solid-element": "^1.7.0",
+    "solid-js": "^1.7.0",
     "type-fest": "^2.19.0"
   }
 }
