@@ -1,3 +1,3 @@
-import {CustomElement} from "./CustomElement";
+import {CustomElementInterface} from "./CustomElementInterface";
 
-export type CustomElementProps<Element extends CustomElement> = Omit<{[P in keyof Element]: Element[P]}, keyof CustomElement | "template" | "renderRoot" | "connectedCallback" | "disconnectedCallback">
+export type CustomElementProps<Element extends CustomElementInterface> = Omit<{[P in keyof Element]: Element[P]}, keyof CustomElementInterface | "template" | "renderRoot" | "connectedCallback" | "disconnectedCallback">

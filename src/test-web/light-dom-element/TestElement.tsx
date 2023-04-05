@@ -1,13 +1,14 @@
-import {defineElementComponent, CustomElementJSXIntrinsic, CustomElementTemplate, CustomElement} from "@appspltfrm/solidx/elements";
+import {
+    CustomElement,
+    CustomElementJSXIntrinsic,
+    CustomElementTemplate,
+    defineElementComponent
+} from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
-export class TestLightElement extends CustomElement {
+export class TestLightElement extends CustomElement({renderRoot: "element"}) {
 
-    protected get renderRoot(): this | ShadowRoot {
-        return this;
-    }
-
-    template({children}: CustomElementTemplate<this>): JSXElement {
+    template({children}: CustomElementTemplate): JSXElement {
         return <>{children}</>;
     }
 }

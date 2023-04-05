@@ -1,4 +1,4 @@
-import {CustomElement, CustomElementTemplate, reactive} from "@appspltfrm/solidx/elements/wip";
+import {CustomElement, CustomElementTemplate, reactive} from "@appspltfrm/solidx/elements";
 
 export class TestElement extends CustomElement({reactive: {otherProp: true}}) {
 
@@ -9,7 +9,7 @@ export class TestElement extends CustomElement({reactive: {otherProp: true}}) {
 
     template({children}: CustomElementTemplate) {
         return <div>
-            <div>{this.someProp}</div>
+            <div>{this.someProp}+{this.otherProp}</div>
             <div>children:</div>
             {children}
         </div>

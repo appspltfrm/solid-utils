@@ -1,8 +1,9 @@
 import {createMemo, createSignal, Signal} from "solid-js";
 import {createStore, Store} from "solid-js/store";
-import {Accessor, EffectFunction, Memo, MemoOptions, NoInfer} from "solid-js/types/reactive/signal";
+import {Accessor, EffectFunction, MemoOptions, NoInfer} from "solid-js/types/reactive/signal";
 import {Observer, Unsubscribable} from "type-fest";
 import {CustomElement} from "./CustomElement";
+import {CustomElementInterface} from "./CustomElementInterface";
 
 type Vars = {[key: string | symbol]: any};
 type VarName = string | symbol;
@@ -11,7 +12,7 @@ export interface ObservableLike<ValueType = unknown> {
     subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
 }
 
-const allVars = new WeakMap<CustomElement, Vars>()
+const allVars = new WeakMap<CustomElementInterface, Vars>()
 
 class VarValue {
     value: any;
@@ -30,7 +31,7 @@ function assertExists(vars: Vars | undefined, name: VarName) {
     }
 }
 
-export function getElementVar<T>(element: CustomElement, name: VarName): T | undefined {
+export function getElementVar<T>(element: CustomElementInterface, name: VarName): T | undefined {
     const v = allVars.get(element)?.[name];
     if (v instanceof VarValue) {
         return v.value;
@@ -39,7 +40,7 @@ export function getElementVar<T>(element: CustomElement, name: VarName): T | und
     }
 }
 
-export function setElementVar(element: CustomElement, name: VarName, value: any, options?: {onDelete?: (() => any | void)}) {
+export function setElementVar(element: CustomElementInterface, name: VarName, value: any, options?: {onDelete?: (() => any | void)}) {
 
     let vars = allVars.get(element);
     if (!vars) {
@@ -71,7 +72,7 @@ export function setElementVar(element: CustomElement, name: VarName, value: any,
     vars[name] = varValue;
 }
 
-export function deleteElementVar<T>(element: CustomElement, name: VarName): T | undefined {
+export function deleteElementVar<T>(element: CustomElementInterface, name: VarName): T | undefined {
     const vars = allVars.get(element);
     if (vars) {
 
@@ -86,10 +87,10 @@ export function deleteElementVar<T>(element: CustomElement, name: VarName): T | 
     }
 }
 
-export function createElementMemo<Next extends Prev, Prev = Next>(element: CustomElement, name: VarName, fn: EffectFunction<undefined | NoInfer<Prev>, Next>): Accessor<Next>;
-export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElement, name: VarName, fn: EffectFunction<Init | Prev, Next>, value: Init, options?: MemoOptions<Next>): Accessor<Next>;
+export function createElementMemo<Next extends Prev, Prev = Next>(element: CustomElementInterface, name: VarName, fn: EffectFunction<undefined | NoInfer<Prev>, Next>): Accessor<Next>;
+export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElementInterface, name: VarName, fn: EffectFunction<Init | Prev, Next>, value: Init, options?: MemoOptions<Next>): Accessor<Next>;
 
-export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElement, name: VarName, fn?: any, value?: Init, options?: MemoOptions<Next>): Accessor<Next> {
+export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElementInterface, name: VarName, fn?: any, value?: Init, options?: MemoOptions<Next>): Accessor<Next> {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -101,7 +102,7 @@ export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(e
     return memo;
 }
 
-export function useElementMemo<T = any>(element: CustomElement, name: VarName): Accessor<T> {
+export function useElementMemo<T = any>(element: CustomElementInterface, name: VarName): Accessor<T> {
 
     const vars = allVars.get(element);
     assertExists(vars, name)
@@ -121,7 +122,7 @@ export function useElementMemo<T = any>(element: CustomElement, name: VarName): 
     }
 }
 
-export function getElementMemo<T = any>(element: CustomElement, name: VarName): T {
+export function getElementMemo<T = any>(element: CustomElementInterface, name: VarName): T {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -136,7 +137,7 @@ export function getElementMemo<T = any>(element: CustomElement, name: VarName): 
     throw new Error(`Element var ${String(name)} is not a memo`);
 }
 
-export function createElementSignal<T = any>(element: CustomElement, name: VarName, value?: T) {
+export function createElementSignal<T = any>(element: CustomElementInterface, name: VarName, value?: T) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -148,7 +149,7 @@ export function createElementSignal<T = any>(element: CustomElement, name: VarNa
     return signal;
 }
 
-export function useElementSignal<T = any>(element: CustomElement, name: VarName): Signal<T | undefined> {
+export function useElementSignal<T = any>(element: CustomElementInterface, name: VarName): Signal<T | undefined> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -163,7 +164,7 @@ export function useElementSignal<T = any>(element: CustomElement, name: VarName)
     return signal;
 }
 
-export function getElementSignal<T = any>(element: CustomElement, name: VarName): T | undefined {
+export function getElementSignal<T = any>(element: CustomElementInterface, name: VarName): T | undefined {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -178,7 +179,7 @@ export function getElementSignal<T = any>(element: CustomElement, name: VarName)
     return signal[0]();
 }
 
-export function setElementSignal<T = any>(element: CustomElement, name: VarName, value: (prev: T | undefined) => T) {
+export function setElementSignal<T = any>(element: CustomElementInterface, name: VarName, value: (prev: T | undefined) => T) {
 
     let current = allVars.get(element)?.[name];
     if (current instanceof VarValue) {
@@ -193,11 +194,11 @@ export function setElementSignal<T = any>(element: CustomElement, name: VarName,
     signal[1](value);
 }
 
-export function deleteElementSignal(element: CustomElement, name: VarName) {
+export function deleteElementSignal(element: CustomElementInterface, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function loadElementSignal<T = any>(element: CustomElement, name: VarName, observable: ObservableLike<T>, options?: {onError?: (error: any) => void}) {
+export function loadElementSignal<T = any>(element: CustomElementInterface, name: VarName, observable: ObservableLike<T>, options?: {onError?: (error: any) => void}) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -220,11 +221,11 @@ export function loadElementSignal<T = any>(element: CustomElement, name: VarName
     return signal[0];
 }
 
-export function deleteElementStore(element: CustomElement, name: VarName) {
+export function deleteElementStore(element: CustomElementInterface, name: VarName) {
     deleteElementVar(element, name);
 }
 
-export function useElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName): ReturnType<typeof createStore<S>> {
+export function useElementStore<S extends {[key: string]: any}>(element: CustomElementInterface, name: VarName): ReturnType<typeof createStore<S>> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -245,7 +246,7 @@ export function useElementStore<S extends {[key: string]: any}>(element: CustomE
     }
 }
 
-export function setElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName, newValue: S){
+export function setElementStore<S extends {[key: string]: any}>(element: CustomElementInterface, name: VarName, newValue: S){
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -260,7 +261,7 @@ export function setElementStore<S extends {[key: string]: any}>(element: CustomE
     }
 }
 
-export function getElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName): Store<S> {
+export function getElementStore<S extends {[key: string]: any}>(element: CustomElementInterface, name: VarName): Store<S> {
 
     let value = allVars.get(element)?.[name];
     if (value instanceof VarValue) {
@@ -275,7 +276,7 @@ export function getElementStore<S extends {[key: string]: any}>(element: CustomE
     }
 }
 
-export function createElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName, value?: S) {
+export function createElementStore<S extends {[key: string]: any}>(element: CustomElementInterface, name: VarName, value?: S) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);
@@ -287,7 +288,7 @@ export function createElementStore<S extends {[key: string]: any}>(element: Cust
     return store;
 }
 
-export function loadElementStore<S extends {[key: string]: any}>(element: CustomElement, name: VarName, value: ObservableLike<S>, options?: {onError?: (error: any) => void}) {
+export function loadElementStore<S extends {[key: string]: any}>(element: CustomElementInterface, name: VarName, value: ObservableLike<S>, options?: {onError?: (error: any) => void}) {
 
     const vars = allVars.get(element);
     assertNotExists(vars, name);

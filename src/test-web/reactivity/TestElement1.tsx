@@ -2,14 +2,14 @@ import {defineElementComponent, CustomElementTemplate, CustomElement} from "@app
 import {createSignal} from "solid-js";
 import Test2 from "./TestElement2";
 
-export default defineElementComponent("test-reactivity1", class extends CustomElement {
+export default defineElementComponent("test-reactivity1", class extends CustomElement() {
 
-    template({children}: CustomElementTemplate<this>) {
+    template({children}: CustomElementTemplate) {
 
         const [error, setError] = createSignal<any>("yes");
 
         return <div>
-            <button onClick={() => setError(new Error())}>tirgger</button>
+            <button onClick={() => setError(new Error())}>trigger error</button>
             <Test2 errors={error()}/>
         </div>
     }

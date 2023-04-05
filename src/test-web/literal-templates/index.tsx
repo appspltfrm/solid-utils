@@ -1,12 +1,11 @@
 import {lazy} from "solid-js";
-import {Fragment} from "solid-js/h/jsx-runtime";
 import html from "solid-js/html";
 import TestElement from "../elements/TestElement";
 
 const LazyTestElement = lazy(async () => import("../elements/TestElement"));
 
 export default function() {
-    return <Fragment>
+    return <>
 
         <fieldset>
             <legend>Template literal solid web component</legend>
@@ -18,5 +17,5 @@ export default function() {
             {html`<${LazyTestElement} state="Lazy button"/>`}
         </fieldset>
 
-    </Fragment>
+    </>
 }

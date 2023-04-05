@@ -1,20 +1,12 @@
-import {
-    createElementSignal,
-    defineElementComponent,
-    CustomElementTemplate,
-    getElementSignal, setElementSignal,
-    CustomElement, useElementSignal
-} from "@appspltfrm/solidx/elements";
+import {CustomElement, CustomElementTemplate, defineElementComponent} from "@appspltfrm/solidx/elements";
 import {JSXElement, onCleanup} from "solid-js";
 
-export default defineElementComponent("test-reactivity2", class extends CustomElement {
-
-    protected static readonly reactive = {errors: true}
+export default defineElementComponent("test-reactivity2", class extends CustomElement({reactive: {errors: true}}) {
 
     errors: any;
 
-    template({props, children}: CustomElementTemplate<this>): JSXElement {
+    template({children}: CustomElementTemplate): JSXElement {
         onCleanup(() => console.log("cleanup2"));
-        return <>{props.errors ? props.errors.toString() : "no error"}</>;
+        return <>{this.errors ? this.errors.toString() : "no error"}</>;
     }
 })

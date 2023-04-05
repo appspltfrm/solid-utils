@@ -1,24 +1,17 @@
-import {
-    CustomElement,
-    defineElementComponent,
-    CustomElementJSXIntrinsic,
-    CustomElementTemplate,
-    reactive, renderRoot
-} from "@appspltfrm/solidx/elements";
+import {CustomElement, CustomElementTemplate, defineElementComponent} from "@appspltfrm/solidx/elements";
 import {onCleanup} from "solid-js";
-import styles from "./TestElement.scss?inline";
 
-export const TestNoDecorator = defineElementComponent("test-element-no-decorator", class Test extends CustomElement {
-
-    protected static readonly reactive = {test: true}
+export const TestNoDecorator = defineElementComponent("test-element-no-decorator", class extends CustomElement({
+    reactive: {test: true, testAProp: true}
+}) {
 
     test!: string;
 
     testAProp?: string;
 
-    protected template({props, children}: CustomElementTemplate<Test>) {
+    template({children}: CustomElementTemplate) {
         onCleanup(() => console.log("cleanup"))
-        return <>{props.test} | {props.testAProp}</>
+        return <>{this.test} | {this.testAProp}</>
     }
 });
 

@@ -1,14 +1,14 @@
 export * from "./vars";
 export type {CustomElementComponent, ElementComponent, ElementComponentOptions} from "./defineElementComponent";
-export type {CustomElementJSXIntrinsic} from "./CustomElementJSXIntrinsic";
-export type {CustomElementReactiveProp} from "./CustomElementReactiveProp";
-export type {CustomElementTemplate} from "./CustomElementTemplate";
 export type {CustomElementEventMap} from "./CustomElementEventMap";
+export type {CustomElementInterface, CustomElementTemplate, CustomElementPropertyValueChangeCallback, CustomElementDisconnectedCallback} from "./CustomElementInterface";
+export type {CustomElementJSXIntrinsic} from "./CustomElementJSXIntrinsic";
+export type {CustomElementOptions} from "./CustomElementOptions";
 export {CustomElement} from "./CustomElement";
-export {customElement} from "./decorators/customElement";
+export {defineCustomElement} from "./defineCustomElement";
 export {defineElementComponent} from "./defineElementComponent";
-export {reactive} from "./decorators/reactive";
-export {renderRoot} from "./decorators/renderRoot";
+export {isCustomElement} from "./isCustomElement";
+export {reactive} from "./reactive";
 
 declare module "solid-js" {
     namespace JSX {

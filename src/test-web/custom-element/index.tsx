@@ -1,7 +1,5 @@
-import {defineCustomElement} from "@appspltfrm/solidx/elements/wip";
-import {customElement} from "solid-element";
+import {defineCustomElement} from "@appspltfrm/solidx/elements";
 import {createEffect, createSignal} from "solid-js";
-import {Dynamic} from "solid-js/web";
 import {TestElement} from "./TestElement";
 
 defineCustomElement("test-element", TestElement);
@@ -10,7 +8,7 @@ export default function() {
 
     const [el, setEl] = createSignal<HTMLElement>();
 
-    const [propValue, setPropValue] = createSignal<string>("")
+    const [propValue, setPropValue] = createSignal<string>("123")
     setInterval(() => setPropValue(Date.now() + ""), 1000);
 
     createEffect(() => {

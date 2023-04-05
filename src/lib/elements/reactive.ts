@@ -1,13 +1,13 @@
 import {CustomElementReactivePropMap} from "./CustomeElementReactivePropMap";
-import {CustomElementReactiveProp} from "./CustomElementReactiveProp";
-import {customElementReactiveProps} from "./customElementReactiveProps";
+import {CustomElementReactivePropConfig} from "./CustomElementReactivePropConfig";
+import {reactivePropsProp} from "./internals/reactivePropsProp";
 import {isCustomElement} from "./isCustomElement";
 
-export function reactive(options?: CustomElementReactiveProp) {
+export function reactive(options?: CustomElementReactivePropConfig) {
     return (element: HTMLElement, propName: string, propertyDescriptor?: PropertyDescriptor) => {
         if (isCustomElement(element)) {
             const constructor = element.constructor as any;
-            const reactive: CustomElementReactivePropMap = constructor[customElementReactiveProps];
+            const reactive: CustomElementReactivePropMap = constructor[reactivePropsProp];
             reactive[propName] = options ?? {};
         }
     }

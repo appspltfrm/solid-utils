@@ -3,17 +3,20 @@ import type {JSX, ParentProps} from "solid-js";
 import {children, Component, createMemo, mergeProps, sharedConfig, splitProps} from "solid-js";
 import {getNextElement, spread} from "solid-js/web";
 import {CustomElement} from "./CustomElement";
+import {CustomElementInterface} from "./CustomElementInterface";
 import {CustomElementJSXAttributes} from "./CustomElementJSXAttributes";
 import {CustomElementJSXEvents} from "./CustomElementJSXEvents";
 import {CustomElementProps} from "./CustomElementProps";
-import {CustomElementReactiveProp} from "./CustomElementReactiveProp";
-import {registerElement} from "./registerElement";
+import {defineCustomElement} from "./defineCustomElement";
+import {childrenProp} from "./internals/childrenProp";
+import {InternalClass} from "./internals/InternalClass";
+import {reactivePropsProp} from "./internals/reactivePropsProp";
 
 type DefineElementFn = () => void;
 
-export type CustomElementComponent<TagName extends string, ElementType extends CustomElement, ComponentProps = CustomElementProps<ElementType>> = Component<ComponentProps & CustomElementJSXAttributes> & {
+export type CustomElementComponent<TagName extends string, ElementType extends CustomElementInterface, ComponentProps = CustomElementProps<ElementType>> = Component<ComponentProps & CustomElementJSXAttributes> & {
     tagName: TagName;
-    register(): void
+    defineCustomElement(): void
 }
 
 export interface CustomElementComponentOptions<Props = any, Events = any> {
@@ -29,7 +32,7 @@ export interface ElementComponentOptions {
     propsHandler?: (props: {[key: string]: any}) => void;
 }
 
-export function defineElementComponent<TagName extends string, ElementType extends CustomElement, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, options?: CustomElementComponentOptions<Props, Events>): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
+export function defineElementComponent<TagName extends string, ElementType extends CustomElementInterface, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, options?: CustomElementComponentOptions<Props, Events>): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
 
 export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, elementType: ComponentElement, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
 
@@ -37,16 +40,16 @@ export function defineElementComponent<TagName extends string, ComponentElement 
 
 export function defineElementComponent(tagName: string, elementTypeOrOptions?: AssignableType | ElementComponentOptions, componentOptions?: ElementComponentOptions | CustomElementComponentOptions): any {
 
-    const solidElementType = typeof elementTypeOrOptions === "function" && elementTypeOrOptions as AssignableType;
+    const solidElementType = typeof elementTypeOrOptions === "function" && elementTypeOrOptions as any;
     const options: Partial<ElementComponentOptions & CustomElementComponentOptions> | undefined = typeof elementTypeOrOptions === "object" ? elementTypeOrOptions as ElementComponentOptions : componentOptions;
 
-    function register() {
+    function define() {
 
         if (customElements.get(tagName)) {
             return;
 
         } else if (solidElementType) {
-            registerElement(tagName, solidElementType);
+            defineCustomElement(tagName, solidElementType);
 
         } else if (options?.define) {
             for (const d of Array.isArray(options.define) ? options.define : [options.define]) {
@@ -59,10 +62,10 @@ export function defineElementComponent(tagName: string, elementTypeOrOptions?: A
 
     if (solidElementType) {
 
-        const extendedType: Type & {reactive: {[propName: string]: boolean | CustomElementReactiveProp}} = solidElementType as any;
+        const internalClass: InternalClass = solidElementType as any;
 
         cmp = (rawProps: ParentProps<any>) => {
-            register();
+            define();
 
             const rawChildren = children(() => rawProps.children);
             const [, uncheckedProps] = splitProps(rawProps, ["children"]);
@@ -71,7 +74,7 @@ export function defineElementComponent(tagName: string, elementTypeOrOptions?: A
                 const clone = {};
                 const descriptors = Object.getOwnPropertyDescriptors(uncheckedProps);
                 for (const key of Object.keys(descriptors)) {
-                    const fixed = extendedType.reactive?.[key] ? `prop:${key}` : fixPropName(key);
+                    const fixed = internalClass[reactivePropsProp][key] ? `prop:${key}` : fixPropName(key);
                     Object.defineProperty(clone, key !== fixed ? fixed : key, descriptors[key]);
                 }
                 return clone;
@@ -79,10 +82,10 @@ export function defineElementComponent(tagName: string, elementTypeOrOptions?: A
 
             return createMemo(() => {
                 const el: any = sharedConfig.context ? getNextElement() : document.createElement(tagName);
-                const noShadow = (el as any)["renderRoot"] === el;
-                const childrenProp = noShadow ? "prop:slottedChildren" : "children";
+                const noShadow = (el as CustomElementInterface).renderRoot === el;
+                const childrenPropName = noShadow ? `prop:${childrenProp}` : "children";
 
-                spread(el, mergeProps(props, {[childrenProp]: rawChildren}), false, false);
+                spread(el, mergeProps(props, {[childrenPropName]: rawChildren}), false, false);
 
                 return el;
             })
@@ -92,7 +95,7 @@ export function defineElementComponent(tagName: string, elementTypeOrOptions?: A
 
         cmp = ((rawProps: any) => {
 
-            register();
+            define();
 
             return createMemo(() => {
 
@@ -122,7 +125,7 @@ export function defineElementComponent(tagName: string, elementTypeOrOptions?: A
     }
 
     cmp["tagName"] = tagName;
-    cmp["register"] = register;
+    cmp["defineCustomElement"] = define;
 
     return cmp;
 }

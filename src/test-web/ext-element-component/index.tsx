@@ -1,10 +1,9 @@
 import {defineElementComponent} from "@appspltfrm/solidx/elements";
-import {defineCustomElement} from "@ionic/core/components/ion-button";
 import type {JSX} from "@ionic/core/components";
-import {onCleanup} from "solid-js";
-import {Fragment} from "solid-js/h/jsx-runtime";
+import {defineCustomElement} from "@ionic/core/components/ion-button";
+import {onCleanup, ParentProps} from "solid-js";
 
-const ExtTest = defineElementComponent<"ion-button", HTMLIonButtonElement, JSX.IonButton>("ion-button", true, {define: defineCustomElement});
+const ExtTest = defineElementComponent<"ion-button", HTMLIonButtonElement, ParentProps<JSX.IonButton>>("ion-button", {define: defineCustomElement});
 
 const OtherComp = () => {
     onCleanup(() => console.log("cleanup"));
@@ -13,9 +12,9 @@ const OtherComp = () => {
 
 export default function() {
 
-    return <Fragment>
+    return <>
         <ExtTest>
             <OtherComp/>
         </ExtTest>
-    </Fragment>
+    </>
 }

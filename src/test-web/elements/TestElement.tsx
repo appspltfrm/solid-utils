@@ -1,12 +1,11 @@
 import {
-    defineElementComponent,
+    CustomElement,
     CustomElementJSXIntrinsic,
     CustomElementTemplate,
-    reactive,
-    renderRoot,
-    CustomElement
+    defineElementComponent,
+    reactive
 } from "@appspltfrm/solidx/elements";
-import {createEffect, onCleanup, VoidProps} from "solid-js";
+import {createEffect, onCleanup} from "solid-js";
 import styles from "./TestElement.scss?inline";
 
 export interface TestElementProps {
@@ -26,8 +25,7 @@ export interface TestElementProps {
     readonly?: boolean;
 }
 
-@renderRoot("element")
-export class TestElement extends CustomElement implements TestElementProps {
+export class TestElement extends CustomElement({renderRoot: "element", styles}) implements TestElementProps {
 
     @reactive()
     state!: any;
@@ -46,20 +44,19 @@ export class TestElement extends CustomElement implements TestElementProps {
 
     private test?: string;
 
-    protected template({props, children}: CustomElementTemplate<TestElement>) {
+    template({children}: CustomElementTemplate) {
 
         onCleanup(() => console.log("cleanup"))
 
-        createEffect(() => console.log("shit:" + props.state))
+        createEffect(() => console.log("shit:" + this.state))
 
         return <>
-            <style>{styles}</style>
-            <div>state: {props.state}</div>
-            <div>readonly: {typeof props.readonly}</div>
-            <span class="extra">{props.state} {props.camelCaseProp}</span>
+            <div class="extra">state: {this.state}</div>
+            <div>readonly: {typeof this.readonly}</div>
+            <span class="extra">{this.state} {this.camelCaseProp}</span>
             {children}
 
-            <div>{props.items?.join(", ")}</div>
+            <div>{this.items?.join(", ")}</div>
         </>
     }
 
