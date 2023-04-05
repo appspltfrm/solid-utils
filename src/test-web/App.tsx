@@ -25,11 +25,15 @@ const App: Component = () => {
                 <A href="/light-dom-element">light dom</A>
             </li>
             <li>
+                <A href="/custom-element">custom element</A>
+            </li>
+            <li>
                 <A href="/reactivity">reactivity</A>
             </li>
         </ul>}
 
         <Routes>
+            <Route path="/custom-element" component={lazy(() => import("./custom-element"))}/>
             <Route path="/light-dom-element" component={lazy(() => import("./light-dom-element"))}/>
             <Route path="/vars" component={lazy(() => import("./vars"))}/>
             <Route path="/reactivity" component={lazy(() => import("./reactivity"))}/>

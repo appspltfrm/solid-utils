@@ -1,5 +1,6 @@
-import {createSignal, Signal} from "solid-js";
+import {createMemo, createSignal, Signal} from "solid-js";
 import {createStore, Store} from "solid-js/store";
+import {Accessor, EffectFunction, Memo, MemoOptions, NoInfer} from "solid-js/types/reactive/signal";
 import {Observer, Unsubscribable} from "type-fest";
 import {CustomElement} from "./CustomElement";
 
@@ -20,6 +21,12 @@ class VarValue {
 function assertNotExists(vars: Vars | undefined, name: VarName) {
     if (vars && name in vars) {
         throw new Error(`Element var ${String(name)} already exists`);
+    }
+}
+
+function assertExists(vars: Vars | undefined, name: VarName) {
+    if (vars && !(name in vars)) {
+        throw new Error(`Element var ${String(name)} not exists`);
     }
 }
 
@@ -77,6 +84,56 @@ export function deleteElementVar<T>(element: CustomElement, name: VarName): T | 
         delete vars[name];
         return v;
     }
+}
+
+export function createElementMemo<Next extends Prev, Prev = Next>(element: CustomElement, name: VarName, fn: EffectFunction<undefined | NoInfer<Prev>, Next>): Accessor<Next>;
+export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElement, name: VarName, fn: EffectFunction<Init | Prev, Next>, value: Init, options?: MemoOptions<Next>): Accessor<Next>;
+
+export function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElement, name: VarName, fn?: any, value?: Init, options?: MemoOptions<Next>): Accessor<Next> {
+
+    const vars = allVars.get(element);
+    assertNotExists(vars, name);
+
+    const memo = createMemo<Next, Init, Prev>(fn, value!, options);
+
+    setElementVar(element, name, memo);
+
+    return memo;
+}
+
+export function useElementMemo<T = any>(element: CustomElement, name: VarName): Accessor<T> {
+
+    const vars = allVars.get(element);
+    assertExists(vars, name)
+
+    let value = vars![name];
+    if (value instanceof VarValue) {
+        value = value.value;
+    }
+
+    const memo = value as Accessor<T>;
+    if (typeof memo === "function") {
+        return memo;
+    }
+
+    return () => {
+        throw new Error(`Element var ${String(name)} is not a memo`);
+    }
+}
+
+export function getElementMemo<T = any>(element: CustomElement, name: VarName): T {
+
+    let value = allVars.get(element)?.[name];
+    if (value instanceof VarValue) {
+        value = value.value;
+    }
+
+    const memo = value as Accessor<T>;
+    if (typeof memo === "function") {
+        return memo();
+    }
+
+    throw new Error(`Element var ${String(name)} is not a memo`);
 }
 
 export function createElementSignal<T = any>(element: CustomElement, name: VarName, value?: T) {

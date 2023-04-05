@@ -1,6 +1,6 @@
 import {AssignableType, Type} from "@co.mmons/js-utils/core";
 import type {JSX, ParentProps} from "solid-js";
-import {children, Component, createMemo, createRenderEffect, mergeProps, sharedConfig, splitProps} from "solid-js";
+import {children, Component, createMemo, mergeProps, sharedConfig, splitProps} from "solid-js";
 import {getNextElement, spread} from "solid-js/web";
 import {CustomElement} from "./CustomElement";
 import {CustomElementJSXAttributes} from "./CustomElementJSXAttributes";
@@ -16,9 +16,12 @@ export type CustomElementComponent<TagName extends string, ElementType extends C
     register(): void
 }
 
-export type ElementComponent<TagName extends string, Props, ComponentElement extends HTMLElement> = Component<Partial<Props> & JSX.HTMLAttributes<ComponentElement>> & {tagName: TagName, register: () => void};
+export interface CustomElementComponentOptions<Props = any, Events = any> {
+    props?: Props,
+    events?: Events
+}
 
-type PropsHandler<P extends {[key: string]: any}> = (props: P) => P;
+export type ElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props> = Component<Partial<Props> & JSX.HTMLAttributes<ComponentElement>> & {tagName: TagName, register: () => void};
 
 export interface ElementComponentOptions {
     define?: DefineElementFn | DefineElementFn[];
@@ -26,15 +29,16 @@ export interface ElementComponentOptions {
     propsHandler?: (props: {[key: string]: any}) => void;
 }
 
-export function defineElementComponent<TagName extends string, ElementType extends CustomElement, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, props?: Props, events?: Events): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
+export function defineElementComponent<TagName extends string, ElementType extends CustomElement, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, options?: CustomElementComponentOptions<Props, Events>): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
 
-export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: true, options?: ElementComponentOptions): ElementComponent<TagName, Props & ParentProps, ComponentElement>;
+export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, elementType: ComponentElement, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
 
-export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, childrenAllowed: false, options?: ElementComponentOptions): ElementComponent<TagName, Props, ComponentElement>;
+export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
 
-export function defineElementComponent(tagName: string, elementTypeOrChildrenAllowed: AssignableType | boolean, options?: ElementComponentOptions | any, events?: any): any {
+export function defineElementComponent(tagName: string, elementTypeOrOptions?: AssignableType | ElementComponentOptions, componentOptions?: ElementComponentOptions | CustomElementComponentOptions): any {
 
-    const solidElementType = typeof elementTypeOrChildrenAllowed !== "boolean" && elementTypeOrChildrenAllowed as AssignableType;
+    const solidElementType = typeof elementTypeOrOptions === "function" && elementTypeOrOptions as AssignableType;
+    const options: Partial<ElementComponentOptions & CustomElementComponentOptions> | undefined = typeof elementTypeOrOptions === "object" ? elementTypeOrOptions as ElementComponentOptions : componentOptions;
 
     function register() {
 
@@ -110,7 +114,7 @@ export function defineElementComponent(tagName: string, elementTypeOrChildrenAll
                     return clone;
                 })
 
-                spread(el, mergeProps(options?.initialProps, props, {children: (elementTypeOrChildrenAllowed && rawChildren) ?? []}), false, !elementTypeOrChildrenAllowed);
+                spread(el, mergeProps(options?.initialProps, props, {children: rawChildren ?? []}), false, true);
 
                 return el;
             })
@@ -134,6 +138,4 @@ function fixPropName(key: string) {
     } else {
         return `prop:${key}`;
     }
-
-    return key.replace(/\.?([A-Z]+)/g, (x, y) => "-" + y.toLowerCase()).replace("_", "-").replace(/^-/, "");
 }

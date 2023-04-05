@@ -1,29 +1,32 @@
-import { createElementSignal as l, createElementStore as n, deleteElementSignal as m, deleteElementStore as o, deleteElementVar as r, getElementSignal as E, getElementStore as a, getElementVar as S, loadElementSignal as g, loadElementStore as i, setElementSignal as d, setElementStore as f, setElementVar as p, useElementSignal as s, useElementStore as x } from "./vars.js";
-import { CustomElement as u } from "./CustomElement.js";
-import { customElement as C } from "./decorators/customElement.js";
-import { defineElementComponent as R } from "./defineElementComponent.js";
-import { reactive as h } from "./decorators/reactive.js";
-import { renderRoot as k } from "./decorators/renderRoot.js";
+import { createElementMemo as m, createElementSignal as l, createElementStore as n, deleteElementSignal as o, deleteElementStore as r, deleteElementVar as E, getElementMemo as a, getElementSignal as S, getElementStore as g, getElementVar as i, loadElementSignal as s, loadElementStore as d, setElementSignal as f, setElementStore as p, setElementVar as x, useElementMemo as c, useElementSignal as u, useElementStore as M } from "./vars.js";
+import { CustomElement as C } from "./CustomElement.js";
+import { customElement as R } from "./decorators/customElement.js";
+import { defineElementComponent as h } from "./defineElementComponent.js";
+import { reactive as k } from "./decorators/reactive.js";
+import { renderRoot as w } from "./decorators/renderRoot.js";
 export {
-  u as CustomElement,
+  C as CustomElement,
+  m as createElementMemo,
   l as createElementSignal,
   n as createElementStore,
-  C as customElement,
-  R as defineElementComponent,
-  m as deleteElementSignal,
-  o as deleteElementStore,
-  r as deleteElementVar,
-  E as getElementSignal,
-  a as getElementStore,
-  S as getElementVar,
-  g as loadElementSignal,
-  i as loadElementStore,
-  h as reactive,
-  k as renderRoot,
-  d as setElementSignal,
-  f as setElementStore,
-  p as setElementVar,
-  s as useElementSignal,
-  x as useElementStore
+  R as customElement,
+  h as defineElementComponent,
+  o as deleteElementSignal,
+  r as deleteElementStore,
+  E as deleteElementVar,
+  a as getElementMemo,
+  S as getElementSignal,
+  g as getElementStore,
+  i as getElementVar,
+  s as loadElementSignal,
+  d as loadElementStore,
+  k as reactive,
+  w as renderRoot,
+  f as setElementSignal,
+  p as setElementStore,
+  x as setElementVar,
+  c as useElementMemo,
+  u as useElementSignal,
+  M as useElementStore
 };
 //# sourceMappingURL=index.js.map

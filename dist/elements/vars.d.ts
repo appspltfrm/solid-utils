@@ -1,5 +1,6 @@
 import { Signal } from "solid-js";
 import { createStore, Store } from "solid-js/store";
+import { Accessor, EffectFunction, MemoOptions, NoInfer } from "solid-js/types/reactive/signal";
 import { Observer, Unsubscribable } from "type-fest";
 import { CustomElement } from "./CustomElement";
 type VarName = string | symbol;
@@ -11,6 +12,10 @@ export declare function setElementVar(element: CustomElement, name: VarName, val
     onDelete?: (() => any | void);
 }): void;
 export declare function deleteElementVar<T>(element: CustomElement, name: VarName): T | undefined;
+export declare function createElementMemo<Next extends Prev, Prev = Next>(element: CustomElement, name: VarName, fn: EffectFunction<undefined | NoInfer<Prev>, Next>): Accessor<Next>;
+export declare function createElementMemo<Next extends Prev, Init = Next, Prev = Next>(element: CustomElement, name: VarName, fn: EffectFunction<Init | Prev, Next>, value: Init, options?: MemoOptions<Next>): Accessor<Next>;
+export declare function useElementMemo<T = any>(element: CustomElement, name: VarName): Accessor<T>;
+export declare function getElementMemo<T = any>(element: CustomElement, name: VarName): T;
 export declare function createElementSignal<T = any>(element: CustomElement, name: VarName, value?: T): Signal<T | undefined>;
 export declare function useElementSignal<T = any>(element: CustomElement, name: VarName): Signal<T | undefined>;
 export declare function getElementSignal<T = any>(element: CustomElement, name: VarName): T | undefined;
@@ -18,7 +23,7 @@ export declare function setElementSignal<T = any>(element: CustomElement, name: 
 export declare function deleteElementSignal(element: CustomElement, name: VarName): void;
 export declare function loadElementSignal<T = any>(element: CustomElement, name: VarName, observable: ObservableLike<T>, options?: {
     onError?: (error: any) => void;
-}): import("solid-js").Accessor<T | undefined>;
+}): Accessor<T | undefined>;
 export declare function deleteElementStore(element: CustomElement, name: VarName): void;
 export declare function useElementStore<S extends {
     [key: string]: any;

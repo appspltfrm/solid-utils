@@ -19,7 +19,7 @@ export default function() {
 
         <Show when={false}>
             <Test state={state()} class="aaa" classList={{test: true}} tabIndex="-1" items={items()} readonly={true}>
-                <span>jakiś test</span>
+                <span>jakiś test solid</span>
             </Test>
 
             <button onClick={(ev) => setItems(["1", "2", "3"])}>change items</button>

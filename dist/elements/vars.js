@@ -1,8 +1,8 @@
-var y = Object.defineProperty;
-var A = (e, t, n) => t in e ? y(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : e[t] = n;
-var v = (e, t, n) => (A(e, typeof t != "symbol" ? t + "" : t, n), n);
-import { createSignal as b } from "solid-js";
-import { createStore as S } from "solid-js/store";
+var m = Object.defineProperty;
+var y = (t, e, r) => e in t ? m(t, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : t[e] = r;
+var v = (t, e, r) => (y(t, typeof e != "symbol" ? e + "" : e, r), r);
+import { createMemo as D, createSignal as S } from "solid-js";
+import { createStore as b } from "solid-js/store";
 const i = /* @__PURE__ */ new WeakMap();
 class c {
   constructor() {
@@ -10,148 +10,180 @@ class c {
     v(this, "onDelete");
   }
 }
-function f(e, t) {
-  if (e && t in e)
-    throw new Error(`Element var ${String(t)} already exists`);
+function a(t, e) {
+  if (t && e in t)
+    throw new Error(`Element var ${String(e)} already exists`);
 }
-function h(e, t) {
-  var r;
-  const n = (r = i.get(e)) == null ? void 0 : r[t];
-  return n instanceof c ? n.value : n;
+function x(t, e) {
+  if (t && !(e in t))
+    throw new Error(`Element var ${String(e)} not exists`);
 }
-function g(e, t, n, r) {
-  let l = i.get(e);
-  l || (l = {}, i.set(e, l), e.addDisconnectedCallback(() => {
-    var a;
-    const u = i.get(e);
-    if (u)
-      for (const o of Object.values(u))
-        o instanceof c && ((a = o.onDelete) == null || a.call(o));
-    i.delete(e);
+function M(t, e) {
+  var n;
+  const r = (n = i.get(t)) == null ? void 0 : n[e];
+  return r instanceof c ? r.value : r;
+}
+function f(t, e, r, n) {
+  let o = i.get(t);
+  o || (o = {}, i.set(t, o), t.addDisconnectedCallback(() => {
+    var u;
+    const l = i.get(t);
+    if (l)
+      for (const g of Object.values(l))
+        g instanceof c && ((u = g.onDelete) == null || u.call(g));
+    i.delete(t);
   }));
-  let s = n;
-  r != null && r.onDelete && (s = new c(), s.value = n, s.onDelete = r.onDelete), l[t] = s;
+  let s = r;
+  n != null && n.onDelete && (s = new c(), s.value = r, s.onDelete = n.onDelete), o[e] = s;
 }
-function d(e, t) {
-  var r;
-  const n = i.get(e);
-  if (n) {
-    let l = n[t];
-    return l instanceof c && ((r = l.onDelete) == null || r.call(l), l = l.value), delete n[t], l;
+function d(t, e) {
+  var n;
+  const r = i.get(t);
+  if (r) {
+    let o = r[e];
+    return o instanceof c && ((n = o.onDelete) == null || n.call(o), o = o.value), delete r[e], o;
   }
 }
-function E(e, t, n) {
-  const r = i.get(e);
-  f(r, t);
-  const l = b(n);
-  return g(e, t, l), l;
+function $(t, e, r, n, o) {
+  const s = i.get(t);
+  a(s, e);
+  const l = D(r, n, o);
+  return f(t, e, l), l;
 }
-function k(e, t) {
-  var l;
-  let n = (l = i.get(e)) == null ? void 0 : l[t];
+function k(t, e) {
+  const r = i.get(t);
+  x(r, e);
+  let n = r[e];
   n instanceof c && (n = n.value);
-  let r = n;
-  return r || (r = E(e, t)), r;
+  const o = n;
+  return typeof o == "function" ? o : () => {
+    throw new Error(`Element var ${String(e)} is not a memo`);
+  };
 }
-function j(e, t) {
-  var l;
-  let n = (l = i.get(e)) == null ? void 0 : l[t];
-  n instanceof c && (n = n.value);
-  let r = n;
-  return r || (r = E(e, t)), r[0]();
-}
-function C(e, t, n) {
-  var s;
-  let r = (s = i.get(e)) == null ? void 0 : s[t];
+function j(t, e) {
+  var o;
+  let r = (o = i.get(t)) == null ? void 0 : o[e];
   r instanceof c && (r = r.value);
-  let l = r;
-  l || (l = E(e, t)), l[1](n);
+  const n = r;
+  if (typeof n == "function")
+    return n();
+  throw new Error(`Element var ${String(e)} is not a memo`);
 }
-function M(e, t) {
-  d(e, t);
+function E(t, e, r) {
+  const n = i.get(t);
+  a(n, e);
+  const o = S(r);
+  return f(t, e, o), o;
 }
-function N(e, t, n, r) {
-  const l = i.get(e);
-  f(l, t);
-  const s = b(), u = n.subscribe({
-    next: (a) => s[1](() => a),
-    error: (a) => {
-      if (r != null && r.onError)
-        r.onError(a);
+function C(t, e) {
+  var o;
+  let r = (o = i.get(t)) == null ? void 0 : o[e];
+  r instanceof c && (r = r.value);
+  let n = r;
+  return n || (n = E(t, e)), n;
+}
+function N(t, e) {
+  var o;
+  let r = (o = i.get(t)) == null ? void 0 : o[e];
+  r instanceof c && (r = r.value);
+  let n = r;
+  return n || (n = E(t, e)), n[0]();
+}
+function O(t, e, r) {
+  var s;
+  let n = (s = i.get(t)) == null ? void 0 : s[e];
+  n instanceof c && (n = n.value);
+  let o = n;
+  o || (o = E(t, e)), o[1](r);
+}
+function W(t, e) {
+  d(t, e);
+}
+function q(t, e, r, n) {
+  const o = i.get(t);
+  a(o, e);
+  const s = S(), l = r.subscribe({
+    next: (u) => s[1](() => u),
+    error: (u) => {
+      if (n != null && n.onError)
+        n.onError(u);
       else
-        throw a;
+        throw u;
     }
   });
-  return g(e, t, s, { onDelete: "unsubscribe" in u ? u.unsubscribe : u }), s[0];
+  return f(t, e, s, { onDelete: "unsubscribe" in l ? l.unsubscribe : l }), s[0];
 }
-function O(e, t) {
-  d(e, t);
+function z(t, e) {
+  d(t, e);
 }
-function W(e, t) {
-  var l;
-  let n = (l = i.get(e)) == null ? void 0 : l[t];
-  n instanceof c && (n = n.value);
-  const r = n;
-  return r && Array.isArray(r) ? r : [
+function B(t, e) {
+  var o;
+  let r = (o = i.get(t)) == null ? void 0 : o[e];
+  r instanceof c && (r = r.value);
+  const n = r;
+  return n && Array.isArray(n) ? n : [
     void 0,
     (s) => {
-      const [, u] = D(e, t);
-      return u(s);
+      const [, l] = w(t, e);
+      return l(s);
     }
   ];
 }
-function $(e, t, n) {
+function F(t, e, r) {
   var s;
-  let r = (s = i.get(e)) == null ? void 0 : s[t];
-  r instanceof c && (r = r.value);
-  const l = r;
-  if (l && Array.isArray(l))
-    return l[1](n);
-  D(e, t, n);
-}
-function q(e, t) {
-  var l;
-  let n = (l = i.get(e)) == null ? void 0 : l[t];
+  let n = (s = i.get(t)) == null ? void 0 : s[e];
   n instanceof c && (n = n.value);
-  const r = n;
-  if (r && Array.isArray(r))
-    return r[0];
+  const o = n;
+  if (o && Array.isArray(o))
+    return o[1](r);
+  w(t, e, r);
 }
-function D(e, t, n) {
-  const r = i.get(e);
-  f(r, t);
-  const l = S(n);
-  return g(e, t, l), l;
+function G(t, e) {
+  var o;
+  let r = (o = i.get(t)) == null ? void 0 : o[e];
+  r instanceof c && (r = r.value);
+  const n = r;
+  if (n && Array.isArray(n))
+    return n[0];
 }
-function z(e, t, n, r) {
-  const l = i.get(e);
-  f(l, t);
-  const s = S({}), u = n.subscribe({
-    next: (a) => s[1](a),
-    error: (a) => {
-      if (r != null && r.onError)
-        r.onError(a);
+function w(t, e, r) {
+  const n = i.get(t);
+  a(n, e);
+  const o = b(r);
+  return f(t, e, o), o;
+}
+function H(t, e, r, n) {
+  const o = i.get(t);
+  a(o, e);
+  const s = b({}), l = r.subscribe({
+    next: (u) => s[1](u),
+    error: (u) => {
+      if (n != null && n.onError)
+        n.onError(u);
       else
-        throw a;
+        throw u;
     }
   });
-  return g(e, t, s, { onDelete: "unsubscribe" in u ? u.unsubscribe : u }), s[0];
+  return f(t, e, s, { onDelete: "unsubscribe" in l ? l.unsubscribe : l }), s[0];
 }
 export {
+  $ as createElementMemo,
   E as createElementSignal,
-  D as createElementStore,
-  M as deleteElementSignal,
-  O as deleteElementStore,
+  w as createElementStore,
+  W as deleteElementSignal,
+  z as deleteElementStore,
   d as deleteElementVar,
-  j as getElementSignal,
-  q as getElementStore,
-  h as getElementVar,
-  N as loadElementSignal,
-  z as loadElementStore,
-  C as setElementSignal,
-  $ as setElementStore,
-  g as setElementVar,
-  k as useElementSignal,
-  W as useElementStore
+  j as getElementMemo,
+  N as getElementSignal,
+  G as getElementStore,
+  M as getElementVar,
+  q as loadElementSignal,
+  H as loadElementStore,
+  O as setElementSignal,
+  F as setElementStore,
+  f as setElementVar,
+  k as useElementMemo,
+  C as useElementSignal,
+  B as useElementStore
 };
 //# sourceMappingURL=vars.js.map
