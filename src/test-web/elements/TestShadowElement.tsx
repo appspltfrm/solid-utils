@@ -1,4 +1,4 @@
-import {CustomElement, CustomElementTemplate, defineElementComponent} from "@appspltfrm/solidx/elements";
+import {CustomElement, CustomElementTemplate, defineComponent} from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
 export class TestShadowElement extends CustomElement {
@@ -8,4 +8,4 @@ export class TestShadowElement extends CustomElement {
     }
 }
 
-export const TestShadow = defineElementComponent("test-shadow", TestShadowElement);
+export const TestShadow = defineComponent("test-shadow", TestShadowElement);

@@ -1,8 +1,7 @@
-import {AssignableType, Type} from "@co.mmons/js-utils/core";
+import {AssignableType} from "@co.mmons/js-utils/core";
 import type {JSX, ParentProps} from "solid-js";
 import {children, Component, createMemo, mergeProps, sharedConfig, splitProps} from "solid-js";
 import {getNextElement, spread} from "solid-js/web";
-import {CustomElement} from "./CustomElement";
 import {CustomElementInterface} from "./CustomElementInterface";
 import {CustomElementJSXAttributes} from "./CustomElementJSXAttributes";
 import {CustomElementJSXEvents} from "./CustomElementJSXEvents";
@@ -32,13 +31,13 @@ export interface ElementComponentOptions {
     propsHandler?: (props: {[key: string]: any}) => void;
 }
 
-export function defineElementComponent<TagName extends string, ElementType extends CustomElementInterface, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, options?: CustomElementComponentOptions<Props, Events>): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
+export function defineComponent<TagName extends string, ElementType extends CustomElementInterface, Props = CustomElementProps<ElementType>, Events extends {[P in keyof Events]: Event} = any>(tagName: TagName, elementType: AssignableType<ElementType>, options?: CustomElementComponentOptions<Props, Events>): CustomElementComponent<TagName, ElementType, Props & CustomElementJSXEvents<ElementType, Events> & Omit<JSX.HTMLAttributes<ElementType>, keyof CustomElementJSXEvents<ElementType, Events>>>;
 
-export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, elementType: ComponentElement, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
+export function defineComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, elementType: ComponentElement, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
 
-export function defineElementComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
+export function defineComponent<TagName extends string, ComponentElement extends HTMLElement, Props>(tagName: TagName, options?: ElementComponentOptions): ElementComponent<TagName, ComponentElement, Props>;
 
-export function defineElementComponent(tagName: string, elementTypeOrOptions?: AssignableType | ElementComponentOptions, componentOptions?: ElementComponentOptions | CustomElementComponentOptions): any {
+export function defineComponent(tagName: string, elementTypeOrOptions?: AssignableType | ElementComponentOptions, componentOptions?: ElementComponentOptions | CustomElementComponentOptions): any {
 
     const solidElementType = typeof elementTypeOrOptions === "function" && elementTypeOrOptions as any;
     const options: Partial<ElementComponentOptions & CustomElementComponentOptions> | undefined = typeof elementTypeOrOptions === "object" ? elementTypeOrOptions as ElementComponentOptions : componentOptions;

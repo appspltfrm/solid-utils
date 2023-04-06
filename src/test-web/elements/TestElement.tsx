@@ -2,7 +2,7 @@ import {
     CustomElement,
     CustomElementJSXIntrinsic,
     CustomElementTemplate,
-    defineElementComponent,
+    defineComponent,
     reactive
 } from "@appspltfrm/solidx/elements";
 import {createEffect, onCleanup} from "solid-js";
@@ -75,7 +75,7 @@ interface TestElementEventMap extends HTMLElementEventMap {
     stateChange: CustomEvent<any>;
 }
 
-export const Test = defineElementComponent<"test-element", TestElement, TestElementProps, TestElementEventMap>("test-element", TestElement);
+export const Test = defineComponent<"test-element", TestElement, TestElementProps, TestElementEventMap>("test-element", TestElement);
 
 export default Test;
 

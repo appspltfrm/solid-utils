@@ -2,7 +2,7 @@ import {
     CustomElement,
     CustomElementJSXIntrinsic,
     CustomElementTemplate,
-    defineElementComponent
+    defineComponent
 } from "@appspltfrm/solidx/elements";
 import {JSXElement} from "solid-js";
 
@@ -13,7 +13,7 @@ export class TestLightElement extends CustomElement({renderRoot: "element"}) {
     }
 }
 
-export const Test = defineElementComponent("test-light-element", TestLightElement);
+export const Test = defineComponent("test-light-element", TestLightElement);
 
 declare global {
     interface HTMLElementTagNameMap {

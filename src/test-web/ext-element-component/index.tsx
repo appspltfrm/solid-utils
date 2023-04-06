@@ -1,4 +1,4 @@
-import {defineElementComponent} from "@appspltfrm/solidx/elements";
+import {defineComponent} from "@appspltfrm/solidx/elements";
 import type {JSX} from "@ionic/core/components";
 import {defineCustomElement} from "@ionic/core/components/ion-button";
 import {onCleanup, ParentProps} from "solid-js";
