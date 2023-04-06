@@ -1,5 +1,5 @@
 import type {Observable, Subscription} from "rxjs";
-import {Accessor, createSignal, getOwner, onCleanup, Setter, Signal} from "solid-js";
+import {createSignal, getOwner, onCleanup, Signal} from "solid-js";
 
 export type SignalFromObservable<T> = [...Signal<T>, Subscription];
 

@@ -24,8 +24,7 @@ export default defineConfig({
         emptyOutDir: true,
         lib: {
             entry: [
-                "elements/index.ts",
-                "utils/index.ts",
+                "misc/index.ts",
                 "reactivity/index.ts",
             ],
             formats: ["es"]
