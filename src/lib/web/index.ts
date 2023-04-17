@@ -1,0 +1,1 @@
+export {renderToDom} from "./renderToDom";
