@@ -1,5 +1,8 @@
-import { createSignalFrom as o } from "./createSignalFrom.js";
+import { createSignalFrom as t } from "./createSignalFrom.js";
+import { createContextVar as a, getContextVar as x } from "./context-vars.js";
 export {
-  o as createSignalFrom
+  a as createContextVar,
+  t as createSignalFrom,
+  x as getContextVar
 };
 //# sourceMappingURL=index.js.map
