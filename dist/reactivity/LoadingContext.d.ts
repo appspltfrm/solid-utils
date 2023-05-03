@@ -2,7 +2,7 @@ export interface LoadingContext {
     /**
      * Notify that main job started.
      */
-    start(): this;
+    mainStart(): this;
     /**
      * Notify that given job started.
      */
@@ -10,7 +10,7 @@ export interface LoadingContext {
     /**
      * Notify that main job stopped.
      */
-    stop(): this;
+    mainStop(): this;
     /**
      * Notify that given job stopped.
      */
@@ -26,7 +26,7 @@ export interface LoadingContext {
     /**
      * If the main job is loading.
      */
-    main(): boolean;
+    mainBusy(): boolean;
 }
 export declare function createLoadingContext(): LoadingContext;
 export declare function getLoadingContext(): LoadingContext | undefined;

@@ -1,20 +1,26 @@
 var a = Object.defineProperty;
-var u = (s, t, n) => t in s ? a(s, t, { enumerable: !0, configurable: !0, writable: !0, value: n }) : s[t] = n;
-var o = (s, t, n) => (u(s, typeof t != "symbol" ? t + "" : t, n), n);
-import { createSignal as b, untrack as r } from "solid-js";
-import { setContext as m, getContext as c } from "./context.js";
-const i = Symbol("@appspltfrm/solid-utils/LoadingContext"), e = Symbol("main");
-class g {
+var u = (n, t, s) => t in n ? a(n, t, { enumerable: !0, configurable: !0, writable: !0, value: s }) : n[t] = s;
+var e = (n, t, s) => (u(n, typeof t != "symbol" ? t + "" : t, s), s);
+import { createSignal as b, untrack as i } from "solid-js";
+import { setContext as m, getContext as h } from "./context.js";
+const r = Symbol("@appspltfrm/solid-utils/LoadingContext"), o = Symbol("main");
+class c {
   constructor() {
-    o(this, "jobs", b(/* @__PURE__ */ new Set()));
+    e(this, "jobs", b(/* @__PURE__ */ new Set()));
   }
-  start() {
-    const t = arguments.length === 1 ? arguments[0] : e, n = r(() => this.jobs[0]());
-    return this.jobs[1](new Set(n.add(t ?? e))), this;
+  mainStart() {
+    return this.start(o);
   }
-  stop() {
-    const t = arguments.length === 1 ? arguments[0] : e, n = r(() => this.jobs[0]());
-    return n.delete(t ?? e) && this.jobs[1](new Set(n)), this;
+  start(t) {
+    const s = i(() => this.jobs[0]());
+    return this.jobs[1](new Set(s.add(t ?? o))), this;
+  }
+  mainStop() {
+    return this.stop(o);
+  }
+  stop(t) {
+    const s = i(() => this.jobs[0]());
+    return s.delete(t ?? o) && this.jobs[1](new Set(s)), this;
   }
   size() {
     return this.jobs[0]().size;
@@ -22,18 +28,18 @@ class g {
   busy() {
     return this.jobs[0]().size > 0;
   }
-  main() {
-    return this.jobs[0]().has(e);
+  mainBusy() {
+    return this.jobs[0]().has(o);
   }
 }
 function l() {
-  return m(i, new g());
+  return m(r, new c());
 }
-function p() {
-  return c(i);
+function x() {
+  return h(r);
 }
 export {
   l as createLoadingContext,
-  p as getLoadingContext
+  x as getLoadingContext
 };
 //# sourceMappingURL=LoadingContext.js.map
