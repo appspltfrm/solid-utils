@@ -22,9 +22,9 @@ function assertExists(vars: Vars | undefined, name: VarName) {
     }
 }
 
-export function createContextVar<T>(name: string | symbol, initialValue: T): T;
+export function setContext<T>(name: string | symbol, initialValue: T): T;
 
-export function createContextVar<T>(name: string | symbol, initialValue?: T) {
+export function setContext<T>(name: string | symbol, initialValue?: T) {
     const owner = getOwner();
 
     if (!owner) {
@@ -45,7 +45,7 @@ export function createContextVar<T>(name: string | symbol, initialValue?: T) {
     return initialValue;
 }
 
-export function getContextVar<T>(name: string | symbol): T | undefined {
+export function getContext<T>(name: string | symbol): T | undefined {
 
     let owner = getOwner();
     if (!owner) {
