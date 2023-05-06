@@ -1,7 +1,7 @@
-import { Signal } from "solid-js";
+import { EffectFunction, Signal } from "solid-js";
 import { Observer, Unsubscribable } from "type-fest";
 export type SignalFromObservable<T> = [...Signal<T>, Unsubscribable];
-interface ObservableLike<ValueType = unknown> {
+interface ObservableLike<ValueType> {
     subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
 }
 interface InitialValueOption<T> {
@@ -15,6 +15,6 @@ interface CreateSignalFromObservableOption<T> extends Options, Partial<InitialVa
 }
 export declare function createSignalFromObservable<T = any>(observable: ObservableLike<T>, options: InitialValueOption<T> & Options): SignalFromObservable<T>;
 export declare function createSignalFromObservable<T = any>(observable: ObservableLike<T>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined>;
-export declare function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options: InitialValueOption<Init> & Options): SignalFromObservable<Next>;
-export declare function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options?: CreateSignalFromObservableOption<Init | undefined>): SignalFromObservable<Next | undefined>;
+export declare function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: EffectFunction<undefined | ObservableLike<Prev>, ObservableLike<Next>>, options: InitialValueOption<Init> & Options): SignalFromObservable<Next>;
+export declare function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: EffectFunction<undefined | ObservableLike<Prev>, ObservableLike<Next>>, options?: CreateSignalFromObservableOption<Init | undefined>): SignalFromObservable<Next | undefined>;
 export {};
