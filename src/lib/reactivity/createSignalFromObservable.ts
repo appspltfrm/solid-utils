@@ -3,6 +3,8 @@ import {Observer, Unsubscribable} from "type-fest";
 
 export type SignalFromObservable<T> = [...Signal<T>, Unsubscribable];
 
+type NoInfer<T extends any> = [T][T extends any ? 0 : never];
+
 interface ObservableLike<ValueType = unknown> {
     subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
 }
@@ -23,9 +25,9 @@ export function createSignalFromObservable<T = any>(observable: ObservableLike<T
 
 export function createSignalFromObservable<T = any>(observable: ObservableLike<T>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined>;
 
-export function createSignalFromObservable<T = any>(memo: (prev?: ObservableLike<T>) => ObservableLike<T>, options: InitialValueOption<T> & Options): SignalFromObservable<T>;
+export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options: InitialValueOption<Init> & Options): SignalFromObservable<Init>;
 
-export function createSignalFromObservable<T = any>(memo: (prev?: ObservableLike<T>) => ObservableLike<T>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined>;
+export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options?: CreateSignalFromObservableOption<Init | undefined>): SignalFromObservable<Next | undefined>;
 
 export function createSignalFromObservable<T = any>(observableOrMemo: ObservableLike<T> | ((prev?: ObservableLike<T>) => ObservableLike<T>), options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined> {
 
