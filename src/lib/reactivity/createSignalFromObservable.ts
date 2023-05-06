@@ -1,13 +1,7 @@
+import {Observable, Subscription} from "rxjs";
 import {Accessor, createMemo, createSignal, EffectFunction, getOwner, onCleanup, Setter, Signal} from "solid-js";
-import {Observer, Unsubscribable} from "type-fest";
 
-export type SignalFromObservable<T> = [...Signal<T>, Unsubscribable];
-
-type NoInfer<T extends any> = [T][T extends any ? 0 : never];
-
-interface ObservableLike<ValueType> {
-    subscribe(observer?: Partial<Observer<ValueType>>): Unsubscribable;
-}
+export type SignalFromObservable<T> = [...Signal<T>, Subscription];
 
 interface InitialValueOption<T> {
     value: T;
@@ -21,19 +15,19 @@ export interface Options {
 interface CreateSignalFromObservableOption<T> extends Options, Partial<InitialValueOption<T>> {
 }
 
-export function createSignalFromObservable<T = any>(observable: ObservableLike<T>, options: InitialValueOption<T> & Options): SignalFromObservable<T>;
+export function createSignalFromObservable<T>(observable: Observable<T>, options: InitialValueOption<T> & Options): SignalFromObservable<T>;
 
-export function createSignalFromObservable<T = any>(observable: ObservableLike<T>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined>;
+export function createSignalFromObservable<T>(observable: Observable<T>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined>;
 
-export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: EffectFunction<undefined | ObservableLike<Prev>, ObservableLike<Next>>, options: InitialValueOption<Init> & Options): SignalFromObservable<Next>;
+export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: EffectFunction<undefined | Observable<Prev>, Observable<Next>>, options: InitialValueOption<Init> & Options): SignalFromObservable<Next>;
 
-export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: EffectFunction<undefined | ObservableLike<Prev>, ObservableLike<Next>>, options?: CreateSignalFromObservableOption<Init | undefined>): SignalFromObservable<Next | undefined>;
+export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: EffectFunction<undefined | Observable<Prev>, Observable<Next>>, options?: CreateSignalFromObservableOption<Init | undefined>): SignalFromObservable<Next | undefined>;
 
-export function createSignalFromObservable<T = any>(observableOrMemo: ObservableLike<T> | EffectFunction<undefined | ObservableLike<T>, ObservableLike<T>>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined> {
+export function createSignalFromObservable<T>(observableOrMemo: Observable<T> | EffectFunction<undefined | Observable<T>, Observable<T>>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined> {
 
     if (typeof observableOrMemo === "function") {
 
-        type Memo = [ObservableLike<T>, Accessor<T | undefined>, Setter<T | undefined>, Unsubscribable];
+        type Memo = [Observable<T>, Accessor<T | undefined>, Setter<T | undefined>, Subscription];
         const data = createMemo<Memo>((prev) => {
 
             const prevObservable = prev?.[0];
