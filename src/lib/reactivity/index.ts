@@ -1,8 +1,8 @@
 import {AccessorOfSignal} from "./AccessorOfSignal";
-import {SignalFromObservable} from "./createSignalFrom";
+import {SignalFromObservable} from "./createSignalFromObservable";
 
-export {createSignalFrom} from "./createSignalFrom";
-export type {SignalFromObservable} from "./createSignalFrom";
+export {createSignalFromObservable} from "./createSignalFromObservable";
+export type {SignalFromObservable} from "./createSignalFromObservable";
 export type {AccessorOfSignal} from "./AccessorOfSignal";
 export type {ValueOfSignal} from "./ValueOfSignal";
 

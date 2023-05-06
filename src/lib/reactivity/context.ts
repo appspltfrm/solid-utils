@@ -3,7 +3,7 @@ import {getOwner, onCleanup, Owner} from "solid-js";
 type Vars = {[key: string | symbol]: any};
 type VarName = string | symbol;
 
-const allVars = new WeakMap<Owner, Vars>()
+const allVars = new WeakMap<Owner, Vars>();
 
 class VarValue {
     value: any;

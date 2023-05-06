@@ -1,5 +1,5 @@
-export { createSignalFrom } from "./createSignalFrom";
-export type { SignalFromObservable } from "./createSignalFrom";
+export { createSignalFromObservable } from "./createSignalFromObservable";
+export type { SignalFromObservable } from "./createSignalFromObservable";
 export type { AccessorOfSignal } from "./AccessorOfSignal";
 export type { ValueOfSignal } from "./ValueOfSignal";
 export { setContext, getContext } from "./context";
