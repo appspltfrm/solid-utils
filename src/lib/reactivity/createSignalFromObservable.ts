@@ -25,7 +25,7 @@ export function createSignalFromObservable<T = any>(observable: ObservableLike<T
 
 export function createSignalFromObservable<T = any>(observable: ObservableLike<T>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined>;
 
-export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options: InitialValueOption<Init> & Options): SignalFromObservable<Init>;
+export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options: InitialValueOption<Init> & Options): SignalFromObservable<Next>;
 
 export function createSignalFromObservable<Next extends Prev, Init = Next, Prev = Next>(memo: (prev?: ObservableLike<Prev>) => ObservableLike<Next>, options?: CreateSignalFromObservableOption<Init | undefined>): SignalFromObservable<Next | undefined>;
 
