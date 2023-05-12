@@ -22,11 +22,11 @@ function assertExists(vars: Vars | undefined, name: VarName) {
     }
 }
 
-export function setContext<T>(name: string | symbol, initialValue: T): T;
+export function createContext<T>(name: string | symbol, initialValue: T): T;
 
-export function setContext<T>(name: string | symbol, initialValue?: T) {
+export function createContext<T>(name: string | symbol, initialValue?: T) {
+
     const owner = getOwner();
-
     if (!owner) {
         throw new Error("No owner, cannot create context");
     }
@@ -43,6 +43,29 @@ export function setContext<T>(name: string | symbol, initialValue?: T) {
     vars[name] = initialValue;
 
     return initialValue;
+}
+
+export function setContext<T>(name: string | symbol, value: T): T {
+
+    let owner = getOwner();
+    if (!owner) {
+        throw new Error("No owner, cannot set context");
+    }
+
+    while (owner) {
+
+        const vars = allVars.get(owner);
+        if (vars) {
+            if (name in vars) {
+                vars[name] = value;
+                return value;
+            }
+        }
+
+        owner = owner.owner;
+    }
+
+    return value;
 }
 
 export function getContext<T>(name: string | symbol): T | undefined {
