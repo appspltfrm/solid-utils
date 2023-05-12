@@ -26,6 +26,7 @@ export default defineConfig({
             entry: [
                 "misc/index.ts",
                 "reactivity/index.ts",
+                "context/index.ts",
                 "web/index.ts"
             ],
             formats: ["es"]
