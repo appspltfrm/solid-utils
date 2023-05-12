@@ -1,9 +1,11 @@
 import {Component, createComponent, createEffect, createRoot, createSignal, lazy} from "solid-js";
 import {assign, insert} from "solid-js/web";
 
+const disposeProp = Symbol("renderToDom:dispose");
+
 type SolidComponent = Component | ReturnType<typeof lazy>;
 type SolidComponentWrapper = {component: SolidComponent | string};
-type RenderedElement<T extends Element = Element> = T & {"__solidDispose"?: () => void};
+export type RenderedElement<T extends Element = Element> = T & {[disposeProp]?: VoidFunction};
 
 export async function renderToDom<T extends Element = Element>(
     parentNode: Node,
@@ -28,9 +30,9 @@ export async function renderToDom<T extends Element = Element>(
 
                     createEffect(() => {
                         if (element()) {
-                            (element() as RenderedElement).__solidDispose = () => {
+                            (element() as RenderedElement)[disposeProp] = () => {
                                 dispose();
-                                delete (element() as RenderedElement).__solidDispose;
+                                delete (element() as RenderedElement)[disposeProp];
                             }
                             resolve(element() as HTMLElement);
                         }
@@ -43,4 +45,8 @@ export async function renderToDom<T extends Element = Element>(
     }
 
     return view as unknown as T;
+}
+
+export async function disposeRenderedElement(element: RenderedElement) {
+    element[disposeProp]?.();
 }

@@ -1,22 +1,28 @@
-import { createRoot as l, createSignal as m, createEffect as a, createComponent as p } from "solid-js";
-import { assign as d, insert as u } from "solid-js/web";
-async function y(i, o, r) {
-  const n = typeof o == "object" && o.component || o;
-  let e;
-  return typeof n == "string" ? (e = document.createElement(n), d(e, r, !1, !0), i.appendChild(e)) : e = await new Promise((s) => {
-    l((c) => {
-      u(i, () => {
-        const [t, f] = m();
-        return a(() => {
-          t() && (t().__solidDispose = () => {
-            c(), delete t().__solidDispose;
-          }, s(t()));
-        }), p(n, { ...r, ref: f });
+import { createRoot as d, createSignal as m, createEffect as p, createComponent as l } from "solid-js";
+import { assign as u, insert as y } from "solid-js/web";
+const s = Symbol("renderToDom:dispose");
+async function b(e, t, c) {
+  const r = typeof t == "object" && t.component || t;
+  let o;
+  return typeof r == "string" ? (o = document.createElement(r), u(o, c, !1, !0), e.appendChild(o)) : o = await new Promise((i) => {
+    d((f) => {
+      y(e, () => {
+        const [n, a] = m();
+        return p(() => {
+          n() && (n()[s] = () => {
+            f(), delete n()[s];
+          }, i(n()));
+        }), l(r, { ...c, ref: a });
       });
     });
-  }), e;
+  }), o;
+}
+async function D(e) {
+  var t;
+  (t = e[s]) == null || t.call(e);
 }
 export {
-  y as renderToDom
+  D as disposeRenderedElement,
+  b as renderToDom
 };
 //# sourceMappingURL=renderToDom.js.map
