@@ -1,6 +1,6 @@
 import { Component, lazy } from "solid-js";
 declare const disposeProp: unique symbol;
-type SolidComponent = Component | ReturnType<typeof lazy>;
+type SolidComponent = Component<any> | ReturnType<typeof lazy>;
 type SolidComponentWrapper = {
     component: SolidComponent | string;
 };

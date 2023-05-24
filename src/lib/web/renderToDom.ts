@@ -3,7 +3,7 @@ import {assign, insert} from "solid-js/web";
 
 const disposeProp = Symbol("renderToDom:dispose");
 
-type SolidComponent = Component | ReturnType<typeof lazy>;
+type SolidComponent = Component<any> | ReturnType<typeof lazy>;
 type SolidComponentWrapper = {component: SolidComponent | string};
 export type RenderedElement<T extends Element = Element> = T & {[disposeProp]?: VoidFunction};
 
