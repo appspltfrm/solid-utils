@@ -1,8 +1,7 @@
-import { HtmlString as r } from "@co.mmons/js-utils/core";
-import { MessageRef as o } from "../node_modules/@co.mmons/js-intl/_esm2015/MessageRef.js";
-import { translate as e } from "../node_modules/@co.mmons/js-intl/_esm2015/translate.js";
+import { MessageRef as r, translate as e } from "@co.mmons/js-intl";
+import { HtmlString as o } from "@co.mmons/js-utils/core";
 function n(t) {
-  return t instanceof o && (t = e(t)), t instanceof r ? { innerHTML: t.toString() } : { innerText: t };
+  return t instanceof r && (t = e(t)), t instanceof o ? { innerHTML: t.toString() } : { innerText: t };
 }
 export {
   n as innerProp

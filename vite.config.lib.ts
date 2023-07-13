@@ -42,7 +42,7 @@ export default defineConfig({
                 /component-register/,
                 /solid-element/,
                 /solid-js(\/{0,1}).*/,
-                /@co.mmons\/js-utils(\/{0,1}).*/
+                /@co.mmons\/.*/
             ],
         },
     },
