@@ -1,5 +1,7 @@
-import { createSignalFromObservable as a } from "./createSignalFromObservable.js";
+import { createSignalFromObservable as o } from "./createSignalFromObservable.js";
+import { createStoreFromObservable as t } from "./createStoreFromObservable.js";
 export {
-  a as createSignalFromObservable
+  o as createSignalFromObservable,
+  t as createStoreFromObservable
 };
 //# sourceMappingURL=index.js.map
