@@ -78,7 +78,6 @@ export function getContext<T>(name: string | symbol): T | undefined {
     while (owner) {
 
         const vars = allVars.get(owner);
-        console.log(owner, vars);
         if (vars) {
             if (name in vars) {
                 return vars[name];
