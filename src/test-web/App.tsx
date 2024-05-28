@@ -1,4 +1,5 @@
-import {A, Routes, useLocation} from "@solidjs/router";
+import {A, Route, Routes, useLocation} from "@solidjs/router";
+import {lazy} from "solid-js";
 import type {Component} from "solid-js";
 
 const App: Component = () => {
@@ -14,7 +15,7 @@ const App: Component = () => {
         </ul>}
 
         <Routes>
-            {/*<Route path="/test" component={lazy(() => undefined)}/>*/}
+            <Route path="/test" component={lazy(() => import("./TestLoadingContext"))}/>
         </Routes>
     </div>
 };

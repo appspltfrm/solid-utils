@@ -1,5 +1,5 @@
 import {createSignal, Signal, untrack} from "solid-js";
-import {setContext, getContext} from "./context";
+import {setContext, getContext, createContext} from "./context";
 
 const contextId = Symbol("@appspltfrm/solid-utils/LoadingContext");
 const mainId = Symbol("main");
@@ -83,7 +83,7 @@ class LoadingContextImpl implements LoadingContext {
 }
 
 export function createLoadingContext(): LoadingContext {
-    return setContext(contextId, new LoadingContextImpl());
+    return createContext(contextId, new LoadingContextImpl());
 }
 
 export function getLoadingContext() {

@@ -1,36 +1,36 @@
 import { getOwner as w, onCleanup as i } from "solid-js";
 const o = /* @__PURE__ */ new WeakMap();
-function c(e, t) {
-  if (e && t in e)
+function c(r, t) {
+  if (r && t in r)
     throw new Error(`Var ${String(t)} already exists`);
 }
-function f(e, t) {
-  const r = w();
-  if (!r)
+function f(r, t) {
+  const e = w();
+  if (!e)
     throw new Error("No owner, cannot create context");
-  let n = o.get(r);
-  return c(n, e), n || (o.set(r, n = {}), i(() => o.delete(r))), n[e] = t, t;
+  let n = o.get(e);
+  return c(n, r), n || (o.set(e, n = {}), i(() => o.delete(e))), n[r] = t, t;
 }
-function a(e, t) {
-  let r = w();
-  if (!r)
+function a(r, t) {
+  let e = w();
+  if (!e)
     throw new Error("No owner, cannot set context");
-  for (; r; ) {
-    const n = o.get(r);
-    if (n && e in n)
-      return n[e] = t, t;
-    r = r.owner;
+  for (; e; ) {
+    const n = o.get(e);
+    if (n && r in n)
+      return n[r] = t, t;
+    e = e.owner;
   }
   return t;
 }
-function x(e) {
+function x(r) {
   let t = w();
   if (!t)
     throw new Error("No owner, cannot create context");
   for (; t; ) {
-    const r = o.get(t);
-    if (r && e in r)
-      return r[e];
+    const e = o.get(t);
+    if (console.log(t, e), e && r in e)
+      return e[r];
     t = t.owner;
   }
 }
