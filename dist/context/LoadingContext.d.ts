@@ -24,6 +24,10 @@ export interface LoadingContext {
      */
     busy(): boolean;
     /**
+     * Returns list of busy jobs.
+     */
+    jobs(): Array<string | symbol>;
+    /**
      * If the main job is loading.
      */
     mainBusy(): boolean;

@@ -37,6 +37,11 @@ export interface LoadingContext {
     busy(): boolean;
 
     /**
+     * Returns list of busy jobs.
+     */
+    jobs(): Array<string | symbol>;
+
+    /**
      * If the main job is loading.
      */
     mainBusy(): boolean;
@@ -44,15 +49,15 @@ export interface LoadingContext {
 
 class LoadingContextImpl implements LoadingContext {
 
-    private jobs: Signal<Set<string | symbol>> = createSignal(new Set());
+    #jobs: Signal<Set<string | symbol>> = createSignal(new Set());
 
     mainStart() {
         return this.start(mainId)
     }
 
     start(jobId: string | symbol): this {
-        const jobs = untrack(() => this.jobs[0]());
-        this.jobs[1](new Set(jobs.add(jobId ?? mainId)));
+        const jobs = untrack(() => this.#jobs[0]());
+        this.#jobs[1](new Set(jobs.add(jobId ?? mainId)));
         return this;
     }
 
@@ -61,24 +66,28 @@ class LoadingContextImpl implements LoadingContext {
     }
 
     stop(jobId: string | symbol): this {
-        const jobs = untrack(() => this.jobs[0]());
+        const jobs = untrack(() => this.#jobs[0]());
         if (jobs.delete(jobId ?? mainId)) {
-            this.jobs[1](new Set(jobs));
+            this.#jobs[1](new Set(jobs));
         }
 
         return this;
     }
 
     size() {
-        return this.jobs[0]().size;
+        return this.#jobs[0]().size;
     }
 
     busy() {
-        return this.jobs[0]().size > 0;
+        return this.#jobs[0]().size > 0;
     }
 
     mainBusy() {
-        return this.jobs[0]().has(mainId);
+        return this.#jobs[0]().has(mainId);
+    }
+
+    jobs(): Array<string | symbol> {
+        return [...this.#jobs[0]()]
     }
 }
 

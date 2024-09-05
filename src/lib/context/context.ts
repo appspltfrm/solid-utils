@@ -72,7 +72,7 @@ export function getContext<T>(name: string | symbol): T | undefined {
 
     let owner = getOwner();
     if (!owner) {
-        throw new Error("No owner, cannot create context");
+        console.warn("No owner, cannot create context");
     }
 
     while (owner) {

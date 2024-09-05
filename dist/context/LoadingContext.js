@@ -1,45 +1,56 @@
-var a = Object.defineProperty;
-var u = (n, t, s) => t in n ? a(n, t, { enumerable: !0, configurable: !0, writable: !0, value: s }) : n[t] = s;
-var o = (n, t, s) => (u(n, typeof t != "symbol" ? t + "" : t, s), s);
-import { createSignal as b, untrack as i } from "solid-js";
-import { createContext as m, getContext as c } from "./context.js";
-const r = Symbol("@appspltfrm/solid-utils/LoadingContext"), e = Symbol("main");
-class h {
+var h = (s, t, n) => {
+  if (!t.has(s))
+    throw TypeError("Cannot " + n);
+};
+var r = (s, t, n) => (h(s, t, "read from private field"), n ? n.call(s) : t.get(s)), o = (s, t, n) => {
+  if (t.has(s))
+    throw TypeError("Cannot add the same private member more than once");
+  t instanceof WeakSet ? t.add(s) : t.set(s, n);
+};
+import { createSignal as m, untrack as a } from "solid-js";
+import { createContext as c, getContext as d } from "./context.js";
+const u = Symbol("@appspltfrm/solid-utils/LoadingContext"), i = Symbol("main");
+var e;
+class p {
   constructor() {
-    o(this, "jobs", b(/* @__PURE__ */ new Set()));
+    o(this, e, m(/* @__PURE__ */ new Set()));
   }
   mainStart() {
-    return this.start(e);
+    return this.start(i);
   }
   start(t) {
-    const s = i(() => this.jobs[0]());
-    return this.jobs[1](new Set(s.add(t ?? e))), this;
+    const n = a(() => r(this, e)[0]());
+    return r(this, e)[1](new Set(n.add(t ?? i))), this;
   }
   mainStop() {
-    return this.stop(e);
+    return this.stop(i);
   }
   stop(t) {
-    const s = i(() => this.jobs[0]());
-    return s.delete(t ?? e) && this.jobs[1](new Set(s)), this;
+    const n = a(() => r(this, e)[0]());
+    return n.delete(t ?? i) && r(this, e)[1](new Set(n)), this;
   }
   size() {
-    return this.jobs[0]().size;
+    return r(this, e)[0]().size;
   }
   busy() {
-    return this.jobs[0]().size > 0;
+    return r(this, e)[0]().size > 0;
   }
   mainBusy() {
-    return this.jobs[0]().has(e);
+    return r(this, e)[0]().has(i);
+  }
+  jobs() {
+    return [...r(this, e)[0]()];
   }
 }
-function l() {
-  return m(r, new h());
+e = new WeakMap();
+function b() {
+  return c(u, new p());
 }
-function x() {
-  return c(r);
+function g() {
+  return d(u);
 }
 export {
-  l as createLoadingContext,
-  x as getLoadingContext
+  b as createLoadingContext,
+  g as getLoadingContext
 };
 //# sourceMappingURL=LoadingContext.js.map
