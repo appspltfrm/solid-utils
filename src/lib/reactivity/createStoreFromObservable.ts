@@ -48,7 +48,7 @@ export function createStoreFromObservable<T extends StoreValue>(observableOrMemo
         });
 
         // @ts-ignore
-        return [() => data()[1](), (v: T) => data()[2](v), () => data()[3].unsubscribe()];
+        return [() => data()[1], (v: T) => data()[2](v), () => data()[3].unsubscribe()];
     }
 
     const [store, setStore] = createStore<T>((options?.value || {}) as any);
