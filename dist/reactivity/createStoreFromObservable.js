@@ -6,7 +6,7 @@ function w(c, r) {
       const t = e == null ? void 0 : e[0], b = c(t);
       return t === b ? e : (e && e[3].unsubscribe(), [b, ...w(b, r)]);
     });
-    return [() => u()[1], (e) => u()[2](e), () => u()[3].unsubscribe()];
+    return [u()[1], (e) => u()[2](e), () => u()[3].unsubscribe()];
   }
   const [n, a] = s((r == null ? void 0 : r.value) || {}), f = c.subscribe({
     next: (u) => a(() => u),
