@@ -1,30 +1,29 @@
-import { createSignal as i, onMount as u, onCleanup as l } from "solid-js";
-const n = /* @__PURE__ */ new Map(), a = new MutationObserver((r) => {
-  for (const s of r) {
-    const { addedNodes: o } = s;
-    if (o)
-      for (let t = 0; t < o.length; t++) {
-        const e = o[t], f = n.get(e);
-        if (f)
-          f(() => e), n.delete(e);
-        else
-          for (const [c, d] of n.entries())
-            e.contains(c) && (d(() => c), n.delete(c));
-      }
-  }
+import { createSignal as f, onMount as u, onCleanup as l } from "solid-js";
+const t = /* @__PURE__ */ new Map(), a = new MutationObserver((r) => {
+  if (t.size)
+    for (const s of r) {
+      const { addedNodes: o } = s;
+      if (o)
+        for (let n = 0; n < o.length; n++) {
+          const e = o[n], i = t.get(e);
+          if (i && (i(() => e), t.delete(e)), e.hasChildNodes())
+            for (const [c, d] of t.entries())
+              e.contains(c) && (d(() => c), t.delete(c));
+        }
+    }
 });
 a.observe(document, { childList: !0, subtree: !0 });
-function m() {
-  const [r, s] = i(), [o, t] = i();
+function h() {
+  const [r, s] = f(), [o, n] = f();
   return u(() => {
     const e = r();
-    e.isConnected ? t(() => e) : n.set(e, t);
+    e.isConnected ? n(() => e) : t.set(e, n);
   }), l(() => {
     const e = r();
-    e && n.delete(e);
+    e && t.delete(e);
   }), [o, s];
 }
 export {
-  m as createConnectedRef
+  h as createConnectedRef
 };
 //# sourceMappingURL=createConnectedRef.js.map
