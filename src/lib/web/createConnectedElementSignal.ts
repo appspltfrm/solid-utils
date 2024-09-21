@@ -1,4 +1,4 @@
-import {Accessor, createSignal, onCleanup, onMount} from "solid-js";
+import {Accessor, createEffect, createSignal, onCleanup, onMount} from "solid-js";
 
 const refs: Map<Node, (fn: (el: Node) => Node) => void> = new Map();
 
@@ -35,17 +35,21 @@ const observer = new MutationObserver((records) => {
 
 observer.observe(document, {childList: true, subtree: true});
 
-export function createConnectedRef<T extends Node>(): [Accessor<T | undefined>, (ref: T) => void] {
-    const [ref, setRef] = createSignal<T>();
+export function createConnectedElementSignal<T extends Element>(element?: T): [Accessor<T | undefined>, (ref: T) => void] {
+    const [ref, setRef] = createSignal<T | undefined>(element);
     const [mounted, setMounted] = createSignal<T>();
 
-    onMount(() => {
+    createEffect((prev) => {
+
         const r = ref()!;
+
         if (r.isConnected) {
             setMounted(() => r);
-        } else {
+        } else if (prev !== r) {
             refs.set(r, setMounted);
         }
+
+        return r;
     })
 
     onCleanup(() => {
