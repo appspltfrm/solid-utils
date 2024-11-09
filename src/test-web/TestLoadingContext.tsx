@@ -1,5 +1,5 @@
 import {createLoadingContext, getLoadingContext} from "@appspltfrm/solidx/context";
-import {sleep} from "@co.mmons/js-utils/core";
+import {sleep} from "@appspltfrm/js-utils/core";
 import {createResource, Match, Switch} from "solid-js";
 
 export default function () {

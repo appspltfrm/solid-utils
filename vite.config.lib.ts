@@ -14,7 +14,7 @@ export default defineConfig({
                 ]
             },
             hot: false,
-            typescript: {allowDeclareFields: true}
+            extensions: ["typescript"]
         }),
     ],
 
@@ -42,7 +42,7 @@ export default defineConfig({
                 /component-register/,
                 /solid-element/,
                 /solid-js(\/{0,1}).*/,
-                /@co.mmons\/.*/
+                /@appspltfrm\/.*/
             ],
         },
     },

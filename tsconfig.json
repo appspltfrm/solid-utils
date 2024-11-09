@@ -3,7 +3,7 @@
     "strict": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "lib": ["ESNext", "DOM"],
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

@@ -1,5 +1,5 @@
-import {MessageRef, translate} from "@co.mmons/js-intl";
-import {HtmlString} from "@co.mmons/js-utils/core";
+import {MessageRef, translate} from "@appspltfrm/js-intl";
+import {HtmlString} from "@appspltfrm/js-utils/core";
 
 export function innerProp(inner: any | HtmlString | MessageRef) {
 
