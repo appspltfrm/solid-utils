@@ -1,13 +1,16 @@
-import {createSignalFromObservable} from "@appspltfrm/solidx/reactivity";
+import {createSignalFromObservable, createStoreFromObservable} from "@appspltfrm/solidx/reactivity";
 import {of} from "rxjs";
-import {For} from "solid-js";
+import {createSignal, For} from "solid-js";
 
 export default function () {
 
-    const [data] = createSignalFromObservable(() => of(["aaa"]))
+    const [value, setValue] = createSignal(["aaa"]);
+
+    const [data] = createStoreFromObservable(() => of({aaa: value()}))
 
     return <div>
-        <For each={data()}>
+        <button onClick={() => setValue(() => ["bbb"])}>click</button>
+        <For each={data.aaa}>
             {a => <span>{a}</span>}
         </For>
     </div>

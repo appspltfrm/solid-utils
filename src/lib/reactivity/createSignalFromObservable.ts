@@ -1,7 +1,7 @@
 import {Observable, Subscription} from "rxjs";
-import {Accessor, createMemo, createSignal, EffectFunction, getOwner, onCleanup, Setter, Signal} from "solid-js";
+import {Accessor, createEffect, createSignal, EffectFunction, getOwner, onCleanup, Signal} from "solid-js";
 
-export type SignalFromObservable<T> = [...Signal<T>, Subscription];
+export type SignalFromObservable<T> = [...Signal<T>, Accessor<Subscription>];
 
 interface InitialValueOption<T> {
     value: T;
@@ -25,38 +25,32 @@ export function createSignalFromObservable<Next extends Prev, Init = Next, Prev 
 
 export function createSignalFromObservable<T>(observableOrMemo: Observable<T> | EffectFunction<undefined | Observable<T>, Observable<T>>, options?: CreateSignalFromObservableOption<T | undefined>): SignalFromObservable<T | undefined> {
 
+    const [value, setValue] = createSignal<T | undefined>(options?.value);
+    const [subscription, setSubscription] = createSignal<Subscription>(undefined!);
+
+    const subscribe = (o: Observable<T>) => setSubscription(p => {
+        p?.unsubscribe();
+        return o.subscribe({
+            next: (v: T) => setValue(() => v),
+            error: (e: any) => options?.onError?.(e)
+        })
+    })
+
     if (typeof observableOrMemo === "function") {
-
-        type Memo = [Observable<T>, Accessor<T | undefined>, Setter<T | undefined>, Subscription];
-        const data = createMemo<Memo>((prev) => {
-
-            const prevObservable = prev?.[0];
-            const newObservable = observableOrMemo(prevObservable);
-
-            if (prevObservable === newObservable) {
-                return prev as Memo;
+        createEffect<Observable<T> | undefined>(prev => {
+            const obs = observableOrMemo(prev);
+            if (obs === prev) {
+                return prev;
             }
-
-            if (prev) {
-                prev![3].unsubscribe();
-            }
-
-            return [newObservable, ...createSignalFromObservable(newObservable, options)];
-        });
-
-        // @ts-ignore
-        return [() => data()[1](), (v: T) => data()[2](v), () => data()[3].unsubscribe()];
+            subscribe(obs)
+            return obs
+        })
+    } else {
+        subscribe(observableOrMemo)
     }
 
-    const [value, setValue] = createSignal<T | undefined>(options?.value);
-
-    const subscription = observableOrMemo.subscribe({
-        next: (v: T) => setValue(() => v),
-        error: (e: any) => options?.onError?.(e)
-    });
-
     if (getOwner() && options?.autoUnsubscribe !== false) {
-        onCleanup(() => subscription.unsubscribe());
+        onCleanup(() => subscription()?.unsubscribe());
     }
 
     return [value, setValue, subscription];

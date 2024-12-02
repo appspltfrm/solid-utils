@@ -1,10 +1,10 @@
 import {Observable, Subscription} from "rxjs";
-import {createMemo, EffectFunction, getOwner, onCleanup} from "solid-js";
+import {Accessor, createEffect, createSignal, EffectFunction, getOwner, onCleanup, untrack} from "solid-js";
 import {createStore, SetStoreFunction, Store} from "solid-js/store";
 
 type StoreValue = {};
 
-export type StoreFromObservable<T extends StoreValue> = [get: Store<T>, set: SetStoreFunction<T>, subscription: Subscription];
+export type StoreFromObservable<T extends StoreValue> = [get: Store<T>, set: SetStoreFunction<T>, subscription: Accessor<Subscription>];
 
 interface InitialValueOption<T> {
     value: T;
@@ -28,38 +28,32 @@ export function createStoreFromObservable<Next extends Prev, Prev extends StoreV
 
 export function createStoreFromObservable<T extends StoreValue>(observableOrMemo: Observable<T> | EffectFunction<undefined | Observable<T>, Observable<T>>, options?: CreateStoreFromObservableOption<T>): StoreFromObservable<T> {
 
+    const [store, setStore] = createStore<T>((options?.value || {}) as any);
+    const [subscription, setSubscription] = createSignal<Subscription>(undefined!);
+
+    const subscribe = (o: Observable<T>) => setSubscription(p => {
+        p?.unsubscribe();
+        return o.subscribe({
+            next: (v: T) => setStore(() => v),
+            error: (e: any) => options?.onError?.(e)
+        })
+    })
+
     if (typeof observableOrMemo === "function") {
-
-        type Memo = [Observable<T>, Store<T>, SetStoreFunction<T>, Subscription];
-        const data = createMemo<Memo>((prev) => {
-
-            const prevObservable = prev?.[0];
-            const newObservable = observableOrMemo(prevObservable);
-
-            if (prevObservable === newObservable) {
-                return prev as Memo;
+        createEffect<Observable<T> | undefined>(prev => {
+            const obs = observableOrMemo(prev);
+            if (obs === prev) {
+                return prev;
             }
-
-            if (prev) {
-                prev![3].unsubscribe();
-            }
-
-            return [newObservable, ...createStoreFromObservable(newObservable, options)];
-        });
-
-        // @ts-ignore
-        return [data()[1], (v: T) => data()[2](v), () => data()[3].unsubscribe()];
+            subscribe(obs)
+            return obs
+        })
+    } else {
+        subscribe(observableOrMemo)
     }
 
-    const [store, setStore] = createStore<T>((options?.value || {}) as any);
-
-    const subscription = observableOrMemo.subscribe({
-        next: (v: T) => setStore(() => v),
-        error: (e: any) => options?.onError?.(e)
-    });
-
     if (getOwner() && options?.autoUnsubscribe !== false) {
-        onCleanup(() => subscription.unsubscribe());
+        onCleanup(() => subscription()?.unsubscribe());
     }
 
     return [store, setStore, subscription];

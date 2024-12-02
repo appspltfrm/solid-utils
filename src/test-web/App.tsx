@@ -1,4 +1,4 @@
-import {A, Route, Routes, useLocation} from "@solidjs/router";
+import {A, Route, useLocation} from "@solidjs/router";
 import {lazy} from "solid-js";
 import type {Component} from "solid-js";
 
@@ -17,10 +17,8 @@ const App: Component = () => {
             </li>
         </ul>}
 
-        <Routes>
-            <Route path="/test" component={lazy(() => import("./TestLoadingContext"))}/>
-            <Route path="/test-reactivity" component={lazy(() => import("./TestReactivity"))}/>
-        </Routes>
+        <Route path="/test" component={lazy(() => import("./TestLoadingContext"))}/>
+        <Route path="/test-reactivity" component={lazy(() => import("./TestReactivity"))}/>
     </div>
 };
 
