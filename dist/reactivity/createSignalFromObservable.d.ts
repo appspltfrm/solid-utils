@@ -1,6 +1,6 @@
 import { Observable, Subscription } from "rxjs";
-import { EffectFunction, Signal } from "solid-js";
-export type SignalFromObservable<T> = [...Signal<T>, Subscription];
+import { Accessor, EffectFunction, Signal } from "solid-js";
+export type SignalFromObservable<T> = [...Signal<T>, Accessor<Subscription>];
 interface InitialValueOption<T> {
     value: T;
 }

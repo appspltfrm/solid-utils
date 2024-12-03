@@ -1,22 +1,21 @@
-import { createMemo as t, createSignal as g, getOwner as m, onCleanup as w } from "solid-js";
-function x(c, e) {
-  if (typeof c == "function") {
-    const u = t((r) => {
-      const l = r == null ? void 0 : r[0], a = c(l);
-      return l === a ? r : (r && r[3].unsubscribe(), [a, ...x(a, e)]);
-    });
-    return [() => u()[1](), (r) => u()[2](r), () => u()[3].unsubscribe()];
-  }
-  const [n, b] = g(e == null ? void 0 : e.value), f = c.subscribe({
-    next: (u) => b(() => u),
-    error: (u) => {
-      var r;
-      return (r = e == null ? void 0 : e.onError) == null ? void 0 : r.call(e, u);
+import { createSignal as t, createEffect as S, getOwner as x, onCleanup as E } from "solid-js";
+function m(c, e) {
+  const [g, a] = t(e == null ? void 0 : e.value), [f, s] = t(void 0), l = (r) => s((u) => (u == null || u.unsubscribe(), r.subscribe({
+    next: (b) => a(() => b),
+    error: (b) => {
+      var n;
+      return (n = e == null ? void 0 : e.onError) == null ? void 0 : n.call(e, b);
     }
-  });
-  return m() && (e == null ? void 0 : e.autoUnsubscribe) !== !1 && w(() => f.unsubscribe()), [n, b, f];
+  })));
+  return typeof c == "function" ? S((r) => {
+    const u = c(r);
+    return u === r ? r : (l(u), u);
+  }) : l(c), x() && (e == null ? void 0 : e.autoUnsubscribe) !== !1 && E(() => {
+    var r;
+    return (r = f()) == null ? void 0 : r.unsubscribe();
+  }), [g, a, f];
 }
 export {
-  x as createSignalFromObservable
+  m as createSignalFromObservable
 };
 //# sourceMappingURL=createSignalFromObservable.js.map

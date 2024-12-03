@@ -1,23 +1,22 @@
-import { createMemo as l, getOwner as m, onCleanup as S } from "solid-js";
-import { createStore as s } from "solid-js/store";
-function w(c, r) {
-  if (typeof c == "function") {
-    const u = l((e) => {
-      const t = e == null ? void 0 : e[0], b = c(t);
-      return t === b ? e : (e && e[3].unsubscribe(), [b, ...w(b, r)]);
-    });
-    return [u()[1], (e) => u()[2](e), () => u()[3].unsubscribe()];
-  }
-  const [n, a] = s((r == null ? void 0 : r.value) || {}), f = c.subscribe({
-    next: (u) => a(() => u),
-    error: (u) => {
-      var e;
-      return (e = r == null ? void 0 : r.onError) == null ? void 0 : e.call(r, u);
+import { createSignal as s, createEffect as m, getOwner as g, onCleanup as x } from "solid-js";
+import { createStore as E } from "solid-js/store";
+function y(u, r) {
+  const [S, b] = E((r == null ? void 0 : r.value) || {}), [f, l] = s(void 0), a = (e) => l((c) => (c == null || c.unsubscribe(), e.subscribe({
+    next: (t) => b(() => t),
+    error: (t) => {
+      var n;
+      return (n = r == null ? void 0 : r.onError) == null ? void 0 : n.call(r, t);
     }
-  });
-  return m() && (r == null ? void 0 : r.autoUnsubscribe) !== !1 && S(() => f.unsubscribe()), [n, a, f];
+  })));
+  return typeof u == "function" ? m((e) => {
+    const c = u(e);
+    return c === e ? e : (a(c), c);
+  }) : a(u), g() && (r == null ? void 0 : r.autoUnsubscribe) !== !1 && x(() => {
+    var e;
+    return (e = f()) == null ? void 0 : e.unsubscribe();
+  }), [S, b, f];
 }
 export {
-  w as createStoreFromObservable
+  y as createStoreFromObservable
 };
 //# sourceMappingURL=createStoreFromObservable.js.map

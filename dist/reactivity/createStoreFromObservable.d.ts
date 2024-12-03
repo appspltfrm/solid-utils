@@ -1,8 +1,8 @@
 import { Observable, Subscription } from "rxjs";
-import { EffectFunction } from "solid-js";
+import { Accessor, EffectFunction } from "solid-js";
 import { SetStoreFunction, Store } from "solid-js/store";
 type StoreValue = {};
-export type StoreFromObservable<T extends StoreValue> = [get: Store<T>, set: SetStoreFunction<T>, subscription: Subscription];
+export type StoreFromObservable<T extends StoreValue> = [get: Store<T>, set: SetStoreFunction<T>, subscription: Accessor<Subscription>];
 interface InitialValueOption<T> {
     value: T;
 }
