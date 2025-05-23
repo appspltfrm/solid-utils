@@ -1,9 +1,10 @@
 import { MessageRef } from "@appspltfrm/js-intl";
 import { HtmlString } from "@appspltfrm/js-utils/core";
-export declare function innerProp(inner: any | HtmlString | MessageRef): {
+import { JSXElement } from "solid-js";
+export declare function innerProp(inner: any | HtmlString | MessageRef | JSXElement): {
     innerHTML: string;
-    innerText?: undefined;
+    children?: undefined;
 } | {
-    innerText: any;
+    children: any;
     innerHTML?: undefined;
 };

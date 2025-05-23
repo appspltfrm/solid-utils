@@ -15,10 +15,14 @@ const App: Component = () => {
             <li>
                 <A href="/test-reactivity">test reactivity</A>
             </li>
+            <li>
+                <A href="/test-inner-prop">test inner prop</A>
+            </li>
         </ul>}
 
         <Route path="/test" component={lazy(() => import("./TestLoadingContext"))}/>
         <Route path="/test-reactivity" component={lazy(() => import("./TestReactivity"))}/>
+        <Route path="/test-inner-prop" component={lazy(() => import("./TestInnerProp"))}/>
     </div>
 };
 
