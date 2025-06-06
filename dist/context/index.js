@@ -1,10 +1,11 @@
 import { createContext as o, getContext as n, setContext as x } from "./context.js";
-import { createLoadingContext as C, getLoadingContext as a } from "./LoadingContext.js";
+import { LoadingContext as C, createLoadingContext as a, getLoadingContext as g } from "./LoadingContext.js";
 export {
+  C as LoadingContext,
   o as createContext,
-  C as createLoadingContext,
+  a as createLoadingContext,
   n as getContext,
-  a as getLoadingContext,
+  g as getLoadingContext,
   x as setContext
 };
 //# sourceMappingURL=index.js.map
