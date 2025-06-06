@@ -1,8 +1,11 @@
+import { Resource } from "solid-js";
 export interface LoadingContext {
     /**
      * Notify that main job started.
      */
     mainStart(): this;
+    start(job: Resource<any> | LoadingContext.JobFactory): this;
+    start(job: Promise<any>): this;
     /**
      * Notify that given job started.
      */
@@ -31,6 +34,12 @@ export interface LoadingContext {
      * If the main job is loading.
      */
     mainBusy(): boolean;
+}
+export declare namespace LoadingContext {
+    const jobFactory: unique symbol;
+    interface JobFactory<T = any> {
+        [jobFactory]: () => Resource<T>;
+    }
 }
 export declare function createLoadingContext(): LoadingContext;
 export declare function getLoadingContext(): LoadingContext | undefined;
