@@ -2,7 +2,7 @@ import {Accessor, createEffect, createSignal, onCleanup, onMount} from "solid-js
 
 const refs: Map<Node, (fn: (el: Node) => Node) => void> = new Map();
 
-const observer = new MutationObserver((records) => {
+const observer = "MutationObserver" in globalThis ? new MutationObserver((records) => {
 
     if (!refs.size) {
         return;
@@ -31,9 +31,11 @@ const observer = new MutationObserver((records) => {
             }
         }
     }
-})
+}) : undefined;
 
-observer.observe(document, {childList: true, subtree: true});
+if (observer) {
+    observer.observe(document, {childList: true, subtree: true});
+}
 
 export function createConnectedElementSignal<T extends Element>(element?: T): [Accessor<T | undefined>, (ref: T) => void] {
     const [ref, setRef] = createSignal<T | undefined>(element);
