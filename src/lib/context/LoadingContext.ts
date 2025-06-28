@@ -79,7 +79,7 @@ class LoadingContextImpl implements LoadingContext {
             resource = r;
         } else if ((job as LoadingContext.JobFactory)[LoadingContext.jobFactory]) {
             resource = (job as LoadingContext.JobFactory)[LoadingContext.jobFactory]();
-        } else if (job && typeof job === "object") {
+        } else if (job && typeof job === "function") {
             resource = job as unknown as Resource<any>;
         } else {
             jobId = job as string | symbol;

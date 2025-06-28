@@ -1,31 +1,31 @@
 var u = (e) => {
   throw TypeError(e);
 };
-var m = (e, t, o) => t.has(e) || u("Cannot " + o);
-var s = (e, t, o) => (m(e, t, "read from private field"), o ? o.call(e) : t.get(e)), l = (e, t, o) => t.has(e) ? u("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, o);
-import { createSignal as f, createResource as p, createUniqueId as y, createEffect as g, onCleanup as x, untrack as d } from "solid-js";
+var h = (e, t, n) => t.has(e) || u("Cannot " + n);
+var s = (e, t, n) => (h(e, t, "read from private field"), n ? n.call(e) : t.get(e)), l = (e, t, n) => t.has(e) ? u("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, n);
+import { createSignal as m, createResource as p, createUniqueId as y, createEffect as g, onCleanup as x, untrack as d } from "solid-js";
 import { createContext as S, getContext as C } from "./context.js";
-const h = Symbol("@appspltfrm/solid-utils/LoadingContext"), c = Symbol("main");
-var n;
+const f = Symbol("@appspltfrm/solid-utils/LoadingContext"), c = Symbol("main");
+var o;
 class b {
   constructor() {
-    l(this, n, f(/* @__PURE__ */ new Set()));
+    l(this, o, m(/* @__PURE__ */ new Set()));
   }
   mainStart() {
     return this.start(c);
   }
   start(t) {
-    let o, i;
+    let n, r;
     if (t instanceof Promise) {
-      const [r] = p(() => t);
-      i = r;
-    } else t[a.jobFactory] ? i = t[a.jobFactory]() : t && typeof t == "object" ? i = t : o = t;
-    if (i) {
-      const r = Symbol(`Resource ${y()}`);
-      this.start(r), g(() => !i.loading && this.stop(r)), x(() => this.stop(r));
-    } else if (o) {
-      const r = d(() => s(this, n)[0]());
-      s(this, n)[1](new Set(r.add(o)));
+      const [i] = p(() => t);
+      r = i;
+    } else t[a.jobFactory] ? r = t[a.jobFactory]() : t && typeof t == "function" ? r = t : n = t;
+    if (r) {
+      const i = Symbol(`Resource ${y()}`);
+      this.start(i), g(() => !r.loading && this.stop(i)), x(() => this.stop(i));
+    } else if (n) {
+      const i = d(() => s(this, o)[0]());
+      s(this, o)[1](new Set(i.add(n)));
     }
     return this;
   }
@@ -33,32 +33,32 @@ class b {
     return this.stop(c);
   }
   stop(t) {
-    const o = d(() => s(this, n)[0]());
-    return o.delete(t) && s(this, n)[1](new Set(o)), this;
+    const n = d(() => s(this, o)[0]());
+    return n.delete(t) && s(this, o)[1](new Set(n)), this;
   }
   size() {
-    return s(this, n)[0]().size;
+    return s(this, o)[0]().size;
   }
   busy() {
-    return s(this, n)[0]().size > 0;
+    return s(this, o)[0]().size > 0;
   }
   mainBusy() {
-    return s(this, n)[0]().has(c);
+    return s(this, o)[0]().has(c);
   }
   jobs() {
-    return [...s(this, n)[0]()];
+    return [...s(this, o)[0]()];
   }
 }
-n = new WeakMap();
+o = new WeakMap();
 var a;
 ((e) => {
   e.jobFactory = Symbol("LoadingContextJobFactory");
 })(a || (a = {}));
 function F() {
-  return S(h, new b());
+  return S(f, new b());
 }
 function z() {
-  return C(h);
+  return C(f);
 }
 export {
   a as LoadingContext,
